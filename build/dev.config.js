@@ -1,38 +1,43 @@
-'use strict'
+var PORT = 9090;
+var webpack = require('webpack')
 
-var env = require('./env')
-
-var PUBLIC = '/assets'
-
-var entry     = require('./entry')
-var plugins   = require('./plugins')
-var loaders   = require('./loaders')
-var externals = require('./externals')
-var resolve   = require('./resolve')
+var definePlugin = new webpack.DefinePlugin({
+  //we expose all vars exported by env.js to the client
+  'process.env': JSON.stringify({
+    NODE_ENV: 'development'
+  })
+});
 
 module.exports = {
-  entry: entry,
+  watchPoll: true,
+  watchOptions: {
+    aggregateTimeout: 300,
+    poll: 1000
+  },
+  entry: [
+    'webpack-dev-server/client?http://localhost:' + PORT,
+    'webpack/hot/only-dev-server',
+    './index.js'
+  ],
   output: {
-    publicPath: PUBLIC
+    publicPath: '/assets/'
   },
   module: {
-    loaders: loaders
+    loaders: require('./loaders.config')
   },
-  externals: externals,
-  resolve: resolve,
-  plugins: plugins,
-
+  externals: {
+    faker: 'faker'
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    definePlugin
+  ],
   devServer: {
-      publicPath: PUBLIC,
-      hot       : env.HOT,
-      port      : env.PORT,
-      historyApiFallback: true,
-      info: true,
-      quiet: false,
-
-      stats: {
-          colors: true,
-          progress: true
-      }
+    publicPath: '/assets/',
+    port: PORT,
+    hot: true,
+    host: 'localhost',
+    historyApiFallback: true
   }
 }
