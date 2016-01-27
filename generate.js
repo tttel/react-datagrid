@@ -14,12 +14,14 @@ const gen = (() => {
 
     for (var i = 0; i < len; i++){
       arr.push({
-        id       : i,
-        grade      : Math.round(Math.random() * 10),
+        id       : i + 1,
+        grade    : Math.round(Math.random() * 10),
         email    : faker.internet.email(),
         firstName: faker.name.firstName(),
         lastName : faker.name.lastName(),
-        birthDate: faker.date.past()
+        birthDate: faker.date.past(),
+        country  : faker.address.country(),
+        city  : faker.address.city()
       })
     }
 

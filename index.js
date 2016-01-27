@@ -2,17 +2,37 @@ import React from 'react'
 import { render } from 'react-dom'
 import Component from 'react-class'
 
+import DataGrid from './src'
+import './index.scss'
+
 import gen from './generate'
 
-class App extends Component {
-  onChange(v){
-    value = v
-    this.setState({})
+const data = gen(10)
+
+
+const columns = [
+  {
+    name: 'firstName'
+  }, {
+    name: 'lastName', xrender: function(){}, width: 150
+  }, {
+    name: 'city',
+    title: 'Hello World',
+    render: (props, data) => {
+      return <h2>{data[props.name]}</h2>
+    }
   }
+]
+
+
+class App extends Component {
   render(){
-    return <div>
-      <h1>Hello world</h1>
-    </div>
+    return <DataGrid 
+      className="grid"
+      dataSource={data}
+      columns={columns}
+      idProperty="id"
+    />
   }
 }
 

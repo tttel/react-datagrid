@@ -1,1 +1,20 @@
 @import './style/index';
+
+@import '~normalize.css/normalize.css';
+
+html, body, #content {
+  min-height: 100%;
+  position: absolute;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+#content {
+  display: flex;
+  flex-flow: column;
+}
+
+.react-datagrid__body {
+  background: gray;
+}
