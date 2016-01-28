@@ -4,7 +4,7 @@ import Component from 'react-class'
 import {Flex} from 'react-flex'
 import assign from 'object-assign'
 
-import join from '../utils/join'
+import join from 'src/utils/join'
 
 import Cell from './Cell'
 

@@ -28,8 +28,7 @@ export default class Cell extends Component {
       value,
       className: "react-datagrid__cell",
       children: value,
-      style,
-      data: null
+      style
     })
 
     let result
@@ -38,7 +37,7 @@ export default class Cell extends Component {
     }
 
     if (result === undefined){
-      result = <Item {...cellProps} />
+      result = <Item {...cellProps} data={null} />
     }
 
     return result
@@ -54,5 +53,12 @@ Cell.propTypes = {
   width: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string
-    ])
+    ]),
+  flex: (props, propName) => {
+    const flex = props[propName]
+
+    if (flex < 1 || flex > 24) {
+      return new Error(`Column flex prop expected to be between 1 and 24, got ${flex}`)
+    }
+  }
 }
