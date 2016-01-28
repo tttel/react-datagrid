@@ -1,12 +1,12 @@
 # react-datagrid
 
-
-
 ## Props
 
 ### Basic
-* `dataSource`: Array - an array of objects to render in the grid. 
+* `dataSource`: Array|Promise - an array of objects to render in the grid. 
+* `onDataSourceResponse` - Called when `dataSource` is a promisse
 * `idProperty`: String *(required)* - the name of the property where the id is found for each object in the data array
+* `emptyText`: String|JSX - text that apears when dataSource provides an empty dataset
 * `columns`: Array - an array of columns that are going to be rendered in the grid.
     ```jsx
     var columns = [
@@ -38,3 +38,5 @@
     * `children`: JSX - row cells.
     * `style` : object - style for the row.
 * `rowStyle(data, props)`: Object/Function - you can specify either a style object to be applied to all rows, or a function. The function is called with (data, props) (so you have access to props.index for example) and is expected to return a style object.
+
+

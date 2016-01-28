@@ -15,6 +15,7 @@ module.exports = {
     aggregateTimeout: 300,
     poll: 1000
   },
+  devtool: 'source-map',
   entry: [
     'webpack-dev-server/client?http://localhost:' + PORT,
     'webpack/hot/only-dev-server',

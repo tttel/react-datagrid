@@ -57,6 +57,7 @@
   "dependencies": {
     "object-assign": "^4.0.1",
     "react-class": "^2.0.0",
-    "react-flex": "^1.2.3"
+    "react-flex": "^1.2.3",
+    "react-load-mask": "^1.0.1"
   }
 }
