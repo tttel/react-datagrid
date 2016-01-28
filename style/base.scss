@@ -1,9 +1,29 @@
+/*===================================
+=            Base styles            =
+===================================*/
+
 @import '~react-flex/index.css';
+
 
 .react-datagrid {
   height: 100%;
 }
 
+
+/*----------  Column Header  ----------*/
 .react-datagrid__column-header {
   background: #999;
+}
+
+
+/*----------  Row  ----------*/
+.react-datagrid__row {
+
+}
+
+.react-datagrid__cell,
+.react-datagrid__column-header {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
