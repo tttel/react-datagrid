@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react'
-import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
-import is from 'i-s'
-
 import { Flex, Item } from 'react-flex'
+import assign from 'object-assign'
 
 import Header from './Header'
-import Row from './Row'
+
+import Body from './Body'
+
 import join from './utils/join'
 
 export default class DataGrid extends Component {
@@ -28,30 +28,31 @@ export default class DataGrid extends Component {
     return <Flex column flex alignItems="stretch" {...props} className={className}>
       <Header dataSource={dataSource} columns={columns} />
       
-      <Item flex column className="react-datagrid__body">
-        {this.renderRows(dataSource, columns)}
-      </Item>
+      <Body 
+        {...props}
+        data={this.getRowsData(props.dataSource)}
+      />
     </Flex>
   }
 
-  renderRows(dataSource, columns){
-    return dataSource.map((data, index) => {
-      return <Row key={index} data={data} columns={columns} />
-    })
+
+  getRowsData(dataSource){
+    return dataSource
   }
+
 }
 
 DataGrid.propTypes = {
   loading          : React.PropTypes.bool,
   idProperty       : React.PropTypes.string.isRequired,
 
-  columns: PropTypes.arrayOf(function(props, propName){
+  columns: PropTypes.arrayOf((props, propName) => {
     const column = props[propName]
-    
+
     if (!column.name && typeof column.render != 'function'){
       return new Error(`column ${propName} should have a "name" prop or a "render" function!`)
     }
-  })
+  }),
 }
 
 DataGrid.defaultProps = {
