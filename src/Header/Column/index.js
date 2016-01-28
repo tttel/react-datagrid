@@ -1,25 +1,32 @@
 import React, { PropTypes } from 'react'
 import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
+import assgin from 'object-assign'
 
 import {Item} from 'react-flex'
 
 export default class Cell extends Component {
   render(){
     const props = this.props
-
-    const columnProps = {
-      className: "react-datagrid__column-header"
-    }
+    let style = assgin({}, props.style)
+    let flex
     
     if (props.width){
-      columnProps.style = {
-        maxWidth: props.width
-      }
+      style = assgin(style, {minWidth: props.width})
     } else {
-      columnProps.flex = props.flex || 1
+      flex = props.flex || 1
     }
 
-    return <Item {...columnProps}>{props.children}</Item>    
+    if (props.textAlign) {
+      style.textAlign = props.textAlign
+    }
+
+    const columnProps = {
+      className: "react-datagrid__column-header",
+      style,
+      flex
+    }
+    
+    return <Item {...columnProps}>{props.children}</Item>
   }
 }

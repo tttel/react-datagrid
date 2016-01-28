@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react'
 import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
-
 import {Flex} from 'react-flex'
+import humanize from '../utils/humanize'
+
 import Column from './Column'
 
 export default class Header extends Component {
@@ -20,7 +21,7 @@ export default class Header extends Component {
       if (column.title) {
         content = column.title
       } else {
-        content = dataSource[0][column.name]
+        content = humanize(column.name)
       }
 
       return <Column key={index} {...column}>{content}</Column>
