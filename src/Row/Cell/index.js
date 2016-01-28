@@ -13,16 +13,27 @@ export default class Cell extends Component {
     const data = props.data
     const value = data[name]
     const renderCell = props.render
+     
+    const style = assign({}, props.style)
 
-    
+    if (props.textAlign) {
+      style.textAlign = props.textAlign
+    }
+
+    if (props.width) {
+      style.minWidth = props.width
+    }
+
     const cellProps = assign({}, props, {
       value,
       className: "react-datagrid__cell",
-      children: value
+      children: value,
+      style,
+      data: null
     })
 
     let result
-    if (typeof renderCell === 'function') {
+    if (renderCell) {
       result = renderCell(value, data, cellProps)
     }
 
@@ -31,8 +42,17 @@ export default class Cell extends Component {
     }
 
     return result
-
   }
 }
 
-Cell
+
+Cell.propTypes = {
+  style: PropTypes.object,
+  render: PropTypes.func,
+  data: PropTypes.object,
+  name: PropTypes.string,
+  width: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ])
+}
