@@ -1,5 +1,6 @@
 var PORT = 9090;
 var webpack = require('webpack')
+var path = require('path')
 
 var definePlugin = new webpack.DefinePlugin({
   //we expose all vars exported by env.js to the client
@@ -39,5 +40,14 @@ module.exports = {
     hot: true,
     host: 'localhost',
     historyApiFallback: true
+  },
+  resolve: {
+    modulesDirectories: [
+      'app_modules',
+      'node_modules'
+    ],
+    alias: {
+      src: path.resolve(__dirname, '../src'),
+    }
   }
 }
