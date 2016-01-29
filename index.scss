@@ -2,16 +2,24 @@
 
 @import '~normalize.css/normalize.css';
 
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 html, body, #content {
   min-height: 100%;
   position: absolute;
   width: 100%;
-  padding: 0px;
   margin: 0px;
 }
 
 #content {
   display: flex;
+  padding: 30px;
   flex-flow: column;
 }
 
