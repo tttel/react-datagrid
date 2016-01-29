@@ -33,12 +33,15 @@ const columns = [
 
 class App extends Component {
   render(){
-    return <DataGrid 
-      className="grid"
-      dataSource={data}
-      columns={columns}
-      idProperty="id"
-    />
+    return <div className="app">
+      <h1>React DataGrid by ZippyUi</h1>
+      <DataGrid 
+        className="grid"
+        dataSource={data}
+        columns={columns}
+        idProperty="id"
+      />
+    </div>
   }
 }
 

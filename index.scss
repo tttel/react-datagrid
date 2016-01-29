@@ -19,7 +19,20 @@ html, body, #content {
 
 #content {
   display: flex;
-  padding: 30px;
   flex-flow: column;
 }
 
+.app {
+  width: 1024px;
+  margin: 0 auto;
+  padding-top: 40px;
+}
+
+.react-datagrid {
+  height: 750px;
+}
+
+h1 {
+  color: #383838;
+  text-align: center;
+}
