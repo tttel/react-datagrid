@@ -47,6 +47,7 @@ export default class Body extends Component {
 
     return data.map((rowData, index) => {
       const id = rowData[this.props.idProperty]
+      const even = !!(index % 2)
       const rowProps = assign(
           {
             key: id,
@@ -55,7 +56,8 @@ export default class Body extends Component {
             renderRow: props.renderRow,
             rowFactory: props.rowFactory,
             rowStyle: props.rowStyle,
-            index
+            index,
+            even
           },
           props.rowProps
         )

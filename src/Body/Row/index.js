@@ -14,7 +14,12 @@ export default class Row extends Component {
     const data = props.data
     const columns = props.columns
 
-    const className = join('react-datagrid__row', props.className)
+    const className = join(
+        'react-datagrid__row',
+        props.even &&  'react-datagrid__row--even',
+        !props.even && 'react-datagrid__row--odd',
+        props.className
+      )
     
     let style = assign({}, props.style)
     
