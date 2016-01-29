@@ -50,7 +50,7 @@ If no **`title`** property is specified, a humanized version of the column **`na
 `width`| Int\|String| - |specify the width of the column.
 `style`| Object | - |if you want cells in this column to be have a custom style.
  `textAlign`| String |-| one of 'left', 'right', 'center'. It will add one of the folowing classes: <br> `react-datagrid__cell--align-right`, <br> `react-datagrid__cell--align-left`, <br>`react-datagrid__cell--align-center`
- `render` | Function| - |if you want custom rendering, specify this property. Parameters taken: `render(value, data, cellProps)`. More about the paramenters you can read [below](#columnrender)
+ `render` | Function| - |if you want custom rendering, specify this property. Parameters taken: `render(value, data, cellProps)`. For more information read [Column.render](#columnrender) section. 
      
 #### Column.render
 Render takes three parameters: `value`, `data` and `cellProps`.
@@ -61,3 +61,25 @@ Render takes three parameters: `value`, `data` and `cellProps`.
   *  `className`: String - a className for the cell.
   *  `children`: String, JSX - defaults to `value`, reprezents content of the cell.
   *  `style`: Object - style for the cell.
+
+Example:
+
+```jsx
+var data = [...]
+var columns = [
+  {
+    name: 'firstName',
+    className: 'first-column',
+    textAlign: 'center',
+    style: { fontWeight: 'bold' }
+  },
+  {
+    name: 'lastName',
+    render: function(value){
+      return <span>
+        <b>Last name:</b> value
+      </span>
+    }
+]
+<DataGrid idProperty="id" dataSource={data} columns={columns} />
+```
