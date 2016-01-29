@@ -16,8 +16,5 @@ EmptyText.defaultProps = {
 }
 
 EmptyText.propTypes = {
-  emptyText: PropTypes.oneOfType([
-      PropTypes.element,
-      PropTypes.string
-    ])
+  emptyText: PropTypes.node
 }

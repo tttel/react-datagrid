@@ -4,21 +4,11 @@
 
 @import '~react-flex/index.css';
 
-
+/*----------  Main  ----------*/
 .react-datagrid {
   height: 100%;
   position: relative;
 }
-
-
-/*-----  Column Header  -----*/
-.react-datagrid__column-header {
-  background: #999;
-  padding-right: 20px;
-}
-
-
-
 
 /*----------  Body  ----------*/
 .react-datagrid__body {
@@ -26,6 +16,10 @@
   overflow: auto;
 }
 
+.react-datagrid__body--loading { }
+
+
+/*----------  Scroller  ----------*/
 .react-datagrid__scroller {
   width: 100%;
   height: 100%;
@@ -34,26 +28,33 @@
   left: 0;
 }
 
-  .react-datagrid__body--loading {
-  }
-
-
-.react-datagrid__load-mask {
-  z-index: 10;
-}
-
-.react-datagrid__emptry-text {
-}
+.react-datagrid__emptry-text {}
 
 /*----------  Row  ----------*/
-.react-datagrid__row {
-  
-}
+.react-datagrid__row { }
 
-/*--  Cell & column-header --*/
+/*----------  Cell & Column-header  ----------*/
 .react-datagrid__cell,
 .react-datagrid__column-header {
   overflow: hidden;
   white-space: nowrap; 
   text-overflow: ellipsis;
+}
+
+/*-----  Column Header  -----*/
+.react-datagrid__column-header {
+  background: #999;
+  padding-right: 20px;
+}
+
+/*----------  Cell  ----------*/
+.react-datagrid__cell {}
+
+/*----------  Borders  ----------*/
+.react-datagrid__borders--horizontal {}
+.react-datagrid__borders--vertical {}
+
+/*----------  Load Mask  ----------*/
+.react-datagrid__load-mask {
+  z-index: 10;
 }
