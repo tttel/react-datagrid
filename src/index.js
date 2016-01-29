@@ -79,6 +79,10 @@ export default class DataGrid extends Component {
 
       dataSource.then(data => {
        
+        if (!Array.isArray(data)) {
+          throw new Error(`dataSource Promise did not return an array, it returned a ${typeof data}`)
+        }
+
         this.setState({
           data,
           defaultLoading: false
