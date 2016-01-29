@@ -3,7 +3,6 @@ import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
 import {Flex} from 'react-flex'
 import assign from 'object-assign'
-
 import join from 'src/utils/join'
 
 import Cell from './Cell'
@@ -50,9 +49,19 @@ export default class Row extends Component {
   }
 
   renderRow(data, columns){
+    const lastIndex = columns.length - 1
     return columns.map((column, index) => {
       const key = column.name || index // column.name can be ommited if it has a render method
-      return <Cell {...column} data={data} key={key} />
+      const isFirst = index === 0
+      const isLast = index === lastIndex
+      
+      return <Cell 
+        {...column}
+        data={data}
+        key={key}
+        first={isFirst}
+        last={isLast}
+      />
     })
   }
 }

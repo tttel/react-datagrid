@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
 import assign from 'object-assign'
 import {Item} from 'react-flex'
+import join from 'src/utils/join'
 
 export default class Cell extends Component {
 
@@ -16,9 +17,12 @@ export default class Cell extends Component {
      
     const style = assign({}, props.style)
 
-    if (props.textAlign) {
-      style.textAlign = props.textAlign
-    }
+    const className = join(
+        props.cellDefaultClass,
+        props.textAlign && `${props.cellDefaultClass}--align-${props.textAlign}`,
+        props.first && `${props.cellDefaultClass}--first`,
+        props.last && `${props.cellDefaultClass}--last`
+      )
 
     if (props.width) {
       style.minWidth = props.width
@@ -26,7 +30,7 @@ export default class Cell extends Component {
 
     const cellProps = assign({}, props, {
       value,
-      className: "react-datagrid__cell",
+      className,
       children: value,
       style
     })
@@ -44,6 +48,9 @@ export default class Cell extends Component {
   }
 }
 
+Cell.defaultProps = {
+  cellDefaultClass: 'react-datagrid__cell'
+}
 
 Cell.propTypes = {
   style: PropTypes.object,
@@ -60,5 +67,6 @@ Cell.propTypes = {
     if (flex < 1 || flex > 24) {
       return new Error(`Column flex prop expected to be between 1 and 24, got ${flex}`)
     }
-  }
+  },
+  cellDefaultClass: PropTypes.string
 }

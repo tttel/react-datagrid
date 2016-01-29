@@ -49,6 +49,20 @@
 
 /*----------  Cell  ----------*/
 .react-datagrid__cell {}
+.react-datagrid__cell--first {}
+.react-datagrid__cell--last {}
+
+.react-datagrid__cell--align-right {
+  text-align: right;
+}
+
+.react-datagrid__cell--align-left {
+  text-align: left;
+}
+
+.react-datagrid__cell--align-center {
+  text-align: center;
+}
 
 /*----------  Borders  ----------*/
 .react-datagrid__borders--horizontal {}
