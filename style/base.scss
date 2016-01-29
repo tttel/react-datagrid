@@ -10,6 +10,11 @@
   position: relative;
 }
 
+/*----------  Header  ----------*/
+.react-datagrid__header {
+
+}
+
 /*----------  Body  ----------*/
 .react-datagrid__body {
   position: relative;
@@ -30,6 +35,7 @@
 
 .react-datagrid__emptry-text {}
 
+
 /*----------  Row  ----------*/
 .react-datagrid__row { }
 
@@ -43,7 +49,6 @@
 
 /*-----  Column Header  -----*/
 .react-datagrid__column-header {
-  background: #999;
   padding-right: 20px;
 }
 
