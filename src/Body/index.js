@@ -37,7 +37,7 @@ export default class Body extends Component {
 
     if (!data) {
       console.error(
-        `Something went wront with dataSource, most likely loading prop is set to false, and promise did not resolve` )
+        `Something went wrong with dataSource, most likely loading prop is set to false, and promise did not resolve` )
       return
     }
 
