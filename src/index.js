@@ -17,7 +17,7 @@ export default class DataGrid extends Component {
     super(props)
 
     this.state = {
-      defaultLoading: true,
+      loading: props.defaultLoading,
       data: false
     }
   }
@@ -38,15 +38,22 @@ export default class DataGrid extends Component {
     const dataSource = props.dataSource
     const className = join(props.className, 'react-datagrid')
     const loading = props.loading == undefined? 
-                    this.state.defaultLoading :
+                    this.state.loading :
                     props.loading 
 
-    return <Flex column flex alignItems="stretch" {...props} className={className}>
+    return <Flex 
+      {...props} 
+      column 
+      flex 
+      alignItems="stretch" 
+      className={className}
+    >
       {loading && this.renderLoadMask()}
 
       <Header dataSource={dataSource} columns={columns} />
-      <Body 
+      <Body
         {...props}
+        columns={columns}
         data={this.state.data}
         loading={loading}
       />
@@ -64,7 +71,7 @@ export default class DataGrid extends Component {
     if (Array.isArray(dataSource)) {
       this.setState({
         data: dataSource,
-        defaultLoading: false
+        loading: false
       })
     }
 
@@ -74,7 +81,7 @@ export default class DataGrid extends Component {
       }
 
       this.setState({
-        defaultLoading: true
+        loading: true
       })
 
       dataSource.then(data => {
@@ -85,7 +92,7 @@ export default class DataGrid extends Component {
 
         this.setState({
           data,
-          defaultLoading: false
+          loading: false
         })
 
       }).catch((err) => {
@@ -93,7 +100,6 @@ export default class DataGrid extends Component {
       })
     }
   }
-
 }
 
 DataGrid.propTypes = {
@@ -122,6 +128,7 @@ DataGrid.propTypes = {
 }
 
 DataGrid.defaultProps = {
+  defaultLoading: true
 }
 
 DataGrid.propTypes = {

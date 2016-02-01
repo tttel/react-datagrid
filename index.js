@@ -9,9 +9,11 @@ import gen from './generate'
 
 const data = new Promise((rez, rej) => {
   setTimeout(() => {
-    rez(gen(300))
+    rez(gen(10000))
+    // rez('hello world')
   }, 1000)
 })
+
 
 const columns = [
   {
@@ -35,10 +37,10 @@ class App extends Component {
   render(){
     return <div className="app">
       <h1>React DataGrid by ZippyUi</h1>
-      <DataGrid 
+      <DataGrid
         className="grid"
-        dataSource={data}
         columns={columns}
+        dataSource={data}
         idProperty="id"
       />
     </div>
@@ -47,3 +49,6 @@ class App extends Component {
 
 render(<App />, document.getElementById('content'))
 
+        // <ColumnGroup columns={columns} fixed >
+        //   <Column {...column} />
+        // </ColumnGroup>
