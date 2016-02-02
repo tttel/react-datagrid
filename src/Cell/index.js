@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
 import assign from 'object-assign'
-import {Item} from 'react-flex'
+import { Item } from 'react-flex'
 import join from 'src/utils/join'
 
 export default class Cell extends Component {
@@ -10,24 +10,33 @@ export default class Cell extends Component {
   render(){
     const props = this.props
 
-    const name = props.name
-    const data = props.data
-    const value = data[name]
-    const renderCell = props.render
+    const {
+      name,
+      data,
+      render: renderCell,
+      column,
+      cellDefaultClass,
+      coumnDefaultClass
+    } = props
+    
      
     const style = assign({}, props.style)
 
+    const baseClassName = column? coumnDefaultClass : cellDefaultClass
     const className = join(
-        props.cellDefaultClass,
-        props.textAlign && `${props.cellDefaultClass}--align-${props.textAlign}`,
-        props.first && `${props.cellDefaultClass}--first`,
-        props.last && `${props.cellDefaultClass}--last`
+        baseClassName,
+        props.textAlign && `${baseClassName}--align-${props.textAlign}`,
+        props.first && `${baseClassName}--first`,
+        props.last && `${baseClassName}--last`
       )
 
     if (props.width) {
-      style.minWidth = props.width
+      style.minWidth = style.maxWidth = props.width
     }
 
+
+    const value = props.value? props.value : data[name]
+    
     const cellProps = assign({}, props, {
       value,
       className,
@@ -49,7 +58,9 @@ export default class Cell extends Component {
 }
 
 Cell.defaultProps = {
-  cellDefaultClass: 'react-datagrid__cell'
+  cellDefaultClass: 'react-datagrid__cell',
+  coumnDefaultClass: 'react-datagrid__column-header',
+  minWidth: 40
 }
 
 Cell.propTypes = {

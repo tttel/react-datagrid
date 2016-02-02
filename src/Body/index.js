@@ -9,21 +9,11 @@ import join from 'src/utils/join'
 import EmptyText from './EmptyText'
 
 import Scroller from './Scroller'
-import ColumnGroup from 'src/ColumnGroup'
+import ColumnGroup from './ColumnGroup'
 
 const ColumnGroupFactory = React.createFactory(ColumnGroup)
 
 export default class Body extends Component {
-
-  componentDidMount(){
-    const bodyNode = findDOMNode(this.refs.body)
-    const bodyHeight = bodyNode.offsetHeight
-
-
-    this.setState({
-      bodyHeight
-    })
-  }
 
   constructor(props){
     super(props)
@@ -32,6 +22,16 @@ export default class Body extends Component {
       bodyHeight: 0,
       scrollTop: 0
     }
+  }
+  
+  componentDidMount(){
+    const bodyNode = findDOMNode(this.refs.body)
+    const bodyHeight = bodyNode.offsetHeight
+
+
+    this.setState({
+      bodyHeight
+    })
   }
 
   render(){
@@ -83,8 +83,8 @@ export default class Body extends Component {
       rowHeight,
     } = props
 
-    const totalHeight = window.outerHeight || 1000
     const bodyHeight = this.state.bodyHeight
+    const totalHeight = totalHeight || window.outerHeight 
     const scrollTop = this.state.scrollTop
     const {from, to} = getDataRangeToRender(totalHeight, rowHeight, scrollTop)
     const offsetTop = from * rowHeight
@@ -104,7 +104,11 @@ export default class Body extends Component {
      * If no coumnGroup is specified, create a ColumGroup with all passed columns
      */
     if (!props.children) {
-      return <ColumnGroup {...columnGroupProps} columns={columns} />  
+      return <ColumnGroup 
+        {...columnGroupProps} 
+        columns={columns} 
+        width={'100%'}
+      />  
     } else {
     /**
      * Children are specified, take each Columngroup and insert props
@@ -115,7 +119,7 @@ export default class Body extends Component {
             assign(
               {}, 
               child.props, 
-              ColumnGroup,
+              columnGroupProps,
               {key: index}
             )
           )
@@ -124,13 +128,9 @@ export default class Body extends Component {
   }
 
   onScroll(scrollTop, event){
-    const isFromChildren = event.target.className.indexOf('react-datagrid__scroller') == -1
-
-    if (!isFromChildren) {
-      this.setState({
-        scrollTop
-      })
-    }
+    this.setState({
+      scrollTop
+    })
   }
 }
 

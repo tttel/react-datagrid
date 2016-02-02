@@ -8,7 +8,7 @@ import LoadMask from 'react-load-mask'
 
 import Header from './Header'
 import Body from './Body'
-import ColumnGroup from './ColumnGroup'
+import ColumnGroup from './Body/ColumnGroup'
 
 import 'react-load-mask/index.css'
 
@@ -51,7 +51,10 @@ class DataGrid extends Component {
     >
       {loading && this.renderLoadMask()}
 
-      <Header dataSource={dataSource} columns={columns} />
+      <Header 
+        columns={columns} 
+        columnGroups={props.children}
+      />
       <Body
         {...props}
         columns={columns}
@@ -134,7 +137,15 @@ DataGrid.defaultProps = {
 
 DataGrid.propTypes = {
   onDataSourceResponse: PropTypes.func,
-  children: PropTypes.arrayOf(ColumnGroup)
+  children: (props, propName) => {
+    const children = props[propName]
+
+    React.Children.map(children, (child) => {
+      if (!child || !child.props || !child.props.isColumnGroup) {
+        return new Error('The only children allowed of Datagrid are ColumnGroup')
+      }
+    })
+  }
 }
 
 

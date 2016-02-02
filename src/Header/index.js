@@ -2,34 +2,36 @@ import React, { PropTypes } from 'react'
 import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
 import {Flex} from 'react-flex'
-import humanize from '../utils/humanize'
 
-import Column from './Column'
+
+import ColumnGroup from './ColumnGroupHeader'
 
 export default class Header extends Component {
   render(){
     const props = this.props
-    const columns = props.columns
-    const dataSource = props.dataSource
+    const {
+      columns,
+      columnGroups
+    } = props
 
-    return <Flex className="react-datagrid__header">{this.renderColumns(dataSource, columns)}</Flex>    
+
+    return <Flex wrap={false} row alignItems="stretch" className="react-datagrid__header">
+      {
+        !!columnGroups? 
+        this.renderColumnGroups(columnGroups):
+        this.renderColumnGroup(columns)
+      }
+    </Flex>   
   }
 
-  renderColumns(dataSource, columns){
-    return columns.map((column, index) => {
-      let content 
-      if (column.title) {
-        content = column.title
-      } else {
-        content = humanize(column.name)
-      }
 
-      return <Column key={index} {...column}>{content}</Column>
+  renderColumnGroup(columns){
+    return <ColumnGroup width="100%" columns={columns} />
+  }
+
+  renderColumnGroups(children){
+    return React.Children.map(children, (child, index) => {
+       return <ColumnGroup  columns={child.props.columns} />
     })
   }
-}
-
-
-Header.PropTypes = {
-
 }

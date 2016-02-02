@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import {findDOMNode} from 'react-dom'
 import Component from 'react-class'
 import assign from 'object-assign'
+import join from 'src/utils/join'
 
 import Row from './Row'
 
@@ -10,25 +11,38 @@ export default class CoumnGroup extends Component {
   render(){
     const props = this.props
     const {
-       offsetTop,
+      offsetTop,
       scrollTop,
-      viewportHeight
+      viewportHeight,
+      width
     } = props
 
     const height = viewportHeight + (scrollTop - offsetTop)
 
-    const style = {
-      height,
-      transform: `translateY(${offsetTop}px)`,
-      overflowY: 'hidden',
-      overflowX: 'auto'
+    const style = assign({}, style, {
+        height,
+        transform: `translateY(${offsetTop}px)`
+      }
+    )
+
+    if (width) {
+      style.width = width
     }
+
 
     const innerWrapperStyle = {
       width: 800
     }
 
-    return <div style={style}> 
+    const className = join('react-datagrid__colum-group', props.className)
+
+    return <div 
+      {...props} 
+      className={className} 
+      style={style} 
+      data={null}
+      onScroll={(ev) => ev.stopPropagation()}
+    > 
       {this.renderRows()}
     </div>
   }
@@ -50,7 +64,7 @@ export default class CoumnGroup extends Component {
     }
 
     return data.slice(from, to).map((rowData, index) => {
-      const id = `row-${rowData[this.props.idProperty]}`
+      const id = `row-${rowData[globalProps.idProperty]}`
       const even = !!(index % 2)
       const rowProps = assign(
           {
@@ -71,5 +85,9 @@ export default class CoumnGroup extends Component {
       />
     })
   }
+}
 
+
+CoumnGroup.defaultProps = {
+  isColumnGroup: true
 }

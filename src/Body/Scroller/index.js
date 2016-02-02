@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import Component from 'react-class'
 import join from 'src/utils/join'
 import assign from 'object-assign'
+import { Flex } from 'react-flex'
 
 export default class Scroller extends Component {
 
@@ -17,7 +18,12 @@ export default class Scroller extends Component {
       }
     }
    
-    const {itemHeight, dataLength, contentHeight} = props
+    const {
+      itemHeight, 
+      dataLength, 
+      contentHeight
+    } = props
+    
     const contentClassName = join('react-datagrid__scroller__content')
     const contentProps = {
       className: contentClassName,
@@ -31,9 +37,9 @@ export default class Scroller extends Component {
       ref="viewport"
       onScroll={(e) => this.props.onScroll(e.target.scrollTop, e)}
     >
-      <div {...contentProps}>
+      <Flex wrap={false} row alignItems="stretch" {...contentProps}>
         {props.children}
-      </div> 
+      </Flex> 
     </div>
   }
 

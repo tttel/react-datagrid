@@ -5,7 +5,7 @@ import {Flex} from 'react-flex'
 import assign from 'object-assign'
 import join from 'src/utils/join'
 
-import Cell from './Cell'
+import Cell from 'src/Cell'
 
 export default class Row extends Component {
   render(){
@@ -47,7 +47,7 @@ export default class Row extends Component {
     }
 
     if (row === undefined){
-      row = <Flex {...rowProps} data={null} />
+      row = <Flex wrap={false} {...rowProps} data={null} />
     }
 
     return row
@@ -56,7 +56,8 @@ export default class Row extends Component {
   renderRow(data, columns){
     const lastIndex = columns.length - 1
     return columns.map((column, index) => {
-      const key = column.name || index // column.name can be ommited if it has a render method
+      // column.name can be ommited if it has a render method
+      const key = `${column.name}-${index}` || index 
       const isFirst = index === 0
       const isLast = index === lastIndex
       

@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import Component from 'react-class'
 
-import DataGrid from './src'
+import DataGrid, { ColumnGroup } from './src'
 import './index.scss'
 
 import gen from './generate'
@@ -33,6 +33,27 @@ const columns = [
   }
 ]
 
+const columns2 = [
+  {
+    name: 'firstName',
+    textAlign: 'center'
+  }, {
+    name: 'lastName'
+  }, {
+    name: 'email',
+    width: 400
+  }, {
+    name: 'email',
+    width: 400
+  }, {
+    name: 'email',
+    width: 400
+  }, {
+    name: 'email',
+    width: 400
+  }
+]
+
 class App extends Component {
   render(){
     return <div className="app">
@@ -42,13 +63,12 @@ class App extends Component {
         columns={columns}
         dataSource={data}
         idProperty="id"
-      />
+      >
+        <ColumnGroup columns={columns} />
+        <ColumnGroup className="myColumnGroup" columns={columns2} />
+      </DataGrid>
     </div>
   }
 }
 
 render(<App />, document.getElementById('content'))
-
-        // <ColumnGroup columns={columns} fixed >
-        //   <Column {...column} />
-        // </ColumnGroup>
