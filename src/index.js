@@ -5,13 +5,14 @@ import assign from 'object-assign'
 import join from './utils/join'
 import LoadMask from 'react-load-mask'
 
+
 import Header from './Header'
 import Body from './Body'
+import ColumnGroup from './ColumnGroup'
 
 import 'react-load-mask/index.css'
 
-
-export default class DataGrid extends Component {
+class DataGrid extends Component {
 
   constructor(props){
     super(props)
@@ -132,5 +133,13 @@ DataGrid.defaultProps = {
 }
 
 DataGrid.propTypes = {
-  onDataSourceResponse: PropTypes.func
+  onDataSourceResponse: PropTypes.func,
+  children: PropTypes.arrayOf(ColumnGroup)
+}
+
+
+export default DataGrid
+
+export {
+  ColumnGroup
 }

@@ -10,8 +10,11 @@ import Cell from './Cell'
 export default class Row extends Component {
   render(){
     const props = this.props
-    const data = props.data
-    const columns = props.columns
+    const {
+      rowHeight,
+      data,
+      columns
+    } = props
 
     const className = join(
         'react-datagrid__row',
@@ -20,7 +23,9 @@ export default class Row extends Component {
         props.className
       )
     
-    let style = assign({}, props.style)
+    let style = assign({}, props.style, {
+      height: rowHeight
+    })
     
     if (props.rowStyle) {
       if (typeof props.rowStyle === 'function') {

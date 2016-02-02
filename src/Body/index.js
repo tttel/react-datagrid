@@ -1,21 +1,35 @@
 import React, { PropTypes } from 'react'
+import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
-import {Item} from 'react-flex'
+import { Item } from 'react-flex'
 import getDataRangeToRender from './getDataRangeToRender'
-
 import assign from 'object-assign'
 import join from 'src/utils/join'
 
 import EmptyText from './EmptyText'
-import Row from './Row'
+
 import Scroller from './Scroller'
 import ColumnGroup from 'src/ColumnGroup'
 
+const ColumnGroupFactory = React.createFactory(ColumnGroup)
+
 export default class Body extends Component {
+
+  componentDidMount(){
+    const bodyNode = findDOMNode(this.refs.body)
+    const bodyHeight = bodyNode.offsetHeight
+
+
+    this.setState({
+      bodyHeight
+    })
+  }
+
   constructor(props){
     super(props)
 
     this.state = {
+      bodyHeight: 0,
       scrollTop: 0
     }
   }
@@ -34,88 +48,89 @@ export default class Body extends Component {
       column 
       className={className}
       data={null}
+      ref="body"
     >
-      {
-        // !loading && <div className="react-datagrid__scroller">
-        //   {this.renderRows(data, columns, props)}
-        // </div>
-      }
       {!loading && this.renderScroller()}
     </Item>
   }
 
   renderScroller(){
     const props = this.props
-    const {data, columns, rowHeight, scrollerHeight} = props
-   
+    const {data, rowHeight} = props
+
     if (!data) {
       console.error(
-        `Something went wrong with dataSource, most likely loading prop is set to false, and promise did not resolve` )
+          `Something went wrong with dataSource, most likely loading prop is set to false, and promise did not resolve` 
+        )
       return
     }
     
-    const scrollTop = this.state.scrollTop
-    const totalHeight = 400
-    const {from, to} = getDataRangeToRender(totalHeight, rowHeight, scrollTop)
-    const offsetTop = from * rowHeight
-
-
-    const columnGroups = [
-      <ColumnGroup
-        key="1"
-        data={data}
-        offsetTop={offsetTop}
-        columns={columns}
-        from={from}
-        rowHeight={rowHeight}
-        to={to}
-      />
-    ]    
+    const contentHeight = rowHeight * data.length
 
     return <Scroller 
-      contentHeight={rowHeight * data.length}
+      contentHeight={contentHeight}
       onScroll={this.onScroll}
-      atotalHeight={scrollerHeight}
     >
-      {columnGroups}
+      {this.renderColumnGroups()}
     </Scroller>
   }
 
-  onScroll(scrollTop){
-    this.setState({
-      scrollTop
-    })
-  }
+  renderColumnGroups(){
+    const props = this.props
+    const {
+      data,
+      columns,
+      rowHeight,
+    } = props
 
-  renderRows(data, columns, props){
+    const totalHeight = window.outerHeight || 1000
+    const bodyHeight = this.state.bodyHeight
+    const scrollTop = this.state.scrollTop
+    const {from, to} = getDataRangeToRender(totalHeight, rowHeight, scrollTop)
+    const offsetTop = from * rowHeight
 
-
-
-    if (Array.isArray(data) && data.length === 0) {
-      return <EmptyText emptyText={this.props.emptyText} />
+    const columnGroupProps = {
+      data,
+      offsetTop,
+      scrollTop,
+      rowHeight,
+      from,
+      to,
+      viewportHeight: bodyHeight,
+      globalProps: props
     }
 
-    return data.map((rowData, index) => {
-      const id = rowData[this.props.idProperty]
-      const even = !!(index % 2)
-      const rowProps = assign(
-          {
-            key: id,
-            data: rowData, 
-            columns: columns,
-            renderRow: props.renderRow,
-            rowFactory: props.rowFactory,
-            rowStyle: props.rowStyle,
-            index,
-            even
-          },
-          props.rowProps
-        )
+    /**
+     * If no coumnGroup is specified, create a ColumGroup with all passed columns
+     */
+    if (!props.children) {
+      return <ColumnGroup {...columnGroupProps} columns={columns} />  
+    } else {
+    /**
+     * Children are specified, take each Columngroup and insert props
+     */
+      return React.Children.map(props.children, (child, index) => {
+         return React.cloneElement(
+            child, 
+            assign(
+              {}, 
+              child.props, 
+              ColumnGroup,
+              {key: index}
+            )
+          )
+      })
+    }
+  }
 
-      return <Row 
-        {...rowProps}
-      />
-    })
+  onScroll(scrollTop, event){
+    const isFromChildren = event.target.className.indexOf('react-datagrid__scroller') == -1
+
+    if (!isFromChildren) {
+      this.setState({
+        scrollTop
+      })
+    }
   }
 }
 
