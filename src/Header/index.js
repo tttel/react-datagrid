@@ -1,15 +1,15 @@
 import React, { PropTypes } from 'react'
-import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
-import {Flex} from 'react-flex'
+import { findDOMNode } from 'react-dom'
+import { Flex } from 'react-flex'
+import Column from 'src/Column'
 
-
-import ColumnGroup from './ColumnGroupHeader'
+import ColumnGroupHeader from './ColumnGroupHeader'
 
 export default class Header extends Component {
   render(){
     const props = this.props
-    const {
+    let {
       columns,
       columnGroups
     } = props
@@ -26,12 +26,23 @@ export default class Header extends Component {
 
 
   renderColumnGroup(columns){
-    return <ColumnGroup width="100%" columns={columns} />
+    return <ColumnGroupHeader width="100%" columns={columns} />
   }
 
-  renderColumnGroups(children){
-    return React.Children.map(children, (child, index) => {
-       return <ColumnGroup  columns={child.props.columns} />
+  renderColumnGroups(columnGroups){
+    return React.Children.map(columnGroups, (columnGroup, index) => {
+      const columnGroupProps = columnGroup.props
+      const {children} = columnGroupProps
+
+      let columns
+      if (children) {
+        columns = children
+      } else {
+        columns = columnGroupProps.columns.map(column  => <Column {...column} />)
+      }
+
+      
+       return <ColumnGroupHeader columns={columns} />
     })
   }
 }

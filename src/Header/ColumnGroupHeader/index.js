@@ -9,20 +9,30 @@ import { Flex } from 'react-flex'
 import Cell from 'src/Cell'
 
 
-export default class CoumnGroup extends Component {
+export default class ColumnGroupHeader extends Component {
   render(){
     const props = this.props
-    const { 
-      columns,
-      width
+    const {
+      width,
+      columns
     } = props
     
     const className = join('react-datagrid__header__colum-group', props.className)
-
     const style = assign({}, props.style)
 
+    let minWidth = columns.reduce((acc, col) => {
+      const {width, minWidth} = col.props 
+      const colWidth = Math.max(width || 0, minWidth || 40)
+
+      return acc + colWidth
+    }, 0)
+
     if (width) {
-      style.width = width
+      style.width = Math.max(width, minWidth)
+    }
+
+    if (minWidth){
+      style.minWidth = minWidth
     }
 
     return <Flex
@@ -38,19 +48,25 @@ export default class CoumnGroup extends Component {
 
   renderColumns(columns){
     return columns.map((column, index) => {
-      let value 
-      if (column.title) {
-        value = column.title
+      const columnProps = column.props
+      const {
+        name,
+        title
+      } = columnProps
+
+      let value
+      if (title) {
+        value = title
       } else {
-        value = humanize(column.name)
+        value = humanize(name)
       }
 
-      return <Cell column key={index} {...column} value={value}></Cell>
+      return <Cell column key={index} {...columnProps} value={value}></Cell>
     })
   }
 }
 
 
-CoumnGroup.defaultProps = {
+ColumnGroupHeader.defaultProps = {
   isColumnGroup: true
 }

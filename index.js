@@ -63,8 +63,9 @@ class App extends Component {
         columns={columns}
         dataSource={data}
         idProperty="id"
+        rowHeight={40}
       >
-        <ColumnGroup columns={columns} />
+        <ColumnGroup fixed columns={columns} />
         <ColumnGroup className="myColumnGroup" columns={columns2} />
       </DataGrid>
     </div>

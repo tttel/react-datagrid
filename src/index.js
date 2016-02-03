@@ -5,12 +5,13 @@ import assign from 'object-assign'
 import join from './utils/join'
 import LoadMask from 'react-load-mask'
 
-
 import Header from './Header'
 import Body from './Body'
 import ColumnGroup from './Body/ColumnGroup'
 
 import 'react-load-mask/index.css'
+
+const SCREEN_HEIGHT = global.screen && global.screen.height
 
 class DataGrid extends Component {
 
@@ -35,8 +36,11 @@ class DataGrid extends Component {
 
   render(){
     const props = this.props
-    const columns = props.columns
-    const dataSource = props.dataSource
+    const {
+      dataSource,
+      columns
+    } = props
+
     const className = join(props.className, 'react-datagrid')
     const loading = props.loading == undefined? 
                     this.state.loading :
@@ -60,8 +64,22 @@ class DataGrid extends Component {
         columns={columns}
         data={this.state.data}
         loading={loading}
+        contentHeight={this.getContentHeight()}
       />
     </Flex>
+  }
+
+  getContentHeight(){
+    const {rowHeight} = this.props
+    const {data} = this.state
+
+    if (!data) {
+      return 0
+    }
+
+    const contentHeight = rowHeight * data.length
+
+    return contentHeight
   }
 
   renderLoadMask(){
@@ -135,8 +153,11 @@ DataGrid.propTypes = {
     const children = props[propName]
 
     React.Children.map(children, (child) => {
-      if (!child || !child.props || !child.props.isColumnGroup) {
-        return new Error('The only children allowed of Datagrid are ColumnGroup')
+      if (
+          !child || !child.props || 
+          (!child.props.isColumnGroup || !child.props.isColumn)
+        ) {
+        return new Error('The only children allowed of Datagrid are ColumnGroup and Column')
       }
     })
   },
@@ -152,6 +173,10 @@ DataGrid.defaultProps = {
 
 export default DataGrid
 
+// Column is a dummy componnet only used for configuration
+import Column from './Column'
+
 export {
-  ColumnGroup
+  ColumnGroup,
+  Column
 }

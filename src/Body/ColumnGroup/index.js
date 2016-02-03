@@ -5,23 +5,22 @@ import assign from 'object-assign'
 import join from 'src/utils/join'
 
 import Row from './Row'
+import Column from 'src/Column'
 
-
-export default class CoumnGroup extends Component {
+export default class ColumnGroup extends Component {
   render(){
     const props = this.props
     const {
       offsetTop,
       scrollTop,
       viewportHeight,
-      width
+      width,
+      height
     } = props
 
-    const height = viewportHeight + (scrollTop - offsetTop)
-
     const style = assign({}, style, {
-        height,
-        transform: `translateY(${offsetTop}px)`
+       height,
+       transform: `translateY(${offsetTop}px)`
       }
     )
 
@@ -29,10 +28,6 @@ export default class CoumnGroup extends Component {
       style.width = width
     }
 
-
-    const innerWrapperStyle = {
-      width: 800
-    }
 
     const className = join('react-datagrid__colum-group', props.className)
 
@@ -53,11 +48,23 @@ export default class CoumnGroup extends Component {
       data,
       from,
       to,
-      columns,
       rowHeight,
-      globalProps
+      globalProps,
+      chilren
     } = props
 
+    let columns
+    if (chilren) {
+      columns = chilren
+    } else {
+      columns = props.columns.map(column => <Column {...column} />)
+    }
+  
+   let minWidth = columns.reduce((acc, col) => {
+      let colWidth = Math.max(col.width || 0, col.minWidth || 40)
+
+      return acc + colWidth
+    }, 0)
 
     if (Array.isArray(data) && data.length === 0) {
       return <EmptyText emptyText={this.props.emptyText} />
@@ -68,14 +75,15 @@ export default class CoumnGroup extends Component {
       const even = !!(index % 2)
       const rowProps = assign(
           {
+            columns,
+            minWidth,
+            index,
+            even,
             key: id,
             data: rowData, 
-            columns: columns,
             renderRow: props.renderRow,
             rowFactory: props.rowFactory,
             rowStyle: props.rowStyle,
-            index,
-            even
           },
           props.rowProps
         )
@@ -88,6 +96,18 @@ export default class CoumnGroup extends Component {
 }
 
 
-CoumnGroup.defaultProps = {
+ColumnGroup.propTypes = {
+  children: (props, propName) => {
+    const children = props[propName]
+
+    React.Children.map(children, (child) => {
+      if ( !child || !child.props ||  !child.props.isColumn) {
+        return new Error('The only children allowed of Datagrid are ColumnGroup')
+      }
+    })
+  }
+}
+
+ColumnGroup.defaultProps = {
   isColumnGroup: true
 }

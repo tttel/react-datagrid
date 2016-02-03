@@ -28,12 +28,12 @@ export default class Body extends Component {
     const bodyNode = findDOMNode(this.refs.body)
     const bodyHeight = bodyNode.offsetHeight
 
-
     this.setState({
       bodyHeight
     })
   }
 
+  // todo func getBodyHeight
   render(){
     const props = this.props
     const {data, columns} = props
@@ -56,7 +56,11 @@ export default class Body extends Component {
 
   renderScroller(){
     const props = this.props
-    const {data, rowHeight} = props
+    const {
+      data, 
+      rowHeight,
+      contentHeight
+    } = props
 
     if (!data) {
       console.error(
@@ -64,8 +68,6 @@ export default class Body extends Component {
         )
       return
     }
-    
-    const contentHeight = rowHeight * data.length
 
     return <Scroller 
       contentHeight={contentHeight}
@@ -81,13 +83,14 @@ export default class Body extends Component {
       data,
       columns,
       rowHeight,
+      contentHeight
     } = props
 
     const bodyHeight = this.state.bodyHeight
-    const totalHeight = totalHeight || window.outerHeight 
     const scrollTop = this.state.scrollTop
-    const {from, to} = getDataRangeToRender(totalHeight, rowHeight, scrollTop)
+    const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop)
     const offsetTop = from * rowHeight
+    const columnGrupHeight = bodyHeight + (scrollTop - offsetTop)
 
     const columnGroupProps = {
       data,
@@ -97,7 +100,8 @@ export default class Body extends Component {
       from,
       to,
       viewportHeight: bodyHeight,
-      globalProps: props
+      globalProps: props,
+      height: columnGrupHeight
     }
 
     /**
@@ -128,8 +132,9 @@ export default class Body extends Component {
   }
 
   onScroll(scrollTop, event){
+   
     this.setState({
-      scrollTop
+        scrollTop
     })
 
     if (this.props.onScroll && typeof this.props.onScroll === 'function') {
@@ -146,3 +151,4 @@ Body.defaultProps = {
 Body.propTypes = {
   loading: PropTypes.bool
 }
+

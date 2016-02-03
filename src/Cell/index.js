@@ -16,7 +16,8 @@ export default class Cell extends Component {
       render: renderCell,
       column,
       cellDefaultClass,
-      coumnDefaultClass
+      coumnDefaultClass,
+      value
     } = props
     
      
@@ -30,12 +31,20 @@ export default class Cell extends Component {
         props.last && `${baseClassName}--last`
       )
 
-    if (props.width) {
-      style.minWidth = style.maxWidth = props.width
+    let minWidth = props.minWidth
+    let width = props.width
+    
+    if (width && minWidth && width < minWidth){
+      width = minWidth
     }
 
+    if (minWidth){
+      style.minWidth = minWidth
+    }
 
-    const value = props.value? props.value : data[name]
+    if (width) {
+      style.minWidth = style.maxWidth = width
+    }
     
     const cellProps = assign({}, props, {
       value,

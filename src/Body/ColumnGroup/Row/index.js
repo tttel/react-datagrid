@@ -12,6 +12,7 @@ export default class Row extends Component {
     const props = this.props
     const {
       rowHeight,
+      minWidth,
       data,
       columns
     } = props
@@ -24,7 +25,8 @@ export default class Row extends Component {
       )
     
     let style = assign({}, props.style, {
-      height: rowHeight
+      height: rowHeight,
+      minWidth
     })
     
     if (props.rowStyle) {
@@ -56,17 +58,24 @@ export default class Row extends Component {
   renderRow(data, columns){
     const lastIndex = columns.length - 1
     return columns.map((column, index) => {
+      const columnProps = column.props
+      const {
+        name
+      } = columnProps
+      
       // column.name can be ommited if it has a render method
-      const key = `${column.name}-${index}` || index 
+      const key = `${name}-${index}` || index 
       const isFirst = index === 0
       const isLast = index === lastIndex
+      const value = data[name]
       
       return <Cell 
-        {...column}
+        {...columnProps}
         data={data}
         key={key}
         first={isFirst}
         last={isLast}
+        value={value}
       />
     })
   }
