@@ -128,14 +128,8 @@ DataGrid.propTypes = {
     if (!(dataSource.then || Array.isArray(dataSource))) {
       return new Error(`dataSource must be an array or a promise.`)
     }
-  }
-}
+  },
 
-DataGrid.defaultProps = {
-  defaultLoading: true
-}
-
-DataGrid.propTypes = {
   onDataSourceResponse: PropTypes.func,
   children: (props, propName) => {
     const children = props[propName]
@@ -146,6 +140,11 @@ DataGrid.propTypes = {
       }
     })
   }
+
+}
+
+DataGrid.defaultProps = {
+  defaultLoading: true
 }
 
 
