@@ -10,7 +10,7 @@
  `idProperty`| String | - |*(required)* the name of the property where the id is found for each object in the data array
 `onDataSourceResponse`| Function(data) | - | it is called if `dataSource` is a primise <br>`dataSource.then(onDataSourceResponse, onDataSourceResponse)`
 `emptyText`| String\|JSX | - | text that apears when dataSource provides an empty dataset
-`columns`| Array | - | an array of columns that are going to be rendered in the grid. Read more on how to confirue [columns](#columns).
+`columns`| Array | - | an array of columns that are going to be rendered in the grid. Read more on how to configure [columns](#columns).
     
 
 ### Rows
@@ -24,18 +24,35 @@
 
 ### Columns
 
+Columns can be defined as: -
+- an array of objects describing each column.
+- using `<Column />` component, as children of `DataGrid` or `ColumnGroup` 
+
+
 ```
+var dataSource = [
+  {id: 1, name: 'Foo', lastName: 'Bar'},
+  {id: 2, name: 'Bar', lastName: 'Foo'}    
+  ...
+]
+
+
 var columns = [
   {name: 'index', render: function(v){return 'Index ' + v}},
   {name: 'firstName'},
   {name: 'lastName'}
 ]
 
-var dataSource = [
-  {id: 1, name: 'Foo', lastName: 'Bar'},
-  {id: 2, name: 'Bar', lastName: 'Foo'}    
-  ...
-]
+<DataGrid columns={columns} rowHeight={40} />
+
+or
+
+<DataGrid rowHeight={40}>
+  <Column name="index" render={(v) => 'Index' + v} />
+  <Column name="firstName" render={(v) => 'Index' + v} />
+  <Column name="lastName" render={(v) => 'Index' + v} />
+<DataGrid />
+
 ```
 Each column should have a `name` property, and optionally a `title` property. 
 The `name` property can be omitted if a render function is specified.
@@ -84,3 +101,50 @@ var columns = [
 ]
 <DataGrid idProperty="id" dataSource={data} columns={columns} />
 ```
+
+## Column Group Props
+
+```
+var dataSource = [
+  {id: 1, name: 'Foo', lastName: 'Bar'},
+  {id: 2, name: 'Bar', lastName: 'Foo'}    
+  ...
+]
+
+
+var columns = [
+  {name: 'index', render: function(v){return 'Index ' + v}},
+  {name: 'firstName'},
+  {name: 'lastName'}
+]
+var columns2 = [
+  {name: 'index', render: function(v){return 'Index ' + v}},
+  {name: 'firstName'},
+]
+
+<DataGrid columns={columns} rowHeight={40}>
+  <ColumnGroup fixed columns={columns1}
+  <ColumnGroup columns={columns2}
+<DataGrid />
+
+or
+
+<DataGrid rowHeight={40}>
+  <ColumnGroup fixed>
+    <Column name="firstName" render={(v) => 'Index' + v} />
+    <Column name="lastName" render={(v) => 'Index' + v} />
+  </ColumnGroup>
+  <ColumnGroup>
+    <Column name="email" render={(v) => 'Index' + v} />
+    <Column name="id" render={(v) => 'Index' + v} />
+  </ColumnGroup>
+<DataGrid />
+
+```
+
+Prop|Type|Default|Description
+--- | --- | --- | ---
+`width`| String\|Number| - | a fixed with that Column grup should be
+`fixed`| Booleon| false | if the ColumnGroup show be a fixed size, given by the acumulative width of it's columns, so it doesn't have a horizontal scrollbar.
+`columns`| JSON | - | Read more on how to configure [columns](#columns).
+`children`| JSX | - | Used to configure it's columns, use `Column` componnet. Read more on how to configure [columns](#columns).
