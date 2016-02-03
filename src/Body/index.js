@@ -25,11 +25,8 @@ export default class Body extends Component {
   }
   
   componentDidMount(){
-    const bodyNode = findDOMNode(this.refs.body)
-    const bodyHeight = bodyNode.offsetHeight
-
     this.setState({
-      bodyHeight
+      bodyHeight: this.getBodyHeight()
     })
   }
 
@@ -140,6 +137,16 @@ export default class Body extends Component {
     if (this.props.onScroll && typeof this.props.onScroll === 'function') {
       this.props.onScroll(scrollTop, event)
     }
+  }
+
+  getBodyHeight(){
+    const bodyNode = findDOMNode(this.refs.body)
+    
+    if (bodyNode) {
+      return bodyNode.offsetHeight
+    }
+
+    return 0
   }
 }
 
