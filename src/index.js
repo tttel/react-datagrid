@@ -139,7 +139,9 @@ DataGrid.propTypes = {
         return new Error('The only children allowed of Datagrid are ColumnGroup')
       }
     })
-  }
+  },
+
+  onScroll: PropTypes.func
 
 }
 

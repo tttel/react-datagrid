@@ -48,6 +48,7 @@ If no **`title`** property is specified, a humanized version of the column **`na
 `value`| String | `name`| the default value to be rendered (equals to data[column.name]).
 `title`| String\|ReactElement| `name` | a title to show in the header. If not specified, a humanized version of `name` will be used. Can be a string or anything that React can render, so you can customize it as you please.
 `width`| Int\|String| - |specify the width of the column.
+`onScroll(scrollTop, event)`| Function | - | On scroll event handler.
 `style`| Object | - |if you want cells in this column to be have a custom style.
  `textAlign`| String |-| one of 'left', 'right', 'center'. It will add one of the folowing classes: <br> `react-datagrid__cell--align-right`, <br> `react-datagrid__cell--align-left`, <br>`react-datagrid__cell--align-center`
  `render` | Function| - |if you want custom rendering, specify this property. Parameters taken: `render(value, data, cellProps)`. For more information read [Column.render](#columnrender) section. 

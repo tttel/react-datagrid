@@ -131,13 +131,18 @@ export default class Body extends Component {
     this.setState({
       scrollTop
     })
+
+    if (this.props.onScroll && typeof this.props.onScroll === 'function') {
+      this.props.onScroll(scrollTop, event)
+    }
   }
 }
 
 Body.defaultProps = {
-  rowHeight: 40
+  rowHeight: 40,
+
 }
 
 Body.propTypes = {
-  loading: PropTypes.bool,
+  loading: PropTypes.bool
 }
