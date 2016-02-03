@@ -6,6 +6,7 @@ import join from 'src/utils/join'
 
 import Row from './Row'
 import Column from 'src/Column'
+import getColumnsWidth from 'src/utils/getColumnsWidth'
 
 export default class ColumnGroup extends Component {
   render(){
@@ -15,7 +16,9 @@ export default class ColumnGroup extends Component {
       scrollTop,
       viewportHeight,
       width,
-      height
+      height,
+      chilren,
+      fixed
     } = props
 
     const style = assign({}, style, {
@@ -24,10 +27,21 @@ export default class ColumnGroup extends Component {
       }
     )
 
+    let columns
+    if (chilren) {
+      columns = chilren
+    } else {
+      columns = props.columns.map(column => <Column {...column} />)
+    }
+
     if (width) {
       style.width = width
     }
 
+    // Fixed means that it is not allowed to have horizontal scroll
+    if (fixed) {
+      style.minWidth = getColumnsWidth(columns)
+    }
 
     const className = join('react-datagrid__colum-group', props.className)
 
@@ -38,27 +52,21 @@ export default class ColumnGroup extends Component {
       data={null}
       onScroll={(ev) => ev.stopPropagation()}
     > 
-      {this.renderRows()}
+      {this.renderRows(columns)}
     </div>
   }
 
-  renderRows(){
+  renderRows(columns){
     const props = this.props
     const {
       data,
       from,
       to,
       rowHeight,
-      globalProps,
-      chilren
+      globalProps
     } = props
 
-    let columns
-    if (chilren) {
-      columns = chilren
-    } else {
-      columns = props.columns.map(column => <Column {...column} />)
-    }
+
   
    let minWidth = columns.reduce((acc, col) => {
       let colWidth = Math.max(col.width || 0, col.minWidth || 40)

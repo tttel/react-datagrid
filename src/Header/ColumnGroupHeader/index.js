@@ -7,6 +7,7 @@ import humanize from 'src/utils/humanize'
 import { Flex } from 'react-flex'
 
 import Cell from 'src/Cell'
+import getColumnsWidth from 'src/utils/getColumnsWidth'
 
 
 export default class ColumnGroupHeader extends Component {
@@ -20,12 +21,7 @@ export default class ColumnGroupHeader extends Component {
     const className = join('react-datagrid__header__colum-group', props.className)
     const style = assign({}, props.style)
 
-    let minWidth = columns.reduce((acc, col) => {
-      const {width, minWidth} = col.props 
-      const colWidth = Math.max(width || 0, minWidth || 40)
-
-      return acc + colWidth
-    }, 0)
+    let minWidth = getColumnsWidth(columns)
 
     if (width) {
       style.width = Math.max(width, minWidth)
