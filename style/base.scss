@@ -7,12 +7,15 @@
 /*----------  Main  ----------*/
 .react-datagrid {
   height: 100%;
+  flex: 1;
   position: relative;
+  min-height: 300px;
+
 }
 
 /*----------  Header  ----------*/
 .react-datagrid__header {
-  
+  overflow: hidden;
 }
 
 /*----------  Body  ----------*/

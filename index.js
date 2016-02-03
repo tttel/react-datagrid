@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import Component from 'react-class'
 
+import { Flex } from 'react-flex'
 import DataGrid, { ColumnGroup } from './src'
 import './index.scss'
 
@@ -55,21 +56,47 @@ const columns2 = [
 ]
 
 class App extends Component {
+  constructor(props){
+    super(props)
+
+    this.state = {
+      height: 500
+    }
+  }
   render(){
-    return <div className="app">
-      <h1>React DataGrid by ZippyUi</h1>
+    return <Flex 
+      column 
+      alignItems="stretch" 
+      className="app"
+      style={{
+        height: this.state.height
+      }}
+    >
+      <h1>  
+        React DataGrid by ZippyUi
+        <button 
+          onClick={() => this.setState({
+            height: this.state.height + 20
+          })}
+        >
+          Add Height
+        </button>
+      </h1>
+
       <DataGrid
         className="grid"
         columns={columns}
         dataSource={data}
         idProperty="id"
         rowHeight={40}
+        hideHeader
       >
         <ColumnGroup fixed columns={columns} />
         <ColumnGroup className="myColumnGroup" columns={columns2} />
       </DataGrid>
-    </div>
+    </Flex>
   }
 }
+
 
 render(<App />, document.getElementById('content'))

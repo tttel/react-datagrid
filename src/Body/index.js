@@ -13,7 +13,7 @@ import ColumnGroup from './ColumnGroup'
 
 const ColumnGroupFactory = React.createFactory(ColumnGroup)
 
-export default class Body extends Component {
+class Body extends Component {
 
   constructor(props){
     super(props)
@@ -47,6 +47,7 @@ export default class Body extends Component {
       data={null}
       ref="body"
     >
+      {props.resizeTool}
       {!loading && this.renderScroller()}
     </Item>
   }
@@ -158,3 +159,7 @@ Body.propTypes = {
   onScroll: PropTypes.func
 }
 
+
+
+
+export default Body

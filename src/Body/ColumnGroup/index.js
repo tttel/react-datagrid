@@ -38,9 +38,11 @@ export default class ColumnGroup extends Component {
       style.width = width
     }
 
+    let minWidth = getColumnsWidth(columns)
+
     // Fixed means that it is not allowed to have horizontal scroll
     if (fixed) {
-      style.minWidth = getColumnsWidth(columns)
+      style.minWidth = minWidth
     }
 
     const className = join('react-datagrid__colum-group', props.className)
@@ -52,11 +54,11 @@ export default class ColumnGroup extends Component {
       data={null}
       onScroll={(ev) => ev.stopPropagation()}
     > 
-      {this.renderRows(columns)}
+      {this.renderRows(columns, minWidth)}
     </div>
   }
 
-  renderRows(columns){
+  renderRows(columns, minWidth){
     const props = this.props
     const {
       data,
@@ -66,13 +68,6 @@ export default class ColumnGroup extends Component {
       globalProps
     } = props
 
-
-  
-   let minWidth = columns.reduce((acc, col) => {
-      let colWidth = Math.max(col.width || 0, col.minWidth || 40)
-
-      return acc + colWidth
-    }, 0)
 
     if (Array.isArray(data) && data.length === 0) {
       return <EmptyText emptyText={this.props.emptyText} />

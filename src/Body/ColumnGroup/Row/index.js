@@ -6,15 +6,16 @@ import assign from 'object-assign'
 import join from 'src/utils/join'
 
 import Cell from 'src/Cell'
+import getColumnsWidth from 'src/utils/getColumnsWidth'
 
 export default class Row extends Component {
   render(){
     const props = this.props
     const {
       rowHeight,
-      minWidth,
       data,
-      columns
+      columns,
+      minWidth
     } = props
 
     const className = join(
@@ -23,7 +24,8 @@ export default class Row extends Component {
         !props.even && 'react-datagrid__row--odd',
         props.className
       )
-    
+
+
     let style = assign({}, props.style, {
       height: rowHeight,
       minWidth

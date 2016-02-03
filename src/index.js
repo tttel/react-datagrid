@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
 import { Flex, Item } from 'react-flex'
 import assign from 'object-assign'
@@ -13,6 +14,7 @@ import 'react-load-mask/index.css'
 
 const SCREEN_HEIGHT = global.screen && global.screen.height
 
+
 class DataGrid extends Component {
 
   constructor(props){
@@ -25,6 +27,9 @@ class DataGrid extends Component {
   }
 
   componentDidMount(){
+    const dataGridNode = findDOMNode(this.refs.dataGrid)
+  
+    // load data
     this.loadSourceData(this.props.dataSource, this.props)
   }
 
@@ -38,7 +43,8 @@ class DataGrid extends Component {
     const props = this.props
     const {
       dataSource,
-      columns
+      columns,
+      hideHeader
     } = props
 
     const className = join(props.className, 'react-datagrid')
@@ -52,13 +58,18 @@ class DataGrid extends Component {
       flex 
       alignItems="stretch" 
       className={className}
+      ref="dataGrid"
     >
+      
       {loading && this.renderLoadMask()}
-
-      <Header 
-        columns={columns} 
-        columnGroups={props.children}
-      />
+      { 
+        !hideHeader 
+        && 
+        <Header 
+          columns={columns} 
+          columnGroups={props.children}
+        />
+      }
       <Body
         {...props}
         columns={columns}
@@ -162,14 +173,15 @@ DataGrid.propTypes = {
     })
   },
 
-  onScroll: PropTypes.func
+  onScroll: PropTypes.func,
 
+  hideHeader: PropTypes.bool
 }
 
 DataGrid.defaultProps = {
-  defaultLoading: true
+  defaultLoading: true,
+  hideHeader: false
 }
-
 
 export default DataGrid
 
