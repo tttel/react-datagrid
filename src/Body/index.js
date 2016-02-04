@@ -167,6 +167,6 @@ Body.propTypes = {
 
 
 
-import resizeNotifier from 'src/utils/resizeNotifier'
+import resizeNotifier from 'react-notify-resize'
 
 export default resizeNotifier(Body)
