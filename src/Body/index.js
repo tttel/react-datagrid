@@ -11,8 +11,6 @@ import EmptyText from './EmptyText'
 import Scroller from './Scroller'
 import ColumnGroup from './ColumnGroup'
 
-const ColumnGroupFactory = React.createFactory(ColumnGroup)
-
 class Body extends Component {
 
   constructor(props){
