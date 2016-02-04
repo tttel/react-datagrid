@@ -74,14 +74,20 @@ class App extends Component {
     >
       <h1>  
         React DataGrid by ZippyUi
+      </h1>
+
+      <div>
         <button 
+          style={{
+            marginBottom: 10
+          }}
           onClick={() => this.setState({
-            height: this.state.height + 20
+            height: this.state.height + 10
           })}
         >
           Add Height
         </button>
-      </h1>
+      </div>
 
       <DataGrid
         className="grid"
@@ -89,7 +95,7 @@ class App extends Component {
         dataSource={data}
         idProperty="id"
         rowHeight={40}
-        hideHeader
+        
       >
         <ColumnGroup fixed columns={columns} />
         <ColumnGroup className="myColumnGroup" columns={columns2} />
