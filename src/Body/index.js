@@ -25,9 +25,7 @@ class Body extends Component {
   }
   
   componentDidMount(){
-    this.setState({
-      bodyHeight: this.getBodyHeight()
-    })
+    this.setBodyHeight()
   }
 
   // todo func getBodyHeight
@@ -70,6 +68,7 @@ class Body extends Component {
     return <Scroller 
       contentHeight={contentHeight}
       onScroll={this.onScroll}
+      ref="scroller"
     >
       {this.renderColumnGroups()}
     </Scroller>
@@ -139,14 +138,23 @@ class Body extends Component {
     }
   }
 
-  getBodyHeight(){
+  onResize(){
+    this.setBodyHeight()
+  }
+
+  setBodyHeight(){
     const bodyNode = findDOMNode(this.refs.body)
-    
+    let bodyHeight
+
     if (bodyNode) {
-      return bodyNode.offsetHeight
+      bodyHeight = bodyNode.offsetHeight
+    } else {
+      bodyHeight = 0
     }
 
-    return 0
+    this.setState({
+      bodyHeight: bodyHeight
+    })
   }
 }
 
@@ -161,5 +169,6 @@ Body.propTypes = {
 
 
 
+import resizeNotifier from 'src/utils/resizeNotifier'
 
-export default Body
+export default resizeNotifier(Body)

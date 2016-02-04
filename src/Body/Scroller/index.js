@@ -4,7 +4,10 @@ import join from 'src/utils/join'
 import assign from 'object-assign'
 import { Flex } from 'react-flex'
 
-export default class Scroller extends Component {
+
+
+
+class Scroller extends Component {
 
   render(){
     const props = this.props
@@ -33,6 +36,7 @@ export default class Scroller extends Component {
     }
 
     return <div
+      style={{position: 'relative'}}
       {...scrollerProps}
       ref="viewport"
       onScroll={(e) => this.props.onScroll(e.target.scrollTop, e)}
@@ -42,10 +46,11 @@ export default class Scroller extends Component {
       </Flex> 
     </div>
   }
-
 }
 
 Scroller.propTypes = {
   className: PropTypes.string,
   scrollTop: PropTypes.number
 }
+
+export default Scroller
