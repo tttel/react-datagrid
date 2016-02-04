@@ -1,7 +1,7 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var env = require('./env');
 
-var LOCAL_CSS_LOADER = 'style-loader!css-loader?modules&localIdentName=[local]--[hash:base64:5]!autoprefixer-loader!sass-loader'
+var LOCAL_CSS_LOADER = 'style-loader!css-loader!autoprefixer-loader!sass-loader'
 var NM_CSS_LOADER = 'style-loader!css-loader!autoprefixer-loader'
 
 var dev = env.HOT || env.NODE_ENV == 'development'
