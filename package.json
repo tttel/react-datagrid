@@ -1,11 +1,12 @@
 {
   "name": "react-datagrid",
-  "version": "3.0.0",
+  "version": "3.0.1-beta",
   "description": "React DataGrid",
   "main": "lib/index.js",
   "scripts": {
     "dev": "webpack-dev-server --progress --colors --config ./build/dev.config.js",
     "lib": "gulp",
+    "prepublish": "npm run lib",
     "build-style": "webpack -p --config ./build/style.config.js",
     "build": "npm run lib && npm run build-style",
     "buildStatic": "npm i && NODE_ENV=production gulp && NODE_ENV=production webpack -p --progress --colors --config ./build/build.config.js"
@@ -47,7 +48,6 @@
     "faker": "^3.0.1",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
-    "gulp-file": "^0.2.0",
     "node-sass": "^3.4.2",
     "normalize.css": "^3.0.3",
     "parse-keys": "^1.3.0",
