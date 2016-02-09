@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import Component from 'react-class'
-import join from 'src/utils/join'
+import join from '../../utils/join'
 import assign from 'object-assign'
 import { Flex } from 'react-flex'
 

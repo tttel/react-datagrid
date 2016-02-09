@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import Component from 'react-class'
 import { findDOMNode } from 'react-dom'
 import { Flex } from 'react-flex'
-import Column from 'src/Column'
+import Column from '../Column'
 
 import ColumnGroupHeader from './ColumnGroupHeader'
 

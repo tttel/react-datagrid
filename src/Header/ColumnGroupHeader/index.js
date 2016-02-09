@@ -2,12 +2,12 @@ import React, { PropTypes } from 'react'
 import {findDOMNode} from 'react-dom'
 import Component from 'react-class'
 import assign from 'object-assign'
-import join from 'src/utils/join'
-import humanize from 'src/utils/humanize'
+import join from '../../utils/join'
+import humanize from '../../utils/humanize'
 import { Flex } from 'react-flex'
 
-import Cell from 'src/Cell'
-import getColumnsWidth from 'src/utils/getColumnsWidth'
+import Cell from '../../Cell'
+import getColumnsWidth from '../../utils/getColumnsWidth'
 
 
 export default class ColumnGroupHeader extends Component {

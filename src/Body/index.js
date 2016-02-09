@@ -4,7 +4,7 @@ import Component from 'react-class'
 import { Item } from 'react-flex'
 import getDataRangeToRender from './getDataRangeToRender'
 import assign from 'object-assign'
-import join from 'src/utils/join'
+import join from '../utils/join'
 
 import EmptyText from './EmptyText'
 

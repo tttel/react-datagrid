@@ -2,11 +2,11 @@ import React, { PropTypes } from 'react'
 import {findDOMNode} from 'react-dom'
 import Component from 'react-class'
 import assign from 'object-assign'
-import join from 'src/utils/join'
+import join from '../../utils/join'
 
 import Row from './Row'
-import Column from 'src/Column'
-import getColumnsWidth from 'src/utils/getColumnsWidth'
+import Column from '../../Column'
+import getColumnsWidth from '../../utils/getColumnsWidth'
 
 export default class ColumnGroup extends Component {
   render(){
