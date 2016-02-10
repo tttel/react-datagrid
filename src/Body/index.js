@@ -79,7 +79,8 @@ class Body extends Component {
       data,
       columns,
       rowHeight,
-      contentHeight
+      contentHeight,
+      renderRow
     } = props
 
     const bodyHeight = this.state.bodyHeight
@@ -95,6 +96,7 @@ class Body extends Component {
       rowHeight,
       from,
       to,
+      renderRow,
       viewportHeight: bodyHeight,
       globalProps: props,
       height: columnGrupHeight,
