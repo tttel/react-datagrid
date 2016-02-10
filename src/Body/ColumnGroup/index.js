@@ -66,14 +66,13 @@ export default class ColumnGroup extends Component {
       to,
       rowHeight,
       globalProps,
-      onHover,
-      onBlur,
+      onRowMouseEnter,
+      onRowMouseLeave,
       renderRow,
       rowStyle,
-      rowProps: passedProps
+      rowProps: passedProps,
+      overRowId
     } = props
-
-    const hoverRowId = props.hoverRowId
 
     if (Array.isArray(data) && data.length === 0) {
       return <EmptyText emptyText={this.props.emptyText} />
@@ -92,13 +91,13 @@ export default class ColumnGroup extends Component {
         data: rowData, 
         renderRow,
         rowStyle,
-        onHover,
-        onBlur,
+        onMouseEnter: onRowMouseEnter,
+        onMouseLeave: onRowMouseLeave,
         rowHeight,
-        hover: hoverRowId === id,
+        over: overRowId === id,
         passedProps
       }
-      
+
       return <Row 
         {...rowProps}
       />
@@ -116,8 +115,8 @@ ColumnGroup.propTypes = {
       }
     })
   },
-  onHover: PropTypes.func,
-  onBlur: PropTypes.func
+  onRowMouseEnter: PropTypes.func,
+  onRowMouseLeave: PropTypes.func
 }
 
 ColumnGroup.defaultProps = {

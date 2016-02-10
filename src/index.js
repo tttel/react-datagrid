@@ -190,8 +190,8 @@ DataGrid.propTypes = {
 
   onScroll: PropTypes.func,
   hideHeader: PropTypes.bool,
-  onRowHover: PropTypes.func,
-  onRowBlur: PropTypes.func,
+  onRowMouseEnter: PropTypes.func,
+  onRowMouseLeave: PropTypes.func,
   onScrollBottom: PropTypes.func
 }
 

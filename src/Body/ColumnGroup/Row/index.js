@@ -29,7 +29,7 @@ export default class Row extends Component {
       className: passedClassName
     } = passedProps
 
-
+    console.log(over)
     let className = join(
         'react-datagrid__row',
         even &&  'react-datagrid__row--even',
@@ -40,6 +40,7 @@ export default class Row extends Component {
 
     if (passedProps) {
       className = join(
+        className,
         over && passedProps.overClassName
       )
     }
@@ -112,7 +113,7 @@ export default class Row extends Component {
   }
 
   onMouseEnter(event){
-    this.props.onHover(this.props.data.id, event)
+    this.props.onMouseEnter(event, this.props.data.id)
 
     if (this.passedProps && this.passedProps.onMouseEnter) {
       this.passedProps.onMouseEnter(event, id)
@@ -120,7 +121,7 @@ export default class Row extends Component {
   }
 
   onMouseLeave(event){
-    this.props.onBlur(this.props.data.id, event)
+    this.props.onMouseLeave(event, this.props.data.id)
 
     if (this.passedProps && this.passedProps.onMouseLeave) {
       this.passedProps.onMouseLeave(event, id)
@@ -131,5 +132,6 @@ export default class Row extends Component {
 Row.propTypes = {
   renderRow: PropTypes.func,
   rowProps: PropTypes.object,
-  onHover: PropTypes.func
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func
 }

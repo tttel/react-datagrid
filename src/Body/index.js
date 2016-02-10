@@ -19,7 +19,7 @@ class Body extends Component {
     this.state = {
       bodyHeight: 0,
       scrollTop: 0,
-      hoverRowId: false
+      overRowId: false
     }
   }
   
@@ -101,9 +101,9 @@ class Body extends Component {
       viewportHeight: bodyHeight,
       globalProps: props,
       height: columnGrupHeight,
-      onHover: this.onRowHover,
-      onBlur: this.onRowBlur,
-      hoverRowId: this.state.hoverRowId
+      onRowMouseEnter: this.onRowMouseEnter,
+      onRowMouseLeave: this.onRowMouseLeave,
+      overRowId: this.state.overRowId
     }
 
     /**
@@ -133,23 +133,24 @@ class Body extends Component {
     }
   }
 
-  onRowHover(id){
+  onRowMouseEnter(event, id){
     this.setState({
-      hoverRowId: id
+      overRowId: id
     })
 
-    this.props.onRowHover(id)
+    this.props.onRowMouseLeave(event, id)
   }
 
-  onRowBlur(id){
+  onRowMouseLeave(event, id){
+
     // remove id if still present
-    if (this.state.hoverRowId === id) {
+    if (this.state.overRowId === id) {
       this.setState({
-        hoverRowId: false 
+        overRowId: false 
       })
     }
 
-    this.props.onRowBlur(id)
+    this.props.onRowBlur(event, id)
   }
 
   onScroll(scrollTop, event){  
@@ -189,16 +190,16 @@ class Body extends Component {
 
 Body.defaultProps = {
   rowHeight: 40,
-  onRowHover: () => {},
-  onRowBlur: () => {},
+  onRowMouseEnter: () => {},
+  onRowMouseLeave: () => {},
   onScrollBottom: () => {}
 }
 
 Body.propTypes = {
   loading: PropTypes.bool,
   onScroll: PropTypes.func,
-  onRowHover: PropTypes.func,
-  onRowBlur: PropTypes.func,
+  onRowMouseEnter: PropTypes.func,
+  onRowMouseLeave: PropTypes.func,
   onScrollBottom: PropTypes.func
 }
 
