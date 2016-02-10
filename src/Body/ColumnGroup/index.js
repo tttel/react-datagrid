@@ -96,6 +96,7 @@ export default class ColumnGroup extends Component {
             rowStyle,
             onHover,
             onBlur,
+            rowHeight,
             hover: hoverRowId === id
           },
           props.rowProps

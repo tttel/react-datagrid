@@ -56,7 +56,7 @@ class Body extends Component {
       rowHeight,
       contentHeight
     } = props
-
+  
     if (!data) {
       console.error(
           `Something went wrong with dataSource, most likely loading prop is set to false, and promise did not resolve` 
