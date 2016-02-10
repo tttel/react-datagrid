@@ -14,6 +14,7 @@
 `hideHeader` | Booleon | false | Set header visibility.
 `onRowHover(id)` | Function | - | row event handler onMouseEnter, takes a paramenter `id`, it from `rowData[idProperty]`
 `onRowBlur(id)` | Function | - | row event handler onMouseEnter, takes a paramenter `id`, it from `rowData[idProperty]`
+`onScrollBottom` | Function | - | event handler for when the datagrid is scrolled at the bottom, it can be used as a trigger for infinite loader
      
 
 ### Rows
