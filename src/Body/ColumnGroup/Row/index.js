@@ -49,9 +49,17 @@ export default class Row extends Component {
       className,
       style,
       children: this.renderRow(data, columns),
+    }, 
+      passedProps, 
+      
+      // passedProps should not overwrite the folowing methods
+      // onEvent prop will be called also
+    {
       onMouseEnter: this.onMouseEnter,
       onMouseLeave: this.onMouseLeave
     })
+
+
 
     let row
     if (renderRow) {
@@ -90,12 +98,20 @@ export default class Row extends Component {
     })
   }
 
-  onMouseEnter(){
-    this.props.onHover(this.props.data.id) 
+  onMouseEnter(event){
+    this.props.onHover(this.props.data.id, event)
+
+    if (this.passedProps.onMouseEnter) {
+      this.passedProps.onMouseEnter(event, id)
+    } 
   }
 
-  onMouseLeave(){
-    this.props.onBlur(this.props.data.id)     
+  onMouseLeave(event){
+    this.props.onBlur(this.props.data.id, event)
+
+    if (this.passedProps.onMouseLeave) {
+      this.passedProps.onMouseLeave(event, id)
+    }     
   }
 }
 

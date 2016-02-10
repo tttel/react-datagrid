@@ -69,7 +69,8 @@ export default class ColumnGroup extends Component {
       onHover,
       onBlur,
       renderRow,
-      rowStyle
+      rowStyle,
+      rowProps: passedProps
     } = props
 
     const hoverRowId = props.hoverRowId
@@ -95,9 +96,8 @@ export default class ColumnGroup extends Component {
             onHover,
             onBlur,
             rowHeight,
-            hover: hoverRowId === id
-          },
-          props.rowProps
+            hover: hoverRowId === id,
+            passedProps
         )
 
       return <Row 
