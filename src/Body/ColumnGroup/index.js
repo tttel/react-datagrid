@@ -69,7 +69,6 @@ export default class ColumnGroup extends Component {
       onHover,
       onBlur,
       renderRow,
-      rowFactory,
       rowStyle
     } = props
 
@@ -92,7 +91,6 @@ export default class ColumnGroup extends Component {
             key,
             data: rowData, 
             renderRow,
-            rowFactory,
             rowStyle,
             onHover,
             onBlur,
