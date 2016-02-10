@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --progress --colors --config ./build/dev.config.js",
     "lib": "gulp",
-    "prepublish": "npm run lib",
+    "prepublish": "npm run lib && build-style",
     "build-style": "webpack -p --config ./build/style.config.js",
     "build": "npm run lib && npm run build-style",
     "buildStatic": "npm i && NODE_ENV=production gulp && NODE_ENV=production webpack -p --progress --colors --config ./build/build.config.js"
