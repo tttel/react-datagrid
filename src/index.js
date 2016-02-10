@@ -108,10 +108,7 @@ class DataGrid extends Component {
 
   loadSourceData(dataSource, props){
     if (Array.isArray(dataSource)) {
-      this.setState({
-        data: dataSource,
-        loading: false
-      })
+      this.setData(dataSource)
     }
 
     if (dataSource.then) {
@@ -124,20 +121,29 @@ class DataGrid extends Component {
       })
 
       dataSource.then(data => {
-       
         if (!Array.isArray(data)) {
           throw new Error(`dataSource Promise did not return an array, it returned a ${typeof data}`)
         }
 
-        this.setState({
-          data,
-          loading: false
-        })
+        this.setData(data)
 
       }).catch((err) => {
         console.error(err) 
       })
     }
+  }
+
+  setData(data){
+    const dataMap = data.reduce((acc, item) => {
+      acc[this.getItemId(item)] = item
+      return acc
+    }, {})
+
+    this.setState({
+      data,
+      dataMap,
+      loading: false
+    })
   }
 }
 
