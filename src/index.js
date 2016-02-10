@@ -153,8 +153,8 @@ DataGrid.propTypes = {
   columns: PropTypes.arrayOf((props, propName) => {
     const column = props[propName]
 
-    if (!column.name && typeof column.render != 'function'){
-      return new Error(`column ${propName} should have a "name" prop or a "render" function!`)
+    if (!column.name && !column.title) {
+      return new Error(`Specify a name or title for each column`)
     }
   }),
 

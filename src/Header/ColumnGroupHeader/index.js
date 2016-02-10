@@ -53,7 +53,8 @@ export default class ColumnGroupHeader extends Component {
       let value
       if (title) {
         value = title
-      } else {
+      
+      if(name)
         value = humanize(name)
       }
 
