@@ -27,7 +27,7 @@ export default class Row extends Component {
         'react-datagrid__row',
         even &&  'react-datagrid__row--even',
         !even && 'react-datagrid__row--odd',
-        hover && 'react-datagrid__row--hover',
+        hover && 'react-datagrid__row--over',
         props.className
       )
 
