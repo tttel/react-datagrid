@@ -83,23 +83,22 @@ export default class ColumnGroup extends Component {
       const id = rowData[globalProps.idProperty]
       const key = `row-${id}`
       const even = !!(index % 2)
-      const rowProps = assign(
-          {
-            columns,
-            minWidth,
-            index,
-            even,
-            key,
-            data: rowData, 
-            renderRow,
-            rowStyle,
-            onHover,
-            onBlur,
-            rowHeight,
-            hover: hoverRowId === id,
-            passedProps
-        )
-
+      const rowProps = {
+        columns,
+        minWidth,
+        index,
+        even,
+        key,
+        data: rowData, 
+        renderRow,
+        rowStyle,
+        onHover,
+        onBlur,
+        rowHeight,
+        hover: hoverRowId === id,
+        passedProps
+      }
+      
       return <Row 
         {...rowProps}
       />

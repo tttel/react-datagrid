@@ -146,7 +146,8 @@ DataGrid.defaultProps = {
   hideHeader: false,
   onRowHover: () => {},
   onRowBlur: () => {},
-  onScrollBottom: () => {}
+  onScrollBottom: () => {},
+  rowProps: {}
 }
 
 DataGrid.propTypes = {

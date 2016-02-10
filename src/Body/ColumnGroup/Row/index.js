@@ -19,17 +19,30 @@ export default class Row extends Component {
       rowStyle,
       renderRow,
       even,
-      hover
+      over,
+      passedProps
     } = props
 
+    const {
+      overClassName,
+      selectedClassName,
+      className: passedClassName
+    } = passedProps
 
-    const className = join(
+
+    let className = join(
         'react-datagrid__row',
         even &&  'react-datagrid__row--even',
         !even && 'react-datagrid__row--odd',
-        hover && 'react-datagrid__row--over',
+        over && 'react-datagrid__row--over',
         props.className
+    )
+
+    if (passedProps) {
+      className = join(
+        over && passedProps.overClassName
       )
+    }
 
 
     let style = assign({}, props.style, {
@@ -101,7 +114,7 @@ export default class Row extends Component {
   onMouseEnter(event){
     this.props.onHover(this.props.data.id, event)
 
-    if (this.passedProps.onMouseEnter) {
+    if (this.passedProps && this.passedProps.onMouseEnter) {
       this.passedProps.onMouseEnter(event, id)
     } 
   }
@@ -109,7 +122,7 @@ export default class Row extends Component {
   onMouseLeave(event){
     this.props.onBlur(this.props.data.id, event)
 
-    if (this.passedProps.onMouseLeave) {
+    if (this.passedProps && this.passedProps.onMouseLeave) {
       this.passedProps.onMouseLeave(event, id)
     }     
   }

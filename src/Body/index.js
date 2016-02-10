@@ -53,7 +53,6 @@ class Body extends Component {
     const props = this.props
     const {
       data, 
-      rowHeight,
       contentHeight
     } = props
 
@@ -80,7 +79,8 @@ class Body extends Component {
       columns,
       rowHeight,
       contentHeight,
-      renderRow
+      renderRow,
+      rowProps
     } = props
 
     const bodyHeight = this.state.bodyHeight
@@ -94,6 +94,7 @@ class Body extends Component {
       offsetTop,
       scrollTop,
       rowHeight,
+      rowProps,
       from,
       to,
       renderRow,
