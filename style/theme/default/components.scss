@@ -35,6 +35,12 @@
   color: #4C4C4C;
 }
 
+.react-datagrid__row--even {}
+.react-datagrid__row--odd {}
+.react-datagrid__row--hover {
+  background: #bfbfbf;
+}
+
 /*----------  Cell & Column-header  ----------*/
 .react-datagrid__cell,
 .react-datagrid__column-header {

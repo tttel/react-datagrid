@@ -65,16 +65,23 @@ export default class ColumnGroup extends Component {
       from,
       to,
       rowHeight,
-      globalProps
+      globalProps,
+      onHover,
+      onBlur,
+      renderRow,
+      rowFactory,
+      rowStyle
     } = props
 
+    const hoverRowId = props.hoverRowId
 
     if (Array.isArray(data) && data.length === 0) {
       return <EmptyText emptyText={this.props.emptyText} />
     }
 
     return data.slice(from, to).map((rowData, index) => {
-      const id = `row-${rowData[globalProps.idProperty]}`
+      const id = rowData[globalProps.idProperty]
+      const key = `row-${id}`
       const even = !!(index % 2)
       const rowProps = assign(
           {
@@ -82,11 +89,14 @@ export default class ColumnGroup extends Component {
             minWidth,
             index,
             even,
-            key: id,
+            key,
             data: rowData, 
-            renderRow: props.renderRow,
-            rowFactory: props.rowFactory,
-            rowStyle: props.rowStyle,
+            renderRow,
+            rowFactory,
+            rowStyle,
+            onHover,
+            onBlur,
+            hover: hoverRowId === id
           },
           props.rowProps
         )
@@ -98,7 +108,6 @@ export default class ColumnGroup extends Component {
   }
 }
 
-
 ColumnGroup.propTypes = {
   children: (props, propName) => {
     const children = props[propName]
@@ -108,7 +117,9 @@ ColumnGroup.propTypes = {
         return new Error('The only children allowed of Datagrid are ColumnGroup')
       }
     })
-  }
+  },
+  onHover: PropTypes.func,
+  onBlur: PropTypes.func
 }
 
 ColumnGroup.defaultProps = {

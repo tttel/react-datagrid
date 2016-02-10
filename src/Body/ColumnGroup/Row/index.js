@@ -15,13 +15,19 @@ export default class Row extends Component {
       rowHeight,
       data,
       columns,
-      minWidth
+      minWidth,
+      rowStyle,
+      renderRow,
+      even,
+      hover
     } = props
+
 
     const className = join(
         'react-datagrid__row',
-        props.even &&  'react-datagrid__row--even',
-        !props.even && 'react-datagrid__row--odd',
+        even &&  'react-datagrid__row--even',
+        !even && 'react-datagrid__row--odd',
+        hover && 'react-datagrid__row--hover',
         props.className
       )
 
@@ -31,23 +37,25 @@ export default class Row extends Component {
       minWidth
     })
     
-    if (props.rowStyle) {
-      if (typeof props.rowStyle === 'function') {
-        style = props.rowStyle(data, props)
+    if (rowStyle) {
+      if (typeof rowStyle === 'function') {
+        style = rowStyle(data, props)
       } else {
-        style = assign(style, props.rowStyle)
+        style = assign(style, rowStyle)
       }
     }  
     
     const rowProps = assign({}, props, {
       className,
       style,
-      children: this.renderRow(data, columns)
+      children: this.renderRow(data, columns),
+      onMouseEnter: this.onMouseEnter,
+      onMouseLeave: this.onMouseLeave
     })
 
     let row
-    if (props.renderRow){
-      row = props.renderRow(rowProps)
+    if (renderRow) {
+      row = renderRow(rowProps)
     }
 
     if (row === undefined){
@@ -81,9 +89,18 @@ export default class Row extends Component {
       />
     })
   }
+
+  onMouseEnter(){
+    this.props.onHover(this.props.data.id) 
+  }
+
+  onMouseLeave(){
+    this.props.onBlur(this.props.data.id)     
+  }
 }
 
 Row.propTypes = {
   renderRow: PropTypes.func,
-  rowProps: PropTypes.object
+  rowProps: PropTypes.object,
+  onHover: PropTypes.func
 }

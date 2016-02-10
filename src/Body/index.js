@@ -18,7 +18,8 @@ class Body extends Component {
 
     this.state = {
       bodyHeight: 0,
-      scrollTop: 0
+      scrollTop: 0,
+      hoverRowId: false
     }
   }
   
@@ -96,7 +97,10 @@ class Body extends Component {
       to,
       viewportHeight: bodyHeight,
       globalProps: props,
-      height: columnGrupHeight
+      height: columnGrupHeight,
+      onHover: this.onRowHover,
+      onBlur: this.onRowBlur,
+      hoverRowId: this.state.hoverRowId
     }
 
     /**
@@ -119,11 +123,27 @@ class Body extends Component {
               {}, 
               child.props, 
               columnGroupProps,
-              {key: index}
+              { key: index }
             )
           )
       })
     }
+  }
+
+  onRowHover(id){
+    this.setState({
+      hoverRowId: id
+    })
+  }
+
+  onRowBlur(id){
+    // remove id if still present
+    if (this.state.hoverRowId === id) {
+      this.setState({
+        hoverRowId: false 
+      })
+    }
+
   }
 
   onScroll(scrollTop, event){  
