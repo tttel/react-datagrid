@@ -134,6 +134,8 @@ class Body extends Component {
     this.setState({
       hoverRowId: id
     })
+
+    this.props.onRowHover(id)
   }
 
   onRowBlur(id){
@@ -144,6 +146,7 @@ class Body extends Component {
       })
     }
 
+    this.props.onRowBlur(id)
   }
 
   onScroll(scrollTop, event){  
@@ -178,11 +181,15 @@ class Body extends Component {
 
 Body.defaultProps = {
   rowHeight: 40,
+  onRowHover: () => {},
+  onRowBlur: () => {}
 }
 
 Body.propTypes = {
   loading: PropTypes.bool,
-  onScroll: PropTypes.func
+  onScroll: PropTypes.func,
+  onRowHover: PropTypes.func,
+  onRowBlur: PropTypes.func
 }
 
 

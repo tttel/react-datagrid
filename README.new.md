@@ -11,8 +11,10 @@
 `onDataSourceResponse`| Function(data) | - | it is called if `dataSource` is a primise <br>`dataSource.then(onDataSourceResponse, onDataSourceResponse)`
 `emptyText`| String\|JSX | - | text that apears when dataSource provides an empty dataset
 `columns`| Array | - | an array of columns that are going to be rendered in the grid. Read more on how to configure [columns](#columns).
-`hideHeader` | Booleon | false | Set header visibility. 
-    
+`hideHeader` | Booleon | false | Set header visibility.
+`onRowHover(id)` | Function | - | row event handler onMouseEnter, takes a paramenter `id`, it from `rowData[idProperty]`
+`onRowBlur(id)` | Function | - | row event handler onMouseEnter, takes a paramenter `id`, it from `rowData[idProperty]`
+     
 
 ### Rows
 * `renderRow(rowProps): Function`

@@ -95,7 +95,8 @@ class App extends Component {
         dataSource={data}
         idProperty="id"
         rowHeight={40}
-        
+        onRowHover={((id) => console.log('onHover', id))}
+        onRowBlur={((id) => console.log('onBlur', id))}
       >
         <ColumnGroup fixed columns={columns} />
         <ColumnGroup className="myColumnGroup" columns={columns2} />
