@@ -24,7 +24,10 @@
      * `children`: JSX - row cells.
      * `style` : object - style for the row.
 * `rowStyle(data, rowProps)`: Object/Function -    You can specify either a style object to be applied to all rows, or a function.    The function is called with (data, props) (so you have access to props.index for example) and is expected to return a style object.
-
+ * `rowProps`: Object - props to be passed to all rows
+    * `rowProps.overClassName` - a css class name to be applied when mouse is over the row
+    * `rowProps.selectedClassName`
+    * `rowProps.className`
 
 ### Columns
 
