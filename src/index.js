@@ -46,7 +46,8 @@ class DataGrid extends Component {
       columns,
       hideHeader,
       onRowHover,
-      onRowBlur
+      onRowBlur,
+      onScrollBottom
     } = props
 
     const className = join(props.className, 'react-datagrid')
@@ -80,6 +81,7 @@ class DataGrid extends Component {
         contentHeight={this.getContentHeight()}
         onRowHover={onRowHover}
         onRowBlur={onRowBlur}
+        onScrollBottom={onScrollBottom}
       />
     </Flex>
   }
@@ -143,7 +145,8 @@ DataGrid.defaultProps = {
   defaultLoading: true,
   hideHeader: false,
   onRowHover: () => {},
-  onRowBlur: () => {}
+  onRowBlur: () => {},
+  onScrollBottom: () => {}
 }
 
 DataGrid.propTypes = {
@@ -187,7 +190,8 @@ DataGrid.propTypes = {
   onScroll: PropTypes.func,
   hideHeader: PropTypes.bool,
   onRowHover: PropTypes.func,
-  onRowBlur: PropTypes.func
+  onRowBlur: PropTypes.func,
+  onScrollBottom: PropTypes.func
 }
 
 export default DataGrid

@@ -56,7 +56,7 @@ class Body extends Component {
       rowHeight,
       contentHeight
     } = props
-  
+
     if (!data) {
       console.error(
           `Something went wrong with dataSource, most likely loading prop is set to false, and promise did not resolve` 
@@ -154,6 +154,11 @@ class Body extends Component {
         scrollTop
     })
 
+    // There is an error of one pixel in chrome, add -2 to be safe
+    if (this.props.contentHeight - 2 <= scrollTop + this.state.bodyHeight) {
+      this.props.onScrollBottom()
+    }
+
     if (this.props.onScroll) {
       this.props.onScroll(scrollTop, event)
     }
@@ -182,17 +187,17 @@ class Body extends Component {
 Body.defaultProps = {
   rowHeight: 40,
   onRowHover: () => {},
-  onRowBlur: () => {}
+  onRowBlur: () => {},
+  onScrollBottom: () => {}
 }
 
 Body.propTypes = {
   loading: PropTypes.bool,
   onScroll: PropTypes.func,
   onRowHover: PropTypes.func,
-  onRowBlur: PropTypes.func
+  onRowBlur: PropTypes.func,
+  onScrollBottom: PropTypes.func
 }
-
-
 
 import resizeNotifier from 'react-notify-resize'
 
