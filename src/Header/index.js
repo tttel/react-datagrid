@@ -24,7 +24,6 @@ export default class Header extends Component {
     </Flex>   
   }
 
-
   renderColumnGroup(columns){
     return <ColumnGroupHeader width="100%" columns={columns} />
   }
@@ -40,7 +39,6 @@ export default class Header extends Component {
       } else {
         columns = columnGroupProps.columns.map(column  => <Column {...column} />)
       }
-
       
        return <ColumnGroupHeader columns={columns} />
     })

@@ -47,18 +47,20 @@ export default class ColumnGroupHeader extends Component {
       const columnProps = column.props
       const {
         name,
-        title
+        title,
       } = columnProps
 
       let value
+      
       if (title) {
         value = title
-      
-      if(name)
+      }
+
+      if (name){
         value = humanize(name)
       }
 
-      return <Cell column key={index} {...columnProps} value={value}></Cell>
+      return <Cell column key={index} {...columnProps} value={value} />
     })
   }
 }

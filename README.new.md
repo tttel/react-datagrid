@@ -82,6 +82,7 @@ Render takes three parameters: `value`, `data` and `cellProps`.
   *  `className`: String - a className for the cell.
   *  `children`: String, JSX - defaults to `value`, reprezents content of the cell.
   *  `style`: Object - style for the cell.
+  *  `isColumn`: Bool - if it is  acolumn (cell in header)
 
 Example:
 
