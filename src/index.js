@@ -20,8 +20,10 @@ class DataGrid extends Component {
   constructor(props){
     super(props)
 
+    const isLoading = props.dataSource && !!props.dataSource.then
+
     this.state = {
-      loading: props.defaultLoading,
+      loading: isLoading,
       data: false
     }
   }
@@ -139,11 +141,20 @@ class DataGrid extends Component {
       return acc
     }, {})
 
+    let newDataState = {
+
+    }
+
+
     this.setState({
       data,
       dataMap,
       loading: false
     })
+  }
+
+  getItemId(item){
+    return item[this.props.idProperty]
   }
 }
 
