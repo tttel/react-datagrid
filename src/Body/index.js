@@ -138,7 +138,7 @@ class Body extends Component {
       overRowId: id
     })
 
-    this.props.onRowMouseLeave(event, id)
+    this.props.onRowMouseEnter(event, id)
   }
 
   onRowMouseLeave(event, id){
@@ -150,7 +150,7 @@ class Body extends Component {
       })
     }
 
-    this.props.onRowBlur(event, id)
+    this.props.onRowMouseLeave(event, id)
   }
 
   onScroll(scrollTop, event){  
