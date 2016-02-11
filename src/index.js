@@ -136,21 +136,31 @@ class DataGrid extends Component {
   }
 
   setData(data){
-    const dataMap = data.reduce((acc, item) => {
-      acc[this.getItemId(item)] = item
-      return acc
-    }, {})
+    const props = this.props
+    const {
+      selected,
+      defaultSelected,
+      onSelectionChange
+    } = props
 
     let newDataState = {
-
+      data,
+      loading: false
     }
 
+    // make dataMap only if selected is used
+    // if (
+    //   (!!selected || selected == 0) ||
+    //   !!defaultSelected ||
+    //   !!onSelectionChange
+    // ) {
+    //   newDataState.dataMap = data.reduce((acc, item) => {
+    //     acc[this.getItemId(item)] = item
+    //     return acc
+    //   }, {})
+    // }
 
-    this.setState({
-      data,
-      dataMap,
-      loading: false
-    })
+    this.setState(newDataState)
   }
 
   getItemId(item){
