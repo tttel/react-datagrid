@@ -7,7 +7,7 @@
 |Prop|Type|Default|Description
 --- | --- | --- | ---
 `dataSource` | Array\|Promise| - | an array of data objects or a promise that when resolved returns an array of data objects.
- `idProperty`| String | - |*(required)* the name of the property where the id is found for each object in the data array
+`idProperty`| String | - |*(required)* the name of the property where the id is found for each object in the data array
 `onDataSourceResponse`| Function(data) | - | it is called if `dataSource` is a primise <br>`dataSource.then(onDataSourceResponse, onDataSourceResponse)`
 `emptyText`| String\|JSX | - | text that apears when dataSource provides an empty dataset
 `columns`| Array | - | an array of columns that are going to be rendered in the grid. Read more on how to configure [columns](#columns).
@@ -15,7 +15,9 @@
 `onRowHover(id)` | Function | - | row event handler onMouseEnter, takes a paramenter `id`, it from `rowData[idProperty]`
 `onRowBlur(id)` | Function | - | row event handler onMouseEnter, takes a paramenter `id`, it from `rowData[idProperty]`
 `onScrollBottom` | Function | - | event handler for when the datagrid is scrolled at the bottom, it can be used as a trigger for infinite loader
-     
+`selected` | Array\|String\|Number| - | controll what items are selected, specify one id or a an array of ids
+`defaultSelected` | Array\|String\|Number| - | specify default selected items, specify one id or a an array of ids
+`onSelectionChange(id)` | Function | - | event handler called when selection changes
 
 ### Rows
 * `renderRow(rowProps): Function`
