@@ -140,7 +140,7 @@ class DataGrid extends Component {
     const {
       selected,
       defaultSelected,
-      onSelectionChange
+      onSelectChange
     } = props
 
     let newDataState = {
@@ -149,16 +149,16 @@ class DataGrid extends Component {
     }
 
     // make dataMap only if selected is used
-    // if (
-    //   (!!selected || selected == 0) ||
-    //   !!defaultSelected ||
-    //   !!onSelectionChange
-    // ) {
-    //   newDataState.dataMap = data.reduce((acc, item) => {
-    //     acc[this.getItemId(item)] = item
-    //     return acc
-    //   }, {})
-    // }
+    if (
+      (!!selected !== undefined) ||
+      !!defaultSelected !== undefined ||
+      !!onSelectChange
+    ) {
+      newDataState.dataMap = data.reduce((acc, item) => {
+        acc[this.getItemId(item)] = item
+        return acc
+      }, {})
+    }
 
     this.setState(newDataState)
   }
