@@ -112,18 +112,24 @@ export default class Row extends Component {
   }
 
   onMouseEnter(event){
-    this.props.onMouseEnter(event, this.props.data.id)
+    const props = this.props
+    const { passedProps } = props
+    
+    props.onMouseEnter(event, props.data.id)
 
-    if (this.passedProps && this.passedProps.onMouseEnter) {
-      this.passedProps.onMouseEnter(event, id)
+    if (passedProps && passedProps.onMouseEnter) {
+      passedProps.onMouseEnter(event, id)
     } 
   }
 
   onMouseLeave(event){
-    this.props.onMouseLeave(event, this.props.data.id)
+    const props = this.props
+    const { passedProps } = props
+    
+    props.onMouseLeave(event, props.data.id)
 
-    if (this.passedProps && this.passedProps.onMouseLeave) {
-      this.passedProps.onMouseLeave(event, id)
+    if (passedProps && passedProps.onMouseLeave) {
+      passedProps.onMouseLeave(event, id)
     }     
   }
 }
