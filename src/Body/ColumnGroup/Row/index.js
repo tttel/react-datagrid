@@ -29,7 +29,6 @@ export default class Row extends Component {
       className: passedClassName
     } = passedProps
 
-    console.log(over)
     let className = join(
         'react-datagrid__row',
         even &&  'react-datagrid__row--even',
