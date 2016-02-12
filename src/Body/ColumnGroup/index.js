@@ -71,7 +71,9 @@ export default class ColumnGroup extends Component {
       renderRow,
       rowStyle,
       rowProps: passedProps,
-      overRowId
+      overRowId,
+      selected,
+      isMultiselect
     } = props
 
     if (Array.isArray(data) && data.length === 0) {
@@ -82,6 +84,12 @@ export default class ColumnGroup extends Component {
       const id = rowData[globalProps.idProperty]
       const key = `row-${id}`
       const even = !!(index % 2)
+      const isSelected = isMultiselect? 
+                         selected.hasOwnProperty(id) :
+                         selected == id // to allow type conversion, so 5 == '5'
+
+      console.log(selected, id, selected.hasOwnProperty(id), isMultiselect)
+
       const rowProps = {
         columns,
         minWidth,
@@ -95,6 +103,7 @@ export default class ColumnGroup extends Component {
         onMouseLeave: onRowMouseLeave,
         rowHeight,
         over: overRowId === id,
+        selected: isSelected,
         passedProps
       }
 

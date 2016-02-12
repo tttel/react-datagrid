@@ -20,7 +20,8 @@ export default class Row extends Component {
       renderRow,
       even,
       over,
-      passedProps
+      passedProps,
+      selected
     } = props
 
     const {
@@ -34,6 +35,7 @@ export default class Row extends Component {
         even &&  'react-datagrid__row--even',
         !even && 'react-datagrid__row--odd',
         over && 'react-datagrid__row--over',
+        selected && 'react-datagrid__row--selected',
         props.className
     )
 

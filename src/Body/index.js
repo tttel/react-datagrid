@@ -80,7 +80,9 @@ class Body extends Component {
       rowHeight,
       contentHeight,
       renderRow,
-      rowProps
+      rowProps,
+      selected,
+      isMultiselect
     } = props
 
     const bodyHeight = this.state.bodyHeight
@@ -94,10 +96,12 @@ class Body extends Component {
       offsetTop,
       scrollTop,
       rowHeight,
+      isMultiselect,
       rowProps,
       from,
       to,
       renderRow,
+      selected,
       viewportHeight: bodyHeight,
       globalProps: props,
       height: columnGrupHeight,

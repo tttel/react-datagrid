@@ -50,7 +50,8 @@ class DataGrid extends Component {
       hideHeader,
       onRowHover,
       onRowBlur,
-      onScrollBottom
+      onScrollBottom,
+      selected: coltrolledSelection
     } = props
 
     const className = join(props.className, 'react-datagrid')
@@ -58,10 +59,22 @@ class DataGrid extends Component {
                     this.state.loading :
                     props.loading 
 
+
+    const { 
+      data
+    } = this.state
+
+    const selected = coltrolledSelection || coltrolledSelection === 0?
+                     coltrolledSelection :
+                     this.state.selected  
+
+    const isMultiselect = typeof selected === 'object'
+    const hasSelection = selected !== undefined
+  
     return <Flex 
       {...props} 
       column 
-      flex 
+      flex
       alignItems="stretch" 
       className={className}
       ref="dataGrid"
@@ -78,13 +91,15 @@ class DataGrid extends Component {
       }
       <Body
         {...props}
+        isMultiselect={isMultiselect}
         columns={columns}
-        data={this.state.data}
+        data={data}
         loading={loading}
         contentHeight={this.getContentHeight()}
         onRowHover={onRowHover}
         onRowBlur={onRowBlur}
         onScrollBottom={onScrollBottom}
+        selected={selected}
       />
     </Flex>
   }
@@ -130,8 +145,6 @@ class DataGrid extends Component {
 
         this.setData(data)
 
-      }).catch((err) => {
-        console.error(err) 
       })
     }
   }
@@ -176,7 +189,7 @@ DataGrid.defaultProps = {
   onRowBlur: () => {},
   onScrollBottom: () => {},
   rowProps: {},
-  selected: {}
+  defaultSelected: {}
 }
 
 DataGrid.propTypes = {
@@ -226,12 +239,12 @@ DataGrid.propTypes = {
   selected: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string,
-      PropTypes.array
+      PropTypes.object
     ]),
   defaultSelected: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string,
-      PropTypes.array
+      PropTypes.object
     ]),
   onSelectionChange: PropTypes.func
 }
