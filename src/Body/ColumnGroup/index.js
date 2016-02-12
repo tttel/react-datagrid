@@ -68,6 +68,7 @@ export default class ColumnGroup extends Component {
       globalProps,
       onRowMouseEnter,
       onRowMouseLeave,
+      onRowClick,
       renderRow,
       rowStyle,
       rowProps: passedProps,
@@ -94,6 +95,7 @@ export default class ColumnGroup extends Component {
                         )
 
       const rowProps = {
+        id,
         columns,
         minWidth,
         index,
@@ -104,6 +106,7 @@ export default class ColumnGroup extends Component {
         rowStyle,
         onMouseEnter: onRowMouseEnter,
         onMouseLeave: onRowMouseLeave,
+        onClick: onRowClick,
         rowHeight,
         over: overRowId === id,
         selected: isSelected,

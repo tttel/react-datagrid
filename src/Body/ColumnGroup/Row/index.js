@@ -72,7 +72,8 @@ export default class Row extends Component {
       // onEvent prop will be called also
     {
       onMouseEnter: this.onMouseEnter,
-      onMouseLeave: this.onMouseLeave
+      onMouseLeave: this.onMouseLeave,
+      onClick: this.onClick
     })
 
 
@@ -135,11 +136,23 @@ export default class Row extends Component {
       passedProps.onMouseLeave(event, props)
     }     
   }
+
+  onClick(event){
+    const props = this.props
+    const { passedProps } = props
+    
+    props.onClick(event, props)
+
+    if (passedProps && passedProps.onClick) {
+      passedProps.onClick(event, props)
+    }     
+  }
 }
 
 Row.propTypes = {
   renderRow: PropTypes.func,
   rowProps: PropTypes.object,
   onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func
+  onMouseLeave: PropTypes.func,
+  onClick: PropTypes.func
 }

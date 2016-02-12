@@ -5,6 +5,7 @@ import { Flex, Item } from 'react-flex'
 import assign from 'object-assign'
 import join from './utils/join'
 import LoadMask from 'react-load-mask'
+import hasown from 'hasown'
 
 import Header from './Header'
 import Body from './Body'
@@ -20,6 +21,9 @@ class DataGrid extends Component {
   constructor(props){
     super(props)
 
+    const {
+      selected
+    } = props
     const isLoading = props.dataSource && !!props.dataSource.then
 
     this.state = {
@@ -36,43 +40,36 @@ class DataGrid extends Component {
     this.loadSourceData(this.props.dataSource, this.props)
   }
 
-  componentWillReceiveProps(nextProps){
-    // if (nextProps.dataSource !== this.props.dataSource) {
-    //   this.loadSourceData(nextProps.dataSource, nextProps)
-    // }
+  componentWillReceiveProps(nextProps, nextState){
+
+    // if data changed
+    if (this.p.data !== nextProps.data) {
+      this.loadSourceData(this.props.dataSource, this.props)
+    }
   }
 
   render(){
-    const props = this.props
+    const preparedProps = this.p = this.prepareProps(this.props, this.state)
+     
     const {
       dataSource,
       columns,
       hideHeader,
-      onRowHover,
-      onRowBlur,
+      onRowMouseEnter,
+      onRowMouseLeave,
       onScrollBottom,
-      selected: coltrolledSelection
-    } = props
+      loading,
+      data,
+      isMultiselect,
+      selected,
+      className,
+      hasSelection,
+      children,
+      contentHeight
+    } = preparedProps
 
-    const className = join(props.className, 'react-datagrid')
-    const loading = props.loading == undefined? 
-                    this.state.loading :
-                    props.loading 
-
-
-    const { 
-      data
-    } = this.state
-
-    const selected = coltrolledSelection !== undefined?
-                     coltrolledSelection :
-                     this.state.selected  
-
-    const isMultiselect = typeof selected === 'object' && selected !== null 
-    const hasSelection = selected !== undefined
-  
     return <Flex 
-      {...props} 
+      {...preparedProps} 
       column 
       flex
       alignItems="stretch" 
@@ -86,36 +83,24 @@ class DataGrid extends Component {
         && 
         <Header 
           columns={columns} 
-          columnGroups={props.children}
+          columnGroups={children}
         />
       }
       <Body
-        {...props}
+        {...preparedProps}
         isMultiselect={isMultiselect}
         hasSelection={hasSelection}
         columns={columns}
         data={data}
         loading={loading}
-        contentHeight={this.getContentHeight()}
-        onRowHover={onRowHover}
-        onRowBlur={onRowBlur}
+        contentHeight={contentHeight}
+        onRowMouseEnter={onRowMouseEnter}
+        onRowMouseLeave={onRowMouseLeave}
         onScrollBottom={onScrollBottom}
         selected={selected}
+        onRowClick={this.onRowClick}
       />
     </Flex>
-  }
-
-  getContentHeight(){
-    const {rowHeight} = this.props
-    const {data} = this.state
-
-    if (!data) {
-      return 0
-    }
-
-    const contentHeight = rowHeight * data.length
-
-    return contentHeight
   }
 
   renderLoadMask(){
@@ -124,6 +109,11 @@ class DataGrid extends Component {
       className="react-datagrid__load-mask" 
     />
   }
+
+  onRowClick(event, rowProps){
+    this.handleSelection(rowProps, event)
+  }
+
 
   loadSourceData(dataSource, props){
     if (Array.isArray(dataSource)) {
@@ -145,7 +135,6 @@ class DataGrid extends Component {
         }
 
         this.setData(data)
-
       })
     }
   }
@@ -164,10 +153,7 @@ class DataGrid extends Component {
     }
 
     // make dataMap only if selected is used
-    if (
-      (selected !== undefined) ||
-      defaultSelected !== undefined
-    ) {
+    if (this.isSelectionEnabled()) {
       newDataState.dataMap = data.reduce((acc, item) => {
         acc[this.getItemId(item)] = item
         return acc
@@ -182,17 +168,66 @@ class DataGrid extends Component {
   }
 
   getSelected(){
-    return this.props.selected !== undefined?
+    return this.isSelectionControlled()?
            this.props.selected :
-           this.state.selected
+           this.state.selected  
+  }
+
+  isSelectionControlled(){
+    return this.props.selected !== undefined
+  }
+
+  isSelectionEnabled(){
+    const selected = this.props.selected
+    const defaultSelected = this.props.defaultSelected
+
+    return (selected !== undefined) || defaultSelected !== undefined
+  }
+
+  isSelectionEmptry(){
+    const selected = this.getSelected()
+    let selectionEmptry = false
+
+    if (selected === undefined) {
+      selectionEmptry = true
+    }
+  
+    if (typeof selected === 'object' && selected !== null) {
+      selectionEmptry = Object.keys(selected).length === 0     
+    }
+
+    return selectionEmptry
+  }
+
+  prepareProps(props, state){
+    const loading = props.loading == undefined? 
+                    this.state.loading :
+                    props.loading 
+
+    const selected = this.getSelected()
+    const hasSelection = !this.isSelectionEmptry()
+    const contentHeight = props.rowHeight * (state.data? state.data.length : 0)
+    const isMultiselect = selected === 'object' && selected !== null
+    const className = join(props.className, 'react-datagrid')
+
+
+    return assign({}, props, {
+      loading,
+      selected,
+      hasSelection,
+      contentHeight,
+      isMultiselect,
+      className,
+      data: state.data,
+    })
   }
 }
 
 DataGrid.defaultProps = {
   defaultLoading: true,
   hideHeader: false,
-  onRowHover: () => {},
-  onRowBlur: () => {},
+  onRowMouseEnter: () => {},
+  onRowMouseLeave: () => {},
   onScrollBottom: () => {},
   rowProps: {},
   defaultSelected: undefined
@@ -256,6 +291,9 @@ DataGrid.propTypes = {
 }
 
 export default DataGrid
+
+import rowSelect from './rowSelect'
+DataGrid.prototype = assign(DataGrid.prototype, rowSelect)
 
 // Column is a dummy componnet only used for configuration
 import Column from './Column'

@@ -83,7 +83,8 @@ class Body extends Component {
       rowProps,
       selected,
       isMultiselect,
-      hasSelection
+      hasSelection,
+      onRowClick
     } = props
 
     const bodyHeight = this.state.bodyHeight
@@ -109,6 +110,7 @@ class Body extends Component {
       height: columnGrupHeight,
       onRowMouseEnter: this.onRowMouseEnter,
       onRowMouseLeave: this.onRowMouseLeave,
+      onRowClick: onRowClick, 
       overRowId: this.state.overRowId
     }
 
@@ -141,16 +143,15 @@ class Body extends Component {
 
   onRowMouseEnter(event, rowProps){
     this.setState({
-      overRowId: rowProps.data.id
+      overRowId: rowProps.id
     })
 
     this.props.onRowMouseEnter(event, rowProps)
   }
 
   onRowMouseLeave(event, rowProps){
-
     // remove id if still present
-    if (this.state.overRowId === rowProps.data.id) {
+    if (this.state.overRowId === rowProps.id) {
       this.setState({
         overRowId: null 
       })
