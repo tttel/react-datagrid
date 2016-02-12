@@ -66,6 +66,11 @@
 /*----------  Row  ----------*/
 .react-datagrid__row { }
 
+.react-datagrid__row--selected {}
+.react-datagrid__row--even {}
+.react-datagrid__row--odd {}
+.react-datagrid__row--over {}
+
 /*----------  Cell & Column-header  ----------*/
 .react-datagrid__cell,
 .react-datagrid__column-header {
