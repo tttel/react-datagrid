@@ -23,7 +23,7 @@ var hasOwn = function(obj, prop){
 module.exports = {
 
     findInitialSelectionIndex: function(){
-        var selected = this.getSelected(this.p, this.state)
+        var selected = this.p.selected
         var index = undefined
 
         if (!Object.keys(selected).length){
@@ -56,7 +56,7 @@ module.exports = {
         if (!hasOwn(this.props, 'selected')){
           //  this.cleanCache() // TOASK
             this.setState({
-                defaultSelected: selected
+                selected
             })
         }
     },
@@ -117,7 +117,7 @@ module.exports = {
 
     handleMultiSelectionRowToggle: function(data, event){
 
-        var selected   = this.getSelected(this.p, this.state)
+        var selected   = this.p.selected
         var isSelected = this.isRowSelected(data)
 
         var clone = assign({}, selected)
@@ -211,13 +211,13 @@ module.exports = {
     },
 
     isMultiSelect: function(){
-        var selected = this.getSelected(this.p, this.state)
+        var selected = this.p.selected
 
         return selected && typeof selected == 'object'
     },
 
     getSelectedMap: function(){
-        var selected    = this.getSelected(this.p, this.state)
+        var selected    = this.p.selected
         var multiSelect = selected && typeof selected == 'object'
         var map
 

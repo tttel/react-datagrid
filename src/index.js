@@ -207,9 +207,9 @@ class DataGrid extends Component {
     const selected = this.getSelected()
     const hasSelection = !this.isSelectionEmptry()
     const contentHeight = props.rowHeight * (state.data? state.data.length : 0)
-    const isMultiselect = selected === 'object' && selected !== null
-    const className = join(props.className, 'react-datagrid')
+    const isMultiselect = typeof selected === 'object' && selected !== null
 
+    const className = join(props.className, 'react-datagrid')
 
     return assign({}, props, {
       loading,
@@ -290,10 +290,13 @@ DataGrid.propTypes = {
   onSelectionChange: PropTypes.func
 }
 
-export default DataGrid
 
 import rowSelect from './rowSelect'
 DataGrid.prototype = assign(DataGrid.prototype, rowSelect)
+
+
+
+export default DataGrid
 
 // Column is a dummy componnet only used for configuration
 import Column from './Column'

@@ -142,9 +142,9 @@ class Body extends Component {
   }
 
   onRowMouseEnter(event, rowProps){
-    this.setState({
-      overRowId: rowProps.id
-    })
+    // this.setState({
+    //   overRowId: rowProps.id
+    // })
 
     this.props.onRowMouseEnter(event, rowProps)
   }

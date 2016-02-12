@@ -82,11 +82,12 @@ export default class ColumnGroup extends Component {
       return <EmptyText emptyText={this.props.emptyText} />
     }
 
-    return data.slice(from, to).map((rowData, index) => {
+    return data.slice(from, to).map((rowData, index, dataSlice) => {
       const id = rowData[globalProps.idProperty]
       const key = `row-${id}`
       const even = !!(index % 2)
-      
+      const over = overRowId === id
+
       const isSelected = hasSelection && 
                         (
                           isMultiselect? 
@@ -101,14 +102,14 @@ export default class ColumnGroup extends Component {
         index,
         even,
         key,
-        data: rowData, 
         renderRow,
         rowStyle,
+        over,
+        data: rowData, 
         onMouseEnter: onRowMouseEnter,
         onMouseLeave: onRowMouseLeave,
         onClick: onRowClick,
         rowHeight,
-        over: overRowId === id,
         selected: isSelected,
         passedProps
       }
