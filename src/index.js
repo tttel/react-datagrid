@@ -221,11 +221,17 @@ DataGrid.propTypes = {
   onRowMouseLeave: PropTypes.func,
   onScrollBottom: PropTypes.func,
 
-  selected: PropTypes.oneOf(
-      PropTypes
-    ),
-  defaultSelected:
-  onSelectionChange:
+  selected: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+      PropTypes.array
+    ]),
+  defaultSelected: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+      PropTypes.array
+    ]),
+  onSelectionChange: PropTypes.func
 }
 
 export default DataGrid
