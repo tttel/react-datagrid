@@ -19,7 +19,7 @@ class Body extends Component {
     this.state = {
       bodyHeight: 0,
       scrollTop: 0,
-      overRowId: false
+      overRowId: null
     }
   }
   
@@ -82,7 +82,8 @@ class Body extends Component {
       renderRow,
       rowProps,
       selected,
-      isMultiselect
+      isMultiselect,
+      hasSelection
     } = props
 
     const bodyHeight = this.state.bodyHeight
@@ -97,6 +98,7 @@ class Body extends Component {
       scrollTop,
       rowHeight,
       isMultiselect,
+      hasSelection,
       rowProps,
       from,
       to,
@@ -137,24 +139,24 @@ class Body extends Component {
     }
   }
 
-  onRowMouseEnter(event, id){
+  onRowMouseEnter(event, rowProps){
     this.setState({
-      overRowId: id
+      overRowId: rowProps.data.id
     })
 
-    this.props.onRowMouseEnter(event, id)
+    this.props.onRowMouseEnter(event, rowProps)
   }
 
-  onRowMouseLeave(event, id){
+  onRowMouseLeave(event, rowProps){
 
     // remove id if still present
-    if (this.state.overRowId === id) {
+    if (this.state.overRowId === rowProps.data.id) {
       this.setState({
-        overRowId: false 
+        overRowId: null 
       })
     }
 
-    this.props.onRowMouseLeave(event, id)
+    this.props.onRowMouseLeave(event, rowProps)
   }
 
   onScroll(scrollTop, event){  

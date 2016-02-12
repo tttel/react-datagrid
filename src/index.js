@@ -64,11 +64,11 @@ class DataGrid extends Component {
       data
     } = this.state
 
-    const selected = coltrolledSelection || coltrolledSelection === 0?
+    const selected = coltrolledSelection !== undefined?
                      coltrolledSelection :
                      this.state.selected  
 
-    const isMultiselect = typeof selected === 'object'
+    const isMultiselect = typeof selected === 'object' && selected !== null 
     const hasSelection = selected !== undefined
   
     return <Flex 
@@ -92,6 +92,7 @@ class DataGrid extends Component {
       <Body
         {...props}
         isMultiselect={isMultiselect}
+        hasSelection={hasSelection}
         columns={columns}
         data={data}
         loading={loading}
@@ -164,9 +165,8 @@ class DataGrid extends Component {
 
     // make dataMap only if selected is used
     if (
-      (!!selected !== undefined) ||
-      !!defaultSelected !== undefined ||
-      !!onSelectionChange
+      (selected !== undefined) ||
+      defaultSelected !== undefined
     ) {
       newDataState.dataMap = data.reduce((acc, item) => {
         acc[this.getItemId(item)] = item
@@ -180,6 +180,12 @@ class DataGrid extends Component {
   getItemId(item){
     return item[this.props.idProperty]
   }
+
+  getSelected(){
+    return this.props.selected !== undefined?
+           this.props.selected :
+           this.state.selected
+  }
 }
 
 DataGrid.defaultProps = {
@@ -189,7 +195,7 @@ DataGrid.defaultProps = {
   onRowBlur: () => {},
   onScrollBottom: () => {},
   rowProps: {},
-  defaultSelected: {}
+  defaultSelected: undefined
 }
 
 DataGrid.propTypes = {

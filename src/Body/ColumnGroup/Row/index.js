@@ -42,7 +42,8 @@ export default class Row extends Component {
     if (passedProps) {
       className = join(
         className,
-        over && passedProps.overClassName
+        over && passedProps.overClassName,
+        selected && passedProps.selectedClassName
       )
     }
 
@@ -65,7 +66,7 @@ export default class Row extends Component {
       style,
       children: this.renderRow(data, columns),
     }, 
-      passedProps, 
+      passedProps,
       
       // passedProps should not overwrite the folowing methods
       // onEvent prop will be called also
@@ -82,7 +83,7 @@ export default class Row extends Component {
     }
 
     if (row === undefined){
-      row = <Flex wrap={false} {...rowProps} data={null} />
+      row = <Flex wrap={false} {...rowProps} id={null} data={null} />
     }
 
     return row
@@ -117,10 +118,10 @@ export default class Row extends Component {
     const props = this.props
     const { passedProps } = props
     
-    props.onMouseEnter(event, props.data.id)
+    props.onMouseEnter(event, props)
 
     if (passedProps && passedProps.onMouseEnter) {
-      passedProps.onMouseEnter(event, id)
+      passedProps.onMouseEnter(event, props)
     } 
   }
 
@@ -128,10 +129,10 @@ export default class Row extends Component {
     const props = this.props
     const { passedProps } = props
     
-    props.onMouseLeave(event, props.data.id)
+    props.onMouseLeave(event, props)
 
     if (passedProps && passedProps.onMouseLeave) {
-      passedProps.onMouseLeave(event, id)
+      passedProps.onMouseLeave(event, props)
     }     
   }
 }

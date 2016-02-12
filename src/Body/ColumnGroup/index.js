@@ -73,7 +73,8 @@ export default class ColumnGroup extends Component {
       rowProps: passedProps,
       overRowId,
       selected,
-      isMultiselect
+      isMultiselect,
+      hasSelection
     } = props
 
     if (Array.isArray(data) && data.length === 0) {
@@ -84,11 +85,13 @@ export default class ColumnGroup extends Component {
       const id = rowData[globalProps.idProperty]
       const key = `row-${id}`
       const even = !!(index % 2)
-      const isSelected = isMultiselect? 
-                         selected.hasOwnProperty(id) :
-                         selected == id // to allow type conversion, so 5 == '5'
-
-      console.log(selected, id, selected.hasOwnProperty(id), isMultiselect)
+      
+      const isSelected = hasSelection && 
+                        (
+                          isMultiselect? 
+                            selected.hasOwnProperty(id) : // TODO: use hasOwn, with curry
+                            selected == id // to allow type conversion, so 5 == '5'
+                        )
 
       const rowProps = {
         columns,
