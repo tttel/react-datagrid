@@ -12,12 +12,12 @@
 `emptyText`| String\|JSX | - | text that apears when dataSource provides an empty dataset
 `columns`| Array | - | an array of columns that are going to be rendered in the grid. Read more on how to configure [columns](#columns).
 `hideHeader` | Booleon | false | Set header visibility.
-`onRowHover(id)` | Function | - | row event handler onMouseEnter, takes a paramenter `id`, it from `rowData[idProperty]`
-`onRowBlur(id)` | Function | - | row event handler onMouseEnter, takes a paramenter `id`, it from `rowData[idProperty]`
+`onRowMouseLeave(event, rowProps)` | Function | - | row event handler onMouseEnter, event parameter is react event 
+`onRowMouseEnter(event, rowProps)` | Function | - | row event handler onMouseEnter, event parameter is react event 
 `onScrollBottom` | Function | - | event handler for when the datagrid is scrolled at the bottom, it can be used as a trigger for infinite loader
-`selected` | Array\|String\|Number| - | controll what items are selected, specify one id or a an array of ids
-`defaultSelected` | Array\|String\|Number| - | specify default selected items, specify one id or a an array of ids
-`onSelectionChange(selected)` | Function | - | event handler called when selection changes, `selected` parameter is an object of the shape `{ id: { rowData } }`
+`selected` | Object\|String\|Number| - | control what items are selected, for multiselect specify an object with it's keys the id's to be selected, an emptry object for no rows selected. For single selection specify a string/number representing the id of the row to be selected.
+`defaultSelected` | Object\|String\|Number| - | uncontrolled version of `selected`, for multiselect specify an object with it's keys the id's to be selected, an emptry object for no rows selected. For single selection specify a string/number representing the id of the row to be selected.
+`onSelectionChange(selected)` | Function | - | event handler called when selection changes, `selected` parameter  for multiselect is an object of the shape `{ id-1: { rowData }, id-2 .. }` and for single select the id, ex `id-`. ID in this case is `rowData[idProperty]`
 
 ### Rows
 * `renderRow(rowProps): Function`
