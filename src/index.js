@@ -140,7 +140,7 @@ class DataGrid extends Component {
     const {
       selected,
       defaultSelected,
-      onSelectChange
+      onSelectionChange
     } = props
 
     let newDataState = {
@@ -152,7 +152,7 @@ class DataGrid extends Component {
     if (
       (!!selected !== undefined) ||
       !!defaultSelected !== undefined ||
-      !!onSelectChange
+      !!onSelectionChange
     ) {
       newDataState.dataMap = data.reduce((acc, item) => {
         acc[this.getItemId(item)] = item
@@ -219,7 +219,13 @@ DataGrid.propTypes = {
   hideHeader: PropTypes.bool,
   onRowMouseEnter: PropTypes.func,
   onRowMouseLeave: PropTypes.func,
-  onScrollBottom: PropTypes.func
+  onScrollBottom: PropTypes.func,
+
+  selected: PropTypes.oneOf(
+      PropTypes
+    ),
+  defaultSelected:
+  onSelectionChange:
 }
 
 export default DataGrid

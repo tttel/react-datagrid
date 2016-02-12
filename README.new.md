@@ -17,7 +17,7 @@
 `onScrollBottom` | Function | - | event handler for when the datagrid is scrolled at the bottom, it can be used as a trigger for infinite loader
 `selected` | Array\|String\|Number| - | controll what items are selected, specify one id or a an array of ids
 `defaultSelected` | Array\|String\|Number| - | specify default selected items, specify one id or a an array of ids
-`onSelectChange(selected)` | Function | - | event handler called when selection changes, `selected` parameter is an object of the shape `{ id: { rowData } }`
+`onSelectionChange(selected)` | Function | - | event handler called when selection changes, `selected` parameter is an object of the shape `{ id: { rowData } }`
 
 ### Rows
 * `renderRow(rowProps): Function`
