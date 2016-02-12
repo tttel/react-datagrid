@@ -87,6 +87,7 @@ export default class ColumnGroup extends Component {
       const key = `row-${id}`
       const even = !!(index % 2)
       const over = overRowId === id
+      const realIndex = index + from
 
       const isSelected = hasSelection && 
                         (
@@ -105,6 +106,7 @@ export default class ColumnGroup extends Component {
         renderRow,
         rowStyle,
         over,
+        realIndex,
         data: rowData, 
         onMouseEnter: onRowMouseEnter,
         onMouseLeave: onRowMouseLeave,

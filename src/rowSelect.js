@@ -157,7 +157,7 @@ module.exports = {
         var selIndex = this.selIndex
 
         //multi selection
-        var index = rowProps.index
+        var index = rowProps.realIndex
         var prevShiftKeyIndex = this.shiftKeyIndex
         var start
         var end
