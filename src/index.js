@@ -24,7 +24,8 @@ class DataGrid extends Component {
 
     this.state = {
       loading: isLoading,
-      data: false
+      data: false,
+      selected: props.defaultSelected
     }
   }
 
@@ -174,7 +175,8 @@ DataGrid.defaultProps = {
   onRowHover: () => {},
   onRowBlur: () => {},
   onScrollBottom: () => {},
-  rowProps: {}
+  rowProps: {},
+  selected: {}
 }
 
 DataGrid.propTypes = {
