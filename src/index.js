@@ -41,10 +41,9 @@ class DataGrid extends Component {
   }
 
   componentWillReceiveProps(nextProps, nextState){
-
     // if data changed
-    if (this.p.data !== nextProps.data) {
-      this.loadSourceData(this.props.dataSource, this.props)
+    if (this.p.dataSource !== nextProps.dataSource) {
+      this.loadSourceData(nextProps.dataSource, nextProps)
     }
   }
 
