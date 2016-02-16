@@ -30,13 +30,17 @@ class Body extends Component {
   // todo func getBodyHeight
   render(){
     const props = this.props
-    const {data, columns} = props
-    const {loading} = props
+    const {
+      data, 
+      columns,
+      loading
+    } = props
+
     const className = join(
         'react-datagrid__body'
       )
 
-    if ((Array.isArray(data) && data.length === 0) || data === null) {
+    if ((Array.isArray(data) && data.length === 0) || data === null && !loading) {
       return <EmptyText emptyText={this.props.emptyText} />
     }
 
