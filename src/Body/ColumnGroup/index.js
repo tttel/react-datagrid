@@ -21,7 +21,7 @@ export default class ColumnGroup extends Component {
       fixed
     } = props
 
-    const style = assign({}, style, {
+    const style = assign({}, props.style, {
        height,
        transform: `translateY(${offsetTop}px)`
       }
