@@ -34,7 +34,7 @@ export default class ColumnGroup extends Component {
       columns = props.columns.map(column => <Column {...column} />)
     }
 
-    if (width) {
+    if (width !== undefined) {
       style.width = width
     }
 
