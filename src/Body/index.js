@@ -36,6 +36,10 @@ class Body extends Component {
         'react-datagrid__body'
       )
 
+    if ((Array.isArray(data) && data.length === 0) || data === null) {
+      return <EmptyText emptyText={this.props.emptyText} />
+    }
+
     return <Item 
       {...props} 
       flex 
@@ -57,9 +61,6 @@ class Body extends Component {
     } = props
 
     if (!data) {
-      console.error(
-          `Something went wrong with dataSource, most likely loading prop is set to false, and promise did not resolve` 
-        )
       return
     }
 

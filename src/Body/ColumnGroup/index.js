@@ -78,10 +78,6 @@ export default class ColumnGroup extends Component {
       hasSelection
     } = props
 
-    if (Array.isArray(data) && data.length === 0) {
-      return <EmptyText emptyText={this.props.emptyText} />
-    }
-
     return data.slice(from, to).map((rowData, index, dataSlice) => {
       const id = rowData[globalProps.idProperty]
       const key = `row-${id}`

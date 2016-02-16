@@ -115,6 +115,12 @@ class DataGrid extends Component {
 
 
   loadSourceData(dataSource, props){
+
+    if (dataSource === null) {
+      this.setData(null)
+      return
+    }
+
     if (Array.isArray(dataSource)) {
       this.setData(dataSource)
     }
@@ -152,7 +158,7 @@ class DataGrid extends Component {
     }
 
     // make dataMap only if selected is used
-    if (this.isSelectionEnabled()) {
+    if (this.isSelectionEnabled() && data !== null) {
       newDataState.dataMap = data.reduce((acc, item) => {
         acc[this.getItemId(item)] = item
         return acc
@@ -247,12 +253,16 @@ DataGrid.propTypes = {
   dataSource: (props, propName) => {
     const dataSource = props[propName]
 
-    if (!dataSource) {
+    if (dataSource === undefined) {
       return new Error('dataSource prop is required.')
     }
 
-    if (!(dataSource.then || Array.isArray(dataSource))) {
-      return new Error(`dataSource must be an array or a promise.`)
+    if (
+        dataSource !== null &&
+        !Array.isArray(dataSource) && 
+        !(dataSource && dataSource.then)
+      ) {
+      return new Error(`dataSource must be an array, null or a promise.`)
     }
   },
 
