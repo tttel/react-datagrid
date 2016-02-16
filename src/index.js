@@ -180,7 +180,7 @@ class DataGrid extends Component {
     const selected = this.props.selected
     const defaultSelected = this.props.defaultSelected
 
-    return (selected !== undefined) || defaultSelected !== undefined
+    return selected !== undefined || defaultSelected !== undefined
   }
 
   isSelectionEmptry(){

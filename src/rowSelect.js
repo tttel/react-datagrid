@@ -138,7 +138,7 @@ module.exports = {
 
         var props = this.p
 
-        if (!hasOwn(props, 'selected') && !hasOwn(props, 'defaultSelected')){
+        if (!this.isSelectionEnabled()){
             return
         }
 
