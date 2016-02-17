@@ -47,7 +47,6 @@ export default class Row extends Component {
       )
     }
 
-
     let style = assign({}, props.style, {
       height: rowHeight,
       minWidth
