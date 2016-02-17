@@ -33,7 +33,7 @@ export default class Cell extends Component {
 
     let minWidth = props.minWidth
     let width = props.width
-    
+    let maxWidth = props.maxWidth
 
     if (width && minWidth && width < minWidth){
       width = minWidth
@@ -41,6 +41,10 @@ export default class Cell extends Component {
 
     if (minWidth !== undefined){
       style.minWidth = minWidth
+    }
+
+    if (maxWidth !== undefined) {
+      style.maxWidth = maxWidth
     }
 
     if (width !== undefined) {
