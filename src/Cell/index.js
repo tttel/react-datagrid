@@ -38,7 +38,7 @@ export default class Cell extends Component {
       width = minWidth
     }
 
-    if (minWidth){
+    if (minWidth !== undefined){
       style.minWidth = minWidth
     }
 

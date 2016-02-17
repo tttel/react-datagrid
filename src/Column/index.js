@@ -14,5 +14,5 @@ export default class Column extends Component {
 
 Column.defaultProps = {
   isColumn: true,
-  minWidth: 100
+  minWidth: 40
 }
