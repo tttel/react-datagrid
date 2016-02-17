@@ -53,7 +53,7 @@ class Body extends Component {
       ref="body"
     >
       {props.resizeTool}
-      {!loading && this.renderScroller()}
+      {this.renderScroller()}
     </Item>
   }
 
