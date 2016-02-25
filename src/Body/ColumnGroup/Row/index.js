@@ -13,12 +13,11 @@ import getColumnsWidth from '../../../utils/getColumnsWidth'
 export default class Row extends Component {
 
   shouldComponentUpdate(nextProps){
-    let result = true
     if (typeof nextProps.shouldComponentUpdate === 'function'){
-      result = nextProps.shouldComponentUpdate(nextProps, this.props)
+      return nextProps.shouldComponentUpdate(nextProps, this.props)
     }
 
-    return result && !shallowequal(nextProps, this.props)    
+    return !shallowequal(nextProps, this.props)    
   }
 
   render(){
