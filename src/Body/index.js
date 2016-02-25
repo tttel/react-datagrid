@@ -99,12 +99,13 @@ class Body extends Component {
       hasSelection,
       onRowClick,
       rowFactory,
-      cellFactory
+      cellFactory,
+      extraRows
     } = props
 
     const bodyHeight = this.state.bodyHeight
     const scrollTop = this.state.scrollTop
-    const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop)
+    const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
     const offsetTop = from * rowHeight
     const columnGrupHeight = bodyHeight + (scrollTop - offsetTop)
 

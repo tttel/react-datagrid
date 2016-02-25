@@ -13,7 +13,8 @@ export default class ColumnGroup extends Component {
     super(props)
 
     this.state = {
-      columns: this.getColumns(props)
+      columns: this.getColumns(props),
+      hasScroll: false
     }
   }
 
@@ -78,17 +79,34 @@ export default class ColumnGroup extends Component {
       style.minWidth = minWidth
     }
 
-    const className = join('react-datagrid__colum-group', props.className)
+    const className = join(
+        'react-datagrid__colum-group', 
+        props.className,
+        this.state.hasScroll && 'react-datagrid__colum-group--hasScroll'
+      )
 
     return <div 
       {...props} 
       className={className} 
       style={style} 
       data={null}
-      onScroll={(ev) => ev.stopPropagation()}
+      onScroll={this.onScroll}
     > 
       {this.renderRows(columns, minWidth)}
     </div>
+  }
+
+  onScroll(ev){
+    (ev) => ev.stopPropagation()
+
+    let hasScroll = ev.nativeEvent.target.scrollLeft > 0
+
+    if (hasScroll !== this.state.hasScroll) {
+      this.setState({
+        hasScroll
+      })
+    }
+    
   }
 
   renderRows(columns, minWidth){
