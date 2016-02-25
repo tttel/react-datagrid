@@ -12,10 +12,10 @@ import getColumnsWidth from '../../../utils/getColumnsWidth'
 
 export default class Row extends Component {
 
-  shouldComponentUpdate(nextProps, nextState){
+  shouldComponentUpdate(nextProps){
     let result = true
     if (typeof nextProps.shouldComponentUpdate === 'function'){
-      result = nextProps.shouldComponentUpdate(nextProps, nextState)
+      result = nextProps.shouldComponentUpdate(nextProps, this.props)
     }
 
     return result && !shallowequal(nextProps, this.props)    
@@ -35,7 +35,7 @@ export default class Row extends Component {
       passedProps,
       selected
     } = props
-    console.log('render row')
+
     const {
       overClassName,
       selectedClassName,
@@ -114,15 +114,25 @@ export default class Row extends Component {
       const isFirst = index === 0
       const isLast = index === lastIndex
       const value = data[name]
+
+      const cellProps = assign({}, columnProps, {
+        data,
+        key,
+        first: isFirst,
+        last: isLast,
+        value
+      })
+
+      let cell
+      if (this.props.cellFactory){
+        cell = this.props.cellFactory(cellProps)
+      }
+
+      if (cell === undefined){
+        cell = <Cell {...cellProps} />
+      }
       
-      return <Cell 
-        {...columnProps}
-        data={data}
-        key={key}
-        first={isFirst}
-        last={isLast}
-        value={value}
-      />
+      return cell
     })
   }
 

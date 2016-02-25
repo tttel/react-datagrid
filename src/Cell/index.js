@@ -9,7 +9,12 @@ import shallowequal from 'shallowequal'
 export default class Cell extends Component {
 
   shouldComponentUpdate(nextProps){
-   return !shallowequal(nextProps, this.props)    
+    let result = true
+    if (typeof nextProps.shouldComponentUpdate === 'function'){
+      result = nextProps.shouldComponentUpdate(nextProps, this.props)
+    }
+
+    return result && !shallowequal(nextProps, this.props)    
   }
 
   render(){
