@@ -12,8 +12,13 @@ import getColumnsWidth from '../../../utils/getColumnsWidth'
 
 export default class Row extends Component {
 
-  shouldComponentUpdate(nextProps){
-   return !shallowequal(nextProps, this.props)    
+  shouldComponentUpdate(nextProps, nextState){
+    let result = true
+    if (typeof nextProps.shouldComponentUpdate === 'function'){
+      result = nextProps.shouldComponentUpdate(nextProps, nextState)
+    }
+
+    return result && !shallowequal(nextProps, this.props)    
   }
 
   render(){
@@ -30,7 +35,7 @@ export default class Row extends Component {
       passedProps,
       selected
     } = props
-
+    console.log('render row')
     const {
       overClassName,
       selectedClassName,
@@ -157,7 +162,7 @@ export default class Row extends Component {
 
 Row.propTypes = {
   renderRow: PropTypes.func,
-  rowProps: PropTypes.object,
+  passedProps: PropTypes.object,
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,
   onClick: PropTypes.func,

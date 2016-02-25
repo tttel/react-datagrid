@@ -145,9 +145,16 @@ export default class ColumnGroup extends Component {
         passedProps
       }
 
-      return <Row 
-        {...rowProps}
-      />
+      let row
+      if (props.rowFactory){
+        row = props.rowFactory(rowProps)
+      }
+
+      if (row === undefined){
+        row = <Row {...rowProps} />
+      }
+
+      return row
     })
   }
 }

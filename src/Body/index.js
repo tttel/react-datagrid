@@ -97,7 +97,8 @@ class Body extends Component {
       selected,
       isMultiselect,
       hasSelection,
-      onRowClick
+      onRowClick,
+      rowFactory
     } = props
 
     const bodyHeight = this.state.bodyHeight
@@ -117,6 +118,7 @@ class Body extends Component {
       from,
       to,
       renderRow,
+      rowFactory,
       selected,
       viewportHeight: bodyHeight,
       globalProps: props,
