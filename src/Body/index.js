@@ -100,7 +100,8 @@ class Body extends Component {
       onRowClick,
       rowFactory,
       cellFactory,
-      extraRows
+      extraRows,
+      onColumnGroupScroll
     } = props
 
     const bodyHeight = this.state.bodyHeight
@@ -129,7 +130,8 @@ class Body extends Component {
       onRowMouseEnter: this.onRowMouseEnter,
       onRowMouseLeave: this.onRowMouseLeave,
       onRowClick: onRowClick, 
-      overRowId: this.state.overRowId
+      overRowId: this.state.overRowId,
+      onScroll: onColumnGroupScroll
     }
 
     /**
@@ -217,7 +219,8 @@ Body.defaultProps = {
   rowHeight: 40,
   onRowMouseEnter: () => {},
   onRowMouseLeave: () => {},
-  onScrollBottom: () => {}
+  onScrollBottom: () => {},
+  onColumnGroupScroll: () => {}
 }
 
 Body.propTypes = {
@@ -225,7 +228,8 @@ Body.propTypes = {
   onScroll: PropTypes.func,
   onRowMouseEnter: PropTypes.func,
   onRowMouseLeave: PropTypes.func,
-  onScrollBottom: PropTypes.func
+  onScrollBottom: PropTypes.func,
+  onColumnGroupScroll: PropTypes.func
 }
 
 import resizeNotifier from 'react-notify-resize'
