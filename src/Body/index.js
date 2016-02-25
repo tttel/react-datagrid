@@ -27,6 +27,14 @@ class Body extends Component {
     this.setBodyHeight()
   }
 
+  componentWillReceiveProps(nextProps){
+    if (nextProps.data === null) {
+      this.setState({
+        scrollTop: 0
+      })
+    }
+  }
+
   // todo func getBodyHeight
   render(){
     const props = this.props
