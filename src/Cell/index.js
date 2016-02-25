@@ -4,8 +4,13 @@ import Component from 'react-class'
 import assign from 'object-assign'
 import { Item } from 'react-flex'
 import join from '../utils/join'
+import shallowequal from 'shallowequal'
 
 export default class Cell extends Component {
+
+  shouldComponentUpdate(nextProps){
+   return !shallowequal(nextProps, this.props)    
+  }
 
   render(){
     const props = this.props
