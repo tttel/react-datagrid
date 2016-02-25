@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import {findDOMNode} from 'react-dom'
+import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
 import assign from 'object-assign'
 import join from '../../utils/join'
@@ -9,6 +9,43 @@ import Column from '../../Column'
 import getColumnsWidth from '../../utils/getColumnsWidth'
 
 export default class ColumnGroup extends Component {
+  constructor(props){
+    super(props)
+
+    this.state = {
+      columns: this.getColumns(props)
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    if (
+        nextProps.columns !== this.props.columns ||
+        nextProps.children !== this.props.children
+      ) {
+      console.log('merge?')
+      this.setState({
+        columns: this.getColumns(nextProps)
+      })
+    }
+  }
+
+  getColumns(props){
+    props = props || this.props
+    const children = props.children
+
+    let columns
+    if (children) {
+      columns = React.Children
+        .toArray(children)
+        .filter(child => child && child.props && child.props.isColumn)
+    } else {
+      columns = props.columns.map(column => <Column {...column} />)
+    }
+    
+    return columns
+  }
+
+
   render(){
     const props = this.props
     const {
@@ -27,12 +64,7 @@ export default class ColumnGroup extends Component {
       }
     )
 
-    let columns
-    if (chilren) {
-      columns = chilren
-    } else {
-      columns = props.columns.map(column => <Column {...column} />)
-    }
+    const columns = this.state.columns
 
     if (width !== undefined) {
       style.width = width
@@ -81,9 +113,9 @@ export default class ColumnGroup extends Component {
     return data.slice(from, to).map((rowData, index, dataSlice) => {
       const id = rowData[globalProps.idProperty]
       const key = `row-${id}`
-      const even = !!(index % 2)
       const over = overRowId === id
       const realIndex = index + from
+      const even = !!(realIndex % 2)
 
       const isSelected = hasSelection && 
                         (

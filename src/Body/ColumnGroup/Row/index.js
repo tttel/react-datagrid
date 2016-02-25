@@ -9,6 +9,11 @@ import Cell from '../../../Cell'
 import getColumnsWidth from '../../../utils/getColumnsWidth'
 
 export default class Row extends Component {
+
+  ashouldComponentUpdate(){
+    
+  }
+
   render(){
     const props = this.props
     const {
