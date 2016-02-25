@@ -37,7 +37,6 @@ export default class Row extends Component {
       className: passedClassName
     } = passedProps
 
-    console.log('hey renders')
 
     let className = join(
         'react-datagrid__row',
