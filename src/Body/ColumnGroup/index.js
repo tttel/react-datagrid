@@ -22,7 +22,6 @@ export default class ColumnGroup extends Component {
         nextProps.columns !== this.props.columns ||
         nextProps.children !== this.props.children
       ) {
-      console.log('merge?')
       this.setState({
         columns: this.getColumns(nextProps)
       })
@@ -39,10 +38,12 @@ export default class ColumnGroup extends Component {
         .toArray(children)
         .filter(child => child && child.props && child.props.isColumn)
     } else {
+      // used to add default props
       columns = props.columns.map(column => <Column {...column} />)
     }
     
     return columns
+      .map(c => c.props)
   }
 
 

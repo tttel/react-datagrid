@@ -4,14 +4,16 @@ import Component from 'react-class'
 import {Flex} from 'react-flex'
 import assign from 'object-assign'
 import join from '../../../utils/join'
+import shallowequal from 'shallowequal'
 
 import Cell from '../../../Cell'
 import getColumnsWidth from '../../../utils/getColumnsWidth'
 
+
 export default class Row extends Component {
 
-  ashouldComponentUpdate(){
-    
+  shouldComponentUpdate(nextProps){
+   return !shallowequal(nextProps, this.props)    
   }
 
   render(){
@@ -34,6 +36,8 @@ export default class Row extends Component {
       selectedClassName,
       className: passedClassName
     } = passedProps
+
+    console.log('hey renders')
 
     let className = join(
         'react-datagrid__row',
@@ -97,7 +101,7 @@ export default class Row extends Component {
   renderRow(data, columns){
     const lastIndex = columns.length - 1
     return columns.map((column, index) => {
-      const columnProps = column.props
+      const columnProps = column
       const {
         name
       } = columnProps
@@ -158,5 +162,6 @@ Row.propTypes = {
   rowProps: PropTypes.object,
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  selected: PropTypes.bool
 }
