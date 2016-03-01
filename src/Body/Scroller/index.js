@@ -11,16 +11,7 @@ class Scroller extends Component {
 
   render(){
     const props = this.props
-
-    const className = 'react-datagrid__scroller'
-    const scrollerProps = {
-      className,
-      style: {
-        height: props.totalHeight,
-        overflow: 'auto'
-      }
-    }
-   
+  
     const {
       itemHeight, 
       dataLength, 
@@ -36,8 +27,7 @@ class Scroller extends Component {
     }
 
     return <div
-      style={{position: 'relative'}}
-      {...scrollerProps}
+      className="react-datagrid__scroller"
       ref="viewport"
       onScroll={(e) => this.props.onScroll(e.target.scrollTop, e)}
     >
