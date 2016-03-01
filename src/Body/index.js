@@ -128,8 +128,6 @@ class Body extends Component {
       cellFactory,
       selected,
       activeIndex,
-      onRowArrowUp,
-      onRowArrowDown,
       viewportHeight: bodyHeight,
       globalProps: props,
       height: columnGrupHeight,
@@ -137,7 +135,7 @@ class Body extends Component {
       onRowMouseLeave: this.onRowMouseLeave,
       onRowClick: onRowClick, 
       overRowId: this.state.overRowId,
-      onScroll: onColumnGroupScroll,
+      onScroll: onColumnGroupScroll
     }
 
     /**

@@ -102,9 +102,7 @@ class DataGrid extends Component {
         onScrollBottom={onScrollBottom}
         selected={selected}
         onRowClick={this.onRowClick}
-
-        onRowArrowUp={this.onRowArrowUp}
-        onRowArrowDown={this.onRowArrowDown}
+        onKeyDown={this.onKeyDown}
       />
     </Flex>
   }
@@ -128,7 +126,19 @@ class DataGrid extends Component {
     }
   }
 
-  onRowArrowUp(event, rowProps){
+  onKeyDown(event){
+    if (event.key === 'ArrowUp') {
+      this.onArrowUp()
+      event.preventDefault()
+    }
+
+    if (event.key === 'ArrowDown') {
+      this.onArrowDown()
+      event.preventDefault()
+    }
+  }
+
+  onArrowUp(event, rowProps){
     if (!this.p.isActiveIndexControlled) {
       const newIndex = this.state.activeIndex - 1
       this.setState({
@@ -139,7 +149,7 @@ class DataGrid extends Component {
     }
   }
 
-  onRowArrowDown(event, rowProps){
+  onArrowDown(event, rowProps){
     if (!this.p.isActiveIndexControlled) {
       const newIndex = this.state.activeIndex + 1
       this.setState({

@@ -86,7 +86,7 @@ export default class Row extends Component {
       onMouseEnter: this.onMouseEnter,
       onMouseLeave: this.onMouseLeave,
       onClick: this.onClick,
-      onKeyDown: this.onRowKeyDown
+      onFocus: (event) => {console.log(event)},
     })
 
 
@@ -158,26 +158,6 @@ export default class Row extends Component {
     if (passedProps && passedProps.onMouseLeave) {
       passedProps.onMouseLeave(event, props)
     }     
-  }
-
-  onRowKeyDown(event){
-    
-    const props = this.props
-    const { passedProps } = props
-
-    if (event.key === 'ArrowUp') {
-      this.props.onArrowUp()
-      event.preventDefault()
-    }
-
-    if (event.key === 'ArrowDown') {
-      this.props.onArrowDown()
-      event.preventDefault()
-    }
-
-    if (passedProps && passedProps.onKeyPress) {
-      passedProps.onKeyPress(event, props)
-    }    
   }
 
   onClick(event){
