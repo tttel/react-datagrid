@@ -19,7 +19,7 @@
 `defaultSelected` | Object\|String\|Number| - | uncontrolled version of `selected`, for multiselect specify an object with it's keys the id's to be selected, an emptry object for no rows selected. For single selection specify a string/number representing the id of the row to be selected.
 `onSelectionChange(selected)` | Function | - | event handler called when selection changes, `selected` parameter  for multiselect is an object of the shape `{ id-1: { rowData }, id-2 .. }` and for single select the id, ex `id-`. ID in this case is `rowData[idProperty]`
 `activeIndex` | Number | - | index of active row, used for rows navigation
-`defaultActiveIndex` | Number | - | uncontrolled version of `activeIndex`
+`defaultActiveIndex` | Number | -1 | uncontrolled version of `activeIndex`
 `onActiveIndexChange(index)` | Function | - | called when activeIndex changes
 `scrollToIndex(index, config)`| Function | - | method to scroll to a specific row by `index`, config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
 `scrollToId(id, config)`| Function | - | method to scroll to a specific row by `id`, the id is the one specified in `idProperty`. Config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area. 

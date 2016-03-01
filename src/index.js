@@ -30,7 +30,8 @@ class DataGrid extends Component {
     this.state = {
       loading: isLoading,
       data: false,
-      selected: props.defaultSelected
+      selected: props.defaultSelected,
+      activeIndex: props.defaultActiveIndex
     }
   }
 
@@ -235,6 +236,8 @@ DataGrid.defaultProps = {
   onRowMouseEnter: () => {},
   onRowMouseLeave: () => {},
   onScrollBottom: () => {},
+  scrollToIndex: () => {},
+  scrollToId: () => {},
   rowProps: {},
   defaultSelected: undefined
 }
@@ -297,7 +300,14 @@ DataGrid.propTypes = {
       PropTypes.string,
       PropTypes.object
     ]),
-  onSelectionChange: PropTypes.func
+  onSelectionChange: PropTypes.func,
+
+  defaultActiveIndex: PropTypes.number,
+  activeIndex: PropTypes.number,
+  onActiveIndexChange: PropTypes.function,
+
+  scrollToIndex: PropTypes.function,
+  scrollToId: PropTypes.function
 }
 
 
