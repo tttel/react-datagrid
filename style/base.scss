@@ -69,6 +69,11 @@
 .react-datagrid__row--selected {
   background: #EAEAEA;
 }
+
+.react-datagrid__row--active {
+  background: #D0E2FF;
+}
+
 .react-datagrid__row--even {}
 .react-datagrid__row--odd {}
 .react-datagrid__row--over {}
