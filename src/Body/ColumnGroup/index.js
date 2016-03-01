@@ -51,7 +51,6 @@ export default class ColumnGroup extends Component {
     const props = this.props
     const {
       offsetTop,
-      scrollTop,
       viewportHeight,
       width,
       height,
@@ -118,7 +117,8 @@ export default class ColumnGroup extends Component {
       overRowId,
       selected,
       isMultiselect,
-      hasSelection
+      hasSelection,
+      activeIndex
     } = props
 
     return data.slice(from, to).map((rowData, index, dataSlice) => {
@@ -127,6 +127,7 @@ export default class ColumnGroup extends Component {
       const over = overRowId === id
       const realIndex = index + from
       const even = !!(realIndex % 2)
+      const active = activeIndex === realIndex
 
       const isSelected = hasSelection && 
                         (
@@ -139,21 +140,22 @@ export default class ColumnGroup extends Component {
         id,
         columns,
         minWidth,
-        index,
         even,
+        over,
+        active,
+        index,
         key,
         renderRow,
         cellFactory,
         rowStyle,
-        over,
-        realIndex,
+        realIndex, // is used rowSelect, for a correct selection (onClick)
+        rowHeight,
+        passedProps,
         data: rowData, 
         onMouseEnter: onRowMouseEnter,
         onMouseLeave: onRowMouseLeave,
         onClick: onRowClick,
-        rowHeight,
         selected: isSelected,
-        passedProps
       }
 
       let row

@@ -101,7 +101,8 @@ class Body extends Component {
       rowFactory,
       cellFactory,
       extraRows,
-      onColumnGroupScroll
+      onColumnGroupScroll,
+      activeIndex
     } = props
 
     const bodyHeight = this.state.bodyHeight
@@ -113,7 +114,6 @@ class Body extends Component {
     const columnGroupProps = {
       data,
       offsetTop,
-      scrollTop,
       rowHeight,
       isMultiselect,
       hasSelection,
@@ -124,6 +124,7 @@ class Body extends Component {
       rowFactory,
       cellFactory,
       selected,
+      activeIndex,
       viewportHeight: bodyHeight,
       globalProps: props,
       height: columnGrupHeight,

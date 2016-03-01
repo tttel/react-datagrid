@@ -25,6 +25,7 @@ class DataGrid extends Component {
     const {
       selected
     } = props
+
     const isLoading = props.dataSource && !!props.dataSource.then
 
     this.state = {
@@ -66,7 +67,8 @@ class DataGrid extends Component {
       className,
       hasSelection,
       children,
-      contentHeight
+      contentHeight,
+      activeIndex
     } = preparedProps
 
     return <Flex 
@@ -215,6 +217,7 @@ class DataGrid extends Component {
     const hasSelection = !this.isSelectionEmptry()
     const contentHeight = props.rowHeight * (state.data? state.data.length : 0)
     const isMultiselect = typeof selected === 'object' && selected !== null
+    const activeIndex = props.activeIndex !== undefined? props.activeIndex: this.state.activeIndex
 
     const className = join(props.className, 'react-datagrid')
 
@@ -226,6 +229,7 @@ class DataGrid extends Component {
       isMultiselect,
       className,
       data: state.data,
+      activeIndex
     })
   }
 }
@@ -236,10 +240,9 @@ DataGrid.defaultProps = {
   onRowMouseEnter: () => {},
   onRowMouseLeave: () => {},
   onScrollBottom: () => {},
-  scrollToIndex: () => {},
-  scrollToId: () => {},
   rowProps: {},
-  defaultSelected: undefined
+  defaultSelected: undefined,
+  activeIndex: -1
 }
 
 DataGrid.propTypes = {
@@ -302,18 +305,17 @@ DataGrid.propTypes = {
     ]),
   onSelectionChange: PropTypes.func,
 
-  defaultActiveIndex: PropTypes.number,
   activeIndex: PropTypes.number,
-  onActiveIndexChange: PropTypes.function,
+  defaultActiveIndex: PropTypes.number,
+  onActiveIndexChange: PropTypes.func,
 
-  scrollToIndex: PropTypes.function,
-  scrollToId: PropTypes.function
+  scrollToIndex: PropTypes.func,
+  scrollToId: PropTypes.func
 }
 
 
 import rowSelect from './rowSelect'
 DataGrid.prototype = assign(DataGrid.prototype, rowSelect)
-
 
 
 export default DataGrid
