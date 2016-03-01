@@ -102,6 +102,9 @@ class DataGrid extends Component {
         onScrollBottom={onScrollBottom}
         selected={selected}
         onRowClick={this.onRowClick}
+
+        onRowArrowUp={this.onRowArrowUp}
+        onRowArrowDown={this.onRowArrowDown}
       />
     </Flex>
   }
@@ -115,8 +118,37 @@ class DataGrid extends Component {
 
   onRowClick(event, rowProps){
     this.handleSelection(rowProps, event)
+
+    if (!this.p.isActiveIndexControlled) {
+      this.setState({
+        activeIndex: rowProps.realIndex 
+      })
+      
+      this.props.onActiveIndexChange(rowProps.realIndex)
+    }
   }
 
+  onRowArrowUp(event, rowProps){
+    if (!this.p.isActiveIndexControlled) {
+      const newIndex = this.state.activeIndex - 1
+      this.setState({
+        activeIndex: newIndex 
+      })
+      
+      this.props.onActiveIndexChange(newIndex)
+    }
+  }
+
+  onRowArrowDown(event, rowProps){
+    if (!this.p.isActiveIndexControlled) {
+      const newIndex = this.state.activeIndex + 1
+      this.setState({
+        activeIndex: newIndex 
+      })
+      
+      this.props.onActiveIndexChange(newIndex)
+    }
+  }
 
   loadSourceData(dataSource, props){
 
@@ -220,6 +252,7 @@ class DataGrid extends Component {
     const activeIndex = props.activeIndex !== undefined? props.activeIndex: this.state.activeIndex
 
     const className = join(props.className, 'react-datagrid')
+    const isActiveIndexControlled = this.props.activeIndex !== undefined
 
     return assign({}, props, {
       loading,
@@ -240,9 +273,10 @@ DataGrid.defaultProps = {
   onRowMouseEnter: () => {},
   onRowMouseLeave: () => {},
   onScrollBottom: () => {},
+  onActiveIndexChange: () => {},
   rowProps: {},
   defaultSelected: undefined,
-  activeIndex: -1
+  defaultActiveIndex: -1
 }
 
 DataGrid.propTypes = {

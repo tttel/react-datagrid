@@ -80,6 +80,7 @@ class Body extends Component {
       contentHeight={contentHeight}
       onScroll={this.onScroll}
       ref="scroller"
+      onKeyPress={this.onScrollerKeyPress}
     >
       {this.renderColumnGroups()}
     </Scroller>
@@ -102,7 +103,9 @@ class Body extends Component {
       cellFactory,
       extraRows,
       onColumnGroupScroll,
-      activeIndex
+      activeIndex,
+      onRowArrowUp,
+      onRowArrowDown
     } = props
 
     const bodyHeight = this.state.bodyHeight
@@ -125,6 +128,8 @@ class Body extends Component {
       cellFactory,
       selected,
       activeIndex,
+      onRowArrowUp,
+      onRowArrowDown,
       viewportHeight: bodyHeight,
       globalProps: props,
       height: columnGrupHeight,
@@ -132,7 +137,7 @@ class Body extends Component {
       onRowMouseLeave: this.onRowMouseLeave,
       onRowClick: onRowClick, 
       overRowId: this.state.overRowId,
-      onScroll: onColumnGroupScroll
+      onScroll: onColumnGroupScroll,
     }
 
     /**
@@ -198,6 +203,10 @@ class Body extends Component {
 
   onResize(){
     this.setBodyHeight()
+  }
+
+  onScrollerKeyPress(event){
+    console.log(event)
   }
 
   setBodyHeight(){

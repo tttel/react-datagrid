@@ -118,7 +118,9 @@ export default class ColumnGroup extends Component {
       selected,
       isMultiselect,
       hasSelection,
-      activeIndex
+      activeIndex,
+      onRowArrowUp,
+      onRowArrowDown,
     } = props
 
     return data.slice(from, to).map((rowData, index, dataSlice) => {
@@ -156,6 +158,8 @@ export default class ColumnGroup extends Component {
         onMouseLeave: onRowMouseLeave,
         onClick: onRowClick,
         selected: isSelected,
+        onArrowUp: onRowArrowUp,
+        onArrowDown: onRowArrowDown
       }
 
       let row

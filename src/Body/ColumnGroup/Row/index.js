@@ -77,15 +77,16 @@ export default class Row extends Component {
       className,
       style,
       children: this.renderRow(data, columns),
+      tabIndex: -1,
     }, 
       passedProps,
-      
       // passedProps should not overwrite the folowing methods
       // onEvent prop will be called also
     {
       onMouseEnter: this.onMouseEnter,
       onMouseLeave: this.onMouseLeave,
-      onClick: this.onClick
+      onClick: this.onClick,
+      onKeyDown: this.onRowKeyDown
     })
 
 
@@ -159,6 +160,26 @@ export default class Row extends Component {
     }     
   }
 
+  onRowKeyDown(event){
+    
+    const props = this.props
+    const { passedProps } = props
+
+    if (event.key === 'ArrowUp') {
+      this.props.onArrowUp()
+      event.preventDefault()
+    }
+
+    if (event.key === 'ArrowDown') {
+      this.props.onArrowDown()
+      event.preventDefault()
+    }
+
+    if (passedProps && passedProps.onKeyPress) {
+      passedProps.onKeyPress(event, props)
+    }    
+  }
+
   onClick(event){
     const props = this.props
     const { passedProps } = props
@@ -177,5 +198,7 @@ Row.propTypes = {
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,
   onClick: PropTypes.func,
+  onArrowUp: PropTypes.func,
+  onArrowDown: PropTypes.func,
   selected: PropTypes.bool
 }

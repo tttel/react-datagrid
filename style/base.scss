@@ -65,7 +65,9 @@
 
 
 /*----------  Row  ----------*/
-.react-datagrid__row { }
+.react-datagrid__row {
+  outline: 0;
+}
 
 .react-datagrid__row--selected {
   background: #EAEAEA;
