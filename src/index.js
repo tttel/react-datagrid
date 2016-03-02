@@ -10,6 +10,7 @@ import hasown from 'hasown'
 import Header from './Header'
 import Body from './Body'
 import ColumnGroup from './Body/ColumnGroup'
+import NavigationHelper from './NavigationHelper'
 
 import 'react-load-mask/index.css'
 
@@ -94,8 +95,12 @@ class DataGrid extends Component {
         onScrollBottom={onScrollBottom}
         selected={selected}
         onRowClick={this.onRowClick}
-        onKeyDown={this.onKeyDown}
         onRowFocus={this.onRowFocus}
+      />
+      <NavigationHelper 
+        ref="NavigationHelper"
+        onArrowUp={this.onArrowUp}
+        onArrowDown={this.onArrowDown}
       />
     </Flex>
   }
@@ -109,30 +114,23 @@ class DataGrid extends Component {
 
   onRowClick(event, rowProps){
     this.handleSelection(rowProps, event)
-
-    if (!this.p.isActiveIndexControlled) {
-      this.setState({
-        activeIndex: rowProps.realIndex 
-      })
-      
-      this.props.onActiveIndexChange(rowProps.realIndex)
-    }
   }
 
-  onKeyDown(event){
-    if (event.key === 'ArrowUp') {
-      this.onArrowUp()
-      event.preventDefault()
+  onRowFocus(event, rowProps){
+    let newActiveIndex
+
+    // check if the event comes from the row and not one of it's children
+    if (event.target.className.indexOf('react-datagrid__row') !== -1) {
+      newActiveIndex = rowProps.realIndex
+
+      this.refs.NavigationHelper.focus()
+    } else {
+      newActiveIndex = -1
     }
 
-    if (event.key === 'ArrowDown') {
-      this.onArrowDown()
-      event.preventDefault()
-    }
-  }
-
-  onRowFocus(event){
-    console.log(event)
+    this.setState({
+      activeIndex: newActiveIndex
+    })
   }
 
   onArrowUp(event, rowProps){
