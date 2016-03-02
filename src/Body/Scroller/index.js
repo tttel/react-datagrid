@@ -15,7 +15,8 @@ class Scroller extends Component {
     const {
       itemHeight, 
       dataLength, 
-      contentHeight
+      contentHeight,
+      scrollTop
     } = props
     
     const contentClassName = join('react-datagrid__scroller__content')
@@ -29,18 +30,53 @@ class Scroller extends Component {
     return <div
       className="react-datagrid__scroller"
       ref="viewport"
-      onScroll={(e) => this.props.onScroll(e.target.scrollTop, e)}
+      onWheel={this.onWheel}
     >
       <Flex wrap={false} row alignItems="stretch" {...contentProps}>
         {props.children}
       </Flex> 
     </div>
   }
+
+
+  onWheel(event){
+    const props = this.props
+    const {
+      scrollStep,
+      scrollTop
+    } = props
+
+    const { deltaY } = event
+    let newScrollTop
+
+    if (deltaY < 0) {
+      newScrollTop = scrollTop + scrollStep
+    } else {
+      newScrollTop = scrollTop - scrollStep
+    }
+
+    console.log(scrollTop, newScrollTop, deltaY, '<-------')
+
+    this.onScroll(newScrollTop)
+  }
+
+  onScroll(scrollTop){
+    this.props.onScroll(scrollTop)
+  }
+
+  setScroll(scrollTop){
+    this.refs.viewport.scrollTop = scrollTop
+  }
+}
+
+Scroller.defaultProps = {
+  scrollStep: 15
 }
 
 Scroller.propTypes = {
   className: PropTypes.string,
-  scrollTop: PropTypes.number
+  scrollTop: PropTypes.number,
+  scrollStep: PropTypes.number
 }
 
 export default Scroller

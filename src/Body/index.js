@@ -44,6 +44,7 @@ class Body extends Component {
       loading
     } = props
 
+
     const className = join(
         'react-datagrid__body'
       )
@@ -67,6 +68,7 @@ class Body extends Component {
 
   renderScroller(){
     const props = this.props
+    const { scrollTop } = this.state
     const {
       data, 
       contentHeight
@@ -81,6 +83,7 @@ class Body extends Component {
       onScroll={this.onScroll}
       ref="scroller"
       onKeyPress={this.onScrollerKeyPress}
+      scrollTop={scrollTop}
     >
       {this.renderColumnGroups()}
     </Scroller>
@@ -188,6 +191,8 @@ class Body extends Component {
     this.setState({
         scrollTop
     })
+
+    this.refs.scroller.setScroll(scrollTop)
 
     // There is an error of one pixel in chrome, add -2 to be safe
     if (this.props.contentHeight - 2 <= scrollTop + this.state.bodyHeight) {

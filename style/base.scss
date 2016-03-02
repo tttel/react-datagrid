@@ -10,7 +10,6 @@
   flex: 1;
   position: relative;
   min-height: 300px;
-
 }
 
 /*----------  Header  ----------*/
@@ -35,7 +34,6 @@
   overflow: hidden;
 }
 
-
 /*----------  Scroller  ----------*/
 .react-datagrid__scroller {
   width: 100%;
@@ -43,9 +41,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  overflow: auto;
+  overflow: hidden;
 }
-
 
 .react-datagrid__columngroup-wrapper {
   position: absolute;
