@@ -75,6 +75,7 @@ class DataGrid extends Component {
       column 
       flex
       alignItems="stretch" 
+      wrap={false}
       className={className}
       ref="dataGrid"
     >

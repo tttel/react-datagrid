@@ -79,6 +79,7 @@ class App extends Component {
       column 
       alignItems="stretch" 
       className="app"
+      wrap={false}
       style={{
         height: this.state.height
       }}
