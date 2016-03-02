@@ -7,12 +7,23 @@ import DataGrid, { ColumnGroup } from './src'
 import './index.scss'
 
 import gen from './generate'
+import Perf from 'react-addons-perf'
+
+// window.Perf = Perf
+
+// window.start = () => Perf.start()
+// window.stop = () => {
+//   Perf.stop()
+//   Perf.printWasted()
+//   Perf.printInclusive()
+// }
+
 
 const data = new Promise((rez, rej) => {
   setTimeout(() => {
-    rez(gen(10000))
+    rez(gen(100))
     // rez('hello world')
-  }, 1000)
+  }, 100)
 })
 
 
@@ -24,13 +35,6 @@ const columns = [
     name: 'lastName', 
     width: 150,
     textAlign: 'center'
-  }, {
-    name: 'email',
-    textAlign: 'right'
-  }, {
-    name: 'city',
-    flex: 3,
-    textAlign: 'right'
   }
 ]
 
@@ -39,7 +43,11 @@ const columns2 = [
     name: 'firstName',
     textAlign: 'center'
   }, {
-    name: 'lastName'
+    title: 'bau',
+    width: 300,
+    render() {
+      return <input type="text" />
+    }
   }, {
     name: 'email',
     width: 400
@@ -52,7 +60,7 @@ const columns2 = [
   }, {
     name: 'email',
     width: 400
-  }
+  }, 
 ]
 
 class App extends Component {
@@ -63,6 +71,7 @@ class App extends Component {
       height: 500
     }
   }
+
   render(){
     return <Flex 
       column 
@@ -96,7 +105,8 @@ class App extends Component {
         idProperty="id"
         rowHeight={40}
         defaultSelected={{1:1, 2:2, 3:3}}
-        onSelectionChange={selected => console.log(selected)}
+        aonSelectionChange={selected => console.log(selected)}
+        defaultActiveIndex={4}
       >
         <ColumnGroup fixed columns={columns} />
         <ColumnGroup className="myColumnGroup" columns={columns2} />

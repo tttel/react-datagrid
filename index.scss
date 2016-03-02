@@ -36,3 +36,7 @@ h1 {
   color: #383838;
   text-align: center;
 }
+
+input:focus{
+  border-box: 3px 3px 3px 3px rgba(22, 0, 0, 0.9);
+}
