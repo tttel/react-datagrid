@@ -204,7 +204,7 @@ class Body extends Component {
   }
 
   onScrollerKeyPress(event){
-    console.log(event)
+    // console.log(event)
   }
 
   setBodyHeight(){

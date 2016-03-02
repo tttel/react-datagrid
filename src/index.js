@@ -13,9 +13,7 @@ import ColumnGroup from './Body/ColumnGroup'
 
 import 'react-load-mask/index.css'
 
-
 const SCREEN_HEIGHT = global.screen && global.screen.height
-
 
 class DataGrid extends Component {
 

@@ -113,14 +113,13 @@ export default class ColumnGroup extends Component {
       renderRow,
       cellFactory,
       rowStyle,
-      rowProps: passedProps,
       overRowId,
       selected,
       isMultiselect,
       hasSelection,
       activeIndex,
-      onRowArrowUp,
-      onRowArrowDown,
+      onRowFocus
+      rowProps: passedProps,
     } = props
 
     return data.slice(from, to).map((rowData, index, dataSlice) => {
@@ -131,7 +130,7 @@ export default class ColumnGroup extends Component {
       const even = !!(realIndex % 2)
       const active = activeIndex === realIndex
 
-      const isSelected = hasSelection && 
+      const selected = hasSelection && 
                         (
                           isMultiselect? 
                             selected.hasOwnProperty(id) : // TODO: use hasOwn, with curry
@@ -144,6 +143,7 @@ export default class ColumnGroup extends Component {
         minWidth,
         even,
         over,
+        selected,
         active,
         index,
         key,
@@ -157,9 +157,7 @@ export default class ColumnGroup extends Component {
         onMouseEnter: onRowMouseEnter,
         onMouseLeave: onRowMouseLeave,
         onClick: onRowClick,
-        selected: isSelected,
-        onArrowUp: onRowArrowUp,
-        onArrowDown: onRowArrowDown
+        onFocus: onRowFocus
       }
 
       let row
