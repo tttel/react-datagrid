@@ -13,7 +13,7 @@ export default class Cell extends Component {
       return nextProps.shouldComponentUpdate(nextProps, this.props)
     }
 
-    return !shallowequal(nextProps, this.props)    
+    return !shallowequal(nextProps, this.props)
   }
 
 
@@ -29,8 +29,8 @@ export default class Cell extends Component {
       headerCellDefaultClassName,
       value
     } = props
-    
-     
+
+
     const style = assign({}, props.style)
 
     const baseClassName = headerCell? headerCellDefaultClassName : cellDefaultClassName
@@ -60,7 +60,7 @@ export default class Cell extends Component {
     if (width !== undefined) {
       style.minWidth = style.maxWidth = width
     }
-    
+
 
     const cellProps = assign({}, props, {
       value,
@@ -83,7 +83,7 @@ export default class Cell extends Component {
 }
 
 Cell.defaultProps = {
-  cellDefaultClass: 'react-datagrid__cell',
+  cellDefaultClassName: 'react-datagrid__cell',
   headerCellDefaultClassName: 'react-datagrid__column-header',
   minWidth: 40
 }
