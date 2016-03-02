@@ -66,9 +66,6 @@
 
 /*----------  Row  ----------*/
 .react-datagrid__row {
-  &:focus {
-    outline: 1px solid red;
-  }
 }
 
 .react-datagrid__row--selected {
