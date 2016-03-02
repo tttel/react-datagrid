@@ -11,12 +11,12 @@ import Perf from 'react-addons-perf'
 
 // window.Perf = Perf
 
-// window.start = () => Perf.start()
-// window.stop = () => {
-//   Perf.stop()
-//   Perf.printWasted()
-//   Perf.printInclusive()
-// }
+window.start = () => Perf.start()
+window.stop = () => {
+  Perf.stop()
+  Perf.printWasted()
+  Perf.printInclusive()
+}
 
 
 const data = new Promise((rez, rej) => {
@@ -45,8 +45,10 @@ const columns2 = [
   }, {
     title: 'bau',
     width: 300,
-    render() {
-      return <input type="text" />
+    render(value, something, cellProps) {
+      if (!cellProps.headerCell) {
+        return <input type="text" />
+      }
     }
   }, {
     name: 'email',
