@@ -113,7 +113,10 @@ class DataGrid extends Component {
   }
 
   onRowClick(event, rowProps){
-    this.handleSelection(rowProps, event)
+    // only trigger selectn when click comes from row, and not it's children
+    if (event.target.className.indexOf('react-datagrid__row') !== -1) {
+      this.handleSelection(rowProps, event)
+    }
   }
 
   onRowFocus(event, rowProps){
