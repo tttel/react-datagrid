@@ -89,18 +89,13 @@ class DataGrid extends Component {
       }
       <Body
         {...preparedProps}
-        isMultiselect={isMultiselect}
-        hasSelection={hasSelection}
-        columns={columns}
-        data={data}
-        loading={loading}
-        contentHeight={contentHeight}
         onRowMouseEnter={onRowMouseEnter}
         onRowMouseLeave={onRowMouseLeave}
         onScrollBottom={onScrollBottom}
         selected={selected}
         onRowClick={this.onRowClick}
         onKeyDown={this.onKeyDown}
+        onRowFocus={this.onRowFocus}
       />
     </Flex>
   }
@@ -134,6 +129,10 @@ class DataGrid extends Component {
       this.onArrowDown()
       event.preventDefault()
     }
+  }
+
+  onRowFocus(event){
+    console.log(event)
   }
 
   onArrowUp(event, rowProps){

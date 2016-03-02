@@ -104,8 +104,7 @@ class Body extends Component {
       extraRows,
       onColumnGroupScroll,
       activeIndex,
-      onRowArrowUp,
-      onRowArrowDown
+      onRowFocus
     } = props
 
     const bodyHeight = this.state.bodyHeight
@@ -128,6 +127,7 @@ class Body extends Component {
       cellFactory,
       selected,
       activeIndex,
+      onRowFocus,
       viewportHeight: bodyHeight,
       globalProps: props,
       height: columnGrupHeight,

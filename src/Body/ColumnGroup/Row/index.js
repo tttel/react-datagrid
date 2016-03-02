@@ -191,5 +191,6 @@ Row.propTypes = {
   onClick: PropTypes.func,
   onArrowUp: PropTypes.func,
   onArrowDown: PropTypes.func,
-  selected: PropTypes.bool
+  onFocus: PropTypes.func,
+  selected: PropTypes.bool,
 }
