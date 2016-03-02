@@ -1,4 +1,4 @@
-var PORT = 9090;
+var PORT = 9191;
 var webpack = require('webpack')
 var path = require('path')
 
@@ -39,7 +39,7 @@ module.exports = {
     publicPath: '/assets/',
     port: PORT,
     hot: true,
-    host: 'localhost',
+    host: '0.0.0.0',
     historyApiFallback: true
   },
   resolve: {
