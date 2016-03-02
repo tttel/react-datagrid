@@ -114,11 +114,12 @@ export default class ColumnGroup extends Component {
       cellFactory,
       rowStyle,
       overRowId,
+      // selected can be an object or an index
       selected,
       isMultiselect,
       hasSelection,
       activeIndex,
-      onRowFocus
+      onRowFocus,
       rowProps: passedProps,
     } = props
 
@@ -130,7 +131,7 @@ export default class ColumnGroup extends Component {
       const even = !!(realIndex % 2)
       const active = activeIndex === realIndex
 
-      const selected = hasSelection && 
+      const isSelected = hasSelection && 
                         (
                           isMultiselect? 
                             selected.hasOwnProperty(id) : // TODO: use hasOwn, with curry
@@ -143,7 +144,6 @@ export default class ColumnGroup extends Component {
         minWidth,
         even,
         over,
-        selected,
         active,
         index,
         key,
@@ -153,6 +153,7 @@ export default class ColumnGroup extends Component {
         realIndex, // is used rowSelect, for a correct selection (onClick)
         rowHeight,
         passedProps,
+        selected: isSelected, // row uses selected as a bool, a state 
         data: rowData, 
         onMouseEnter: onRowMouseEnter,
         onMouseLeave: onRowMouseLeave,
