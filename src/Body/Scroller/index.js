@@ -36,6 +36,10 @@ class Scroller extends Component {
       </Flex> 
     </div>
   }
+
+  scrollTo(offset){
+    this.refs.viewport.scrollTop = offset
+  }
 }
 
 Scroller.propTypes = {
