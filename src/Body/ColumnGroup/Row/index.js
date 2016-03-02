@@ -86,7 +86,7 @@ export default class Row extends Component {
       onMouseEnter: this.onMouseEnter,
       onMouseLeave: this.onMouseLeave,
       onClick: this.onClick,
-      onFocus: (event) => {console.log(event)},
+      onFocus: this.onFocus,
     })
 
 
@@ -168,6 +168,17 @@ export default class Row extends Component {
 
     if (passedProps && passedProps.onClick) {
       passedProps.onClick(event, props)
+    }     
+  }
+  
+  onFocus(event){
+    const props = this.props
+    const { passedProps } = props
+    
+    props.onFocus(event, props)
+
+    if (passedProps && passedProps.onFocus) {
+      passedProps.onFocus(event, props)
     }     
   }
 }
