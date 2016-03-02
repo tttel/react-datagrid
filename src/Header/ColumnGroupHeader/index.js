@@ -60,7 +60,7 @@ export default class ColumnGroupHeader extends Component {
         value = humanize(name)
       }
 
-      return <Cell column key={index} {...columnProps} value={value} />
+      return <Cell headerCell key={index} {...columnProps} value={value} />
     })
   }
 }

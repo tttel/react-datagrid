@@ -24,16 +24,16 @@ export default class Cell extends Component {
       name,
       data,
       render: renderCell,
-      column,
-      cellDefaultClass,
-      coumnDefaultClass,
+      headerCell,
+      cellDefaultClassName,
+      headerCellDefaultClassName,
       value
     } = props
     
      
     const style = assign({}, props.style)
 
-    const baseClassName = column? coumnDefaultClass : cellDefaultClass
+    const baseClassName = headerCell? headerCellDefaultClassName : cellDefaultClassName
     const className = join(
         baseClassName,
         props.textAlign && `${baseClassName}--align-${props.textAlign}`,
@@ -84,7 +84,7 @@ export default class Cell extends Component {
 
 Cell.defaultProps = {
   cellDefaultClass: 'react-datagrid__cell',
-  coumnDefaultClass: 'react-datagrid__column-header',
+  headerCellDefaultClassName: 'react-datagrid__column-header',
   minWidth: 40
 }
 
@@ -104,5 +104,5 @@ Cell.propTypes = {
       return new Error(`Column flex prop expected to be between 1 and 24, got ${flex}`)
     }
   },
-  cellDefaultClass: PropTypes.string
+  cellDefaultClassName: PropTypes.string
 }
