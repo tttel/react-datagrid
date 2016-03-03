@@ -10,6 +10,7 @@ html {
   box-sizing: inherit;
 }
 
+
 html, body, #content {
   min-height: 100%;
   position: absolute;
@@ -31,7 +32,7 @@ html, body, #content {
 }
 
 .react-datagrid {
-  min-height: 620px;
+  min-height: 300px;
 }
 
 h1 {

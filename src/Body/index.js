@@ -194,7 +194,8 @@ class Body extends Component {
     this.props.onRowMouseLeave(event, rowProps)
   }
 
-  onScroll(scrollTop, event){  
+  onScroll(scrollTop, event){
+
     this.setState({
         scrollTop
     })

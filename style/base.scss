@@ -10,6 +10,10 @@
   flex: 1;
   position: relative;
   min-height: 300px;
+
+  :focus {
+    outline: 0;
+  }
 }
 
 /*----------  Header  ----------*/
@@ -28,7 +32,6 @@
 /*----------  Column/Cell Groups  ----------*/
 .react-datagrid__colum-group {
   overflow-y: hidden;
-  overflow-x: auto;
 }
 
 .react-datagrid__header__colum-group {
@@ -47,8 +50,10 @@
 }
 
 .react-datagrid__scroller__scrollbar {
+  display: flex;
   max-width: 20px;
-  overflow: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 
@@ -108,3 +113,4 @@
 .react-datagrid__load-mask {
   z-index: 10;
 }
+
