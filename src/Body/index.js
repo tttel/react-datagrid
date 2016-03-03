@@ -85,6 +85,7 @@ class Body extends Component {
       onKeyPress={this.onScrollerKeyPress}
       scrollTop={this.state.scrollTop}
       maxScrollTop={this.state.maxScrollTop}
+      height={this.state.bodyHeight}
     >
       {this.renderColumnGroups()}
     </Scroller>

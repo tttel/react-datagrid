@@ -19,6 +19,7 @@
 
 /*----------  Body  ----------*/
 .react-datagrid__body {
+  display: flex;
   position: relative;
 }
 
@@ -36,30 +37,25 @@
 
 /*----------  Scroller  ----------*/
 .react-datagrid__scroller {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-}
-
-.react-datagrid__columngroup-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
+  position: relative;
+  max-width: 100%;
 }
 
 .react-datagrid__scroller__content {
-  // display: flex;
-  // align-items: stretch;
-  // flex-direction: row;
+  position: relative;
+  overflow: hidden;
 }
 
-.react-datagrid__emptry-text {}
+.react-datagrid__scroller__scrollbar {
+  max-width: 20px;
+  overflow: auto;
+}
 
+
+
+
+/*----------  Empty text  ----------*/
+.react-datagrid__emptry-text {}
 
 /*----------  Row  ----------*/
 .react-datagrid__row {

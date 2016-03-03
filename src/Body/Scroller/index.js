@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import Component from 'react-class'
 import join from '../../utils/join'
 import assign from 'object-assign'
-import { Flex } from 'react-flex'
+import { Flex, Item } from 'react-flex'
 
 
 var IS_MAC     = global && global.navigator && global.navigator.appVersion && global.navigator.appVersion.indexOf("Mac") != -1
@@ -17,28 +17,54 @@ class Scroller extends Component {
       itemHeight, 
       dataLength, 
       contentHeight,
-      scrollTop
+      scrollTop,
+      height
     } = props
     
-    const contentClassName = join('react-datagrid__scroller__content')
-    const contentProps = {
-      className: contentClassName,
-      style: {
-        height: contentHeight
-      }
+    const scrollContentStyle = {
+      height: contentHeight
     }
 
-    return <div
+    return <Flex
+      row
+      wrap={false}
+      alignItems="stretch"
       className="react-datagrid__scroller"
-      ref="viewport"
-      onWheel={this.onWheel}
     >
-      <Flex wrap={false} row alignItems="stretch" {...contentProps}>
-        {props.children}
-      </Flex> 
-    </div>
+      <Item
+        className="react-datagrid__scroller__content"
+        ref="viewport"
+        onWheel={this.onWheel}
+        style={{ height }}
+      >
+        <Flex
+          alignItems="stretch"
+          wrap={false}
+          className="react-datagrid__scroller__content__innerWrapper"
+          style={scrollContentStyle}
+        >
+          {props.children}
+        </Flex>
+      </Item> 
+
+      <Item 
+        ref="scrollbar"
+        className="react-datagrid__scroller__scrollbar"
+        onScroll={this.onScrollBarScroll}
+        style={{ height }}
+      >
+        <div 
+          className="react-datagrid__scroller__scrollbar__content"
+          ref="scrollBarContent" 
+          style={scrollContentStyle} 
+        />
+      </Item>
+    </Flex>
   }
 
+  onScrollBarScroll(event){
+    this.onScroll(event.target.scrollTop, event)
+  }
 
   onWheel(event){
     const props = this.props
@@ -52,7 +78,6 @@ class Scroller extends Component {
     const { deltaY } = event
     let newScrollTop = scrollTop
     
-    console.log(deltaY)
     if (deltaY < 0) {
       newScrollTop += deltaY * scrollStep
     } else {
@@ -74,12 +99,13 @@ class Scroller extends Component {
     }
   }
 
-  onScroll(scrollTop){
-    this.props.onScroll(scrollTop)
+  onScroll(scrollTop, event){
+    this.props.onScroll(scrollTop, event)
   }
 
   setScroll(scrollTop){
     this.refs.viewport.scrollTop = scrollTop
+    this.refs.scrollbar.scrollTop = scrollTop
   }
 }
 
