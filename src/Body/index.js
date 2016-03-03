@@ -19,7 +19,8 @@ class Body extends Component {
     this.state = {
       bodyHeight: 0,
       scrollTop: 0,
-      overRowId: null
+      overRowId: null,
+      maxScrollTop: 0
     }
   }
   
@@ -33,6 +34,12 @@ class Body extends Component {
         scrollTop: 0
       })
     }
+
+    if (nextProps.contentHeight !== this.props.contentHeight) {
+      this.setState({
+        maxScrollTop: nextProps.contentHeight - this.state.bodyHeight + nextProps.rowHeight
+      })
+    }
   }
 
   // todo func getBodyHeight
@@ -43,7 +50,6 @@ class Body extends Component {
       columns,
       loading
     } = props
-
 
     const className = join(
         'react-datagrid__body'
@@ -67,23 +73,18 @@ class Body extends Component {
   }
 
   renderScroller(){
-    const props = this.props
-    const { scrollTop } = this.state
-    const {
-      data, 
-      contentHeight
-    } = props
 
-    if (!data) {
+    if (!this.props.data) {
       return
     }
 
     return <Scroller 
-      contentHeight={contentHeight}
+      contentHeight={this.props.contentHeight}
       onScroll={this.onScroll}
       ref="scroller"
       onKeyPress={this.onScrollerKeyPress}
-      scrollTop={scrollTop}
+      scrollTop={this.state.scrollTop}
+      maxScrollTop={this.state.maxScrollTop}
     >
       {this.renderColumnGroups()}
     </Scroller>
@@ -223,10 +224,11 @@ class Body extends Component {
     }
 
     this.setState({
-      bodyHeight: bodyHeight
+      bodyHeight: bodyHeight,
     })
   }
 }
+
 
 Body.defaultProps = {
   rowHeight: 40,

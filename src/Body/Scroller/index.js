@@ -43,21 +43,22 @@ class Scroller extends Component {
     const props = this.props
     const {
       scrollStep,
-      scrollTop
+      scrollTop,
+      maxScrollTop
     } = props
 
     const { deltaY } = event
-    let newScrollTop
+    let newScrollTop = scrollTop
 
     if (deltaY < 0) {
-      newScrollTop = scrollTop + scrollStep
+      newScrollTop += deltaY * scrollStep
     } else {
-      newScrollTop = scrollTop - scrollStep
+      newScrollTop += deltaY * scrollStep
     }
-
-    console.log(scrollTop, newScrollTop, deltaY, '<-------')
-
-    this.onScroll(newScrollTop)
+   
+    if (newScrollTop <= maxScrollTop) {
+      this.onScroll(newScrollTop)
+    }
   }
 
   onScroll(scrollTop){
@@ -70,7 +71,7 @@ class Scroller extends Component {
 }
 
 Scroller.defaultProps = {
-  scrollStep: 15
+  scrollStep: 0.5
 }
 
 Scroller.propTypes = {
