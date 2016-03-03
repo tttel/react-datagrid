@@ -16,6 +16,8 @@ class Body extends Component {
   constructor(props){
     super(props)
 
+    window.scrollToIndex = this.scrollToIndex
+
     this.state = {
       bodyHeight: 0,
       scrollTop: 0,
@@ -234,11 +236,19 @@ class Body extends Component {
       bodyHeight: bodyHeight,
     })
   }
+
+  scrollToIndex(index){
+    // determine height at witch scrolltop should be
+    const scrollTop = (index - 1) * this.props.rowHeight || 0
+
+    this.onScroll(scrollTop)
+  }
 }
 
 
 Body.defaultProps = {
   rowHeight: 40,
+  extraRows: 4,
   onRowMouseEnter: () => {},
   onRowMouseLeave: () => {},
   onScrollBottom: () => {},

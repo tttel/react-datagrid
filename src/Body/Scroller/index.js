@@ -85,6 +85,8 @@ class Scroller extends Component {
    
     newScrollTop = this.normalizeScrollTop(newScrollTop)
     
+    // don't trigger onscroll value doen't change
+    // it happens when scrolltop is normalized to 0 or maxScrollTop
     if (newScrollTop != scrollTop) {
       this.onScroll(newScrollTop)
     }
@@ -99,8 +101,8 @@ class Scroller extends Component {
   }
 
 
+  // TODO test on ipad
   onTouchStart(event) {
-    console.log('hey')
     var props  = this.props
     var side
 

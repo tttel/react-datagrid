@@ -21,7 +21,7 @@ window.stop = () => {
 
 const data = new Promise((rez, rej) => {
   setTimeout(() => {
-    rez(gen(10000))
+    rez(gen(100))
     // rez('hello world')
   }, 100)
 })
