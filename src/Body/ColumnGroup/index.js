@@ -32,8 +32,11 @@ export default class ColumnGroup extends Component {
     props = props || this.props
     const children = props.children
 
+    // We want to allow users to use columns configuration as jsx
+    // or as an array of config objects
     let columns
     if (children) {
+      // if we have children, we want to take only valid children
       columns = React.Children
         .toArray(children)
         .filter(child => child && child.props && child.props.isColumn)
