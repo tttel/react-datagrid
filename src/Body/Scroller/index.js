@@ -71,9 +71,14 @@ class Scroller extends Component {
       maxScrollTop
     } = props
    
-    event.preventDefault()
+    const { deltaY, deltaX } = event
 
-    const { deltaY } = event
+    // horizontal scroll is native so do nothing
+    if (~~deltaX !== 0) {
+      return
+    }
+
+      event.preventDefault()
    
     let newScrollTop = scrollTop
     
