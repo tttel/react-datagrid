@@ -50,7 +50,6 @@ export default class ColumnGroup extends Component {
   render(){
     const props = this.props
     const {
-      scrollTop,
       viewportHeight,
       width,
       chilren,
@@ -60,7 +59,6 @@ export default class ColumnGroup extends Component {
 
     const style = assign({}, props.style, {
        height: viewportHeight,
-       transform: `translateY(${scrollTop}px)`
       }
     )
 

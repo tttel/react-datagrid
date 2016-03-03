@@ -183,6 +183,30 @@ export default class Row extends Component {
   }
 }
 
+// TODO: automate passed event hadlers
+// const generate = (name) => {
+//     const fnName = 'on' + toUpperFirst(name)
+
+//     return function(){
+//       const props = this.props
+//       const { passedProps } = props
+      
+//       props[fnName](event, props)
+
+//       if (passedProps && passedProps[fnName]) {
+//         passedProps[fnName](event, props)
+//       }
+//     }
+//   }
+
+// assign(Row.prototype, {
+//   onMouseEnter: generate('mouseEnter'),
+//   onMouseEnter: generate('mouseEnter'),
+//   onMouseEnter: generate('mouseEnter'),
+//   onMouseEnter: generate('mouseEnter')
+// })
+
+
 Row.propTypes = {
   renderRow: PropTypes.func,
   passedProps: PropTypes.object,

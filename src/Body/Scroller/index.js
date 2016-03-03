@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react'
+import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
 import join from '../../utils/join'
 import assign from 'object-assign'
 import { Flex, Item } from 'react-flex'
 
-
-var IS_MAC     = global && global.navigator && global.navigator.appVersion && global.navigator.appVersion.indexOf("Mac") != -1
-var IS_FIREFOX = global && global.navigator && global.navigator.userAgent && !!~global.navigator.userAgent.toLowerCase().indexOf('firefox')
+const IS_MAC     = global && global.navigator && global.navigator.appVersion && global.navigator.appVersion.indexOf("Mac") != -1
+const IS_FIREFOX = global && global.navigator && global.navigator.userAgent && !!~global.navigator.userAgent.toLowerCase().indexOf('firefox')
 
 class Scroller extends Component {
 
@@ -31,22 +31,17 @@ class Scroller extends Component {
       alignItems="stretch"
       className="react-datagrid__scroller"
     >
-      <Item
+      <Flex
+        flex={1}
         className="react-datagrid__scroller__content"
+        alignItems="stretch"
+        wrap={false}
         ref="viewport"
         onWheel={this.onWheel}
         style={{ height }}
       >
-        <Flex
-          alignItems="stretch"
-          wrap={false}
-          className="react-datagrid__scroller__content__innerWrapper"
-          style={scrollContentStyle}
-        >
-          {props.children}
-        </Flex>
-      </Item> 
-
+        {props.children}
+      </Flex> 
       <Item 
         ref="scrollbar"
         className="react-datagrid__scroller__scrollbar"
@@ -63,7 +58,7 @@ class Scroller extends Component {
   }
 
   onScrollBarScroll(event){
-    this.onScroll(event.target.scrollTop, event)
+    this.onScroll(this.normalizeScrollTop(event.target.scrollTop), event)
   }
 
   onWheel(event){
@@ -84,17 +79,9 @@ class Scroller extends Component {
       newScrollTop += deltaY * scrollStep
     }
    
-    newScrollTop = ~~newScrollTop
+    newScrollTop = this.normalizeScrollTop(newScrollTop)
 
-    if (newScrollTop < 0) {
-      newScrollTop = 0
-    }
-
-    if (newScrollTop > maxScrollTop) {
-      newScrollTop = maxScrollTop
-    }
-
-    if (newScrollTop != maxScrollTop) {
+    if (newScrollTop != scrollTop) {
       this.onScroll(newScrollTop)
     }
   }
@@ -104,8 +91,22 @@ class Scroller extends Component {
   }
 
   setScroll(scrollTop){
-    this.refs.viewport.scrollTop = scrollTop
-    this.refs.scrollbar.scrollTop = scrollTop
+    findDOMNode(this.refs.scrollbar).scrollTop = scrollTop
+  }
+
+  normalizeScrollTop(scrollTop){
+    const { maxScrollTop } = this.props
+    let newScrollTop = ~~scrollTop
+
+    if (newScrollTop < 0) {
+      newScrollTop = 0
+    }
+
+    if (newScrollTop > maxScrollTop) {
+      newScrollTop = maxScrollTop
+    }
+
+    return newScrollTop
   }
 }
 

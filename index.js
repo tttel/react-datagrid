@@ -29,7 +29,7 @@ const data = new Promise((rez, rej) => {
 
 const columns = [
   {
-    name: 'firstName',
+    name: 'id',
     textAlign: 'center'
   }, {
     name: 'lastName', 
@@ -111,7 +111,7 @@ class App extends Component {
         aonSelectionChange={selected => console.log(selected)}
         defaultActiveIndex={4}
       >
-        <ColumnGroup fixed columns={columns} />
+        <ColumnGroup width={900} fixed columns={columns} />
         <ColumnGroup className="myColumnGroup" columns={columns2} />
       </DataGrid>
     </Flex>
