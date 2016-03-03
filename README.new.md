@@ -22,7 +22,8 @@
 `defaultActiveIndex` | Number | -1 | uncontrolled version of `activeIndex`
 `onActiveIndexChange(index)` | Function | - | called when activeIndex changes
 `scrollToIndex(index, config)`| Function | - | method to scroll to a specific row by `index`, config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
-`scrollToId(id, config)`| Function | - | method to scroll to a specific row by `id`, the id is the one specified in `idProperty`. Config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area. 
+`scrollToId(id, config)`| Function | - | method to scroll to a specific row by `id`, the id is the one specified in `idProperty`. Config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
+`scrollWidth` | Number | 20 | specify the size rezerved for the vertical and horizontal scrollbars
 
 
 ### Rows
