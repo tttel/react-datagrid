@@ -50,17 +50,17 @@ export default class ColumnGroup extends Component {
   render(){
     const props = this.props
     const {
-      offsetTop,
+      scrollTop,
       viewportHeight,
       width,
-      height,
       chilren,
-      fixed
+      fixed,
+      innerWrapperOffset
     } = props
 
     const style = assign({}, props.style, {
-       height,
-       transform: `translateY(${offsetTop}px)`
+       height: viewportHeight,
+       transform: `translateY(${scrollTop}px)`
       }
     )
 
@@ -82,6 +82,10 @@ export default class ColumnGroup extends Component {
         props.className
       )
 
+    const innerWrapperStyle = {
+      transform: `translateY(${innerWrapperOffset}px)` 
+    }
+
     return <div 
       {...props} 
       className={className} 
@@ -89,7 +93,11 @@ export default class ColumnGroup extends Component {
       data={null}
       onScroll={this.onScroll}
     > 
-      {this.renderRows(columns, minWidth)}
+      <div
+        style={innerWrapperStyle}
+      >
+        {this.renderRows(columns, minWidth)}
+      </div>
     </div>
   }
 

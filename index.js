@@ -106,7 +106,7 @@ class App extends Component {
         columns={columns}
         dataSource={data}
         idProperty="id"
-        rowHeight={40}
+        rowHeight={70}
         defaultSelected={{1:1, 2:2, 3:3}}
         aonSelectionChange={selected => console.log(selected)}
         defaultActiveIndex={4}

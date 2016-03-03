@@ -37,7 +37,7 @@ class Body extends Component {
 
     if (nextProps.contentHeight !== this.props.contentHeight) {
       this.setState({
-        maxScrollTop: nextProps.contentHeight - this.state.bodyHeight + nextProps.rowHeight
+        maxScrollTop: nextProps.contentHeight - this.state.bodyHeight
       })
     }
   }
@@ -115,7 +115,7 @@ class Body extends Component {
     const scrollTop = this.state.scrollTop
     const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
     const offsetTop = from * rowHeight
-    const columnGrupHeight = bodyHeight + (scrollTop - offsetTop)
+    const innerWrapperOffset = offsetTop - scrollTop
 
     const columnGroupProps = {
       data,
@@ -132,9 +132,10 @@ class Body extends Component {
       selected,
       activeIndex,
       onRowFocus,
+      scrollTop,
+      innerWrapperOffset,
       viewportHeight: bodyHeight,
       globalProps: props,
-      height: columnGrupHeight,
       onRowMouseEnter: this.onRowMouseEnter,
       onRowMouseLeave: this.onRowMouseLeave,
       onRowClick: onRowClick, 

@@ -5,7 +5,8 @@ import assign from 'object-assign'
 import { Flex } from 'react-flex'
 
 
-
+var IS_MAC     = global && global.navigator && global.navigator.appVersion && global.navigator.appVersion.indexOf("Mac") != -1
+var IS_FIREFOX = global && global.navigator && global.navigator.userAgent && !!~global.navigator.userAgent.toLowerCase().indexOf('firefox')
 
 class Scroller extends Component {
 
@@ -47,16 +48,28 @@ class Scroller extends Component {
       maxScrollTop
     } = props
 
+
     const { deltaY } = event
     let newScrollTop = scrollTop
-
+    
+    console.log(deltaY)
     if (deltaY < 0) {
       newScrollTop += deltaY * scrollStep
     } else {
       newScrollTop += deltaY * scrollStep
     }
    
-    if (newScrollTop <= maxScrollTop) {
+    newScrollTop = ~~newScrollTop
+
+    if (newScrollTop < 0) {
+      newScrollTop = 0
+    }
+
+    if (newScrollTop > maxScrollTop) {
+      newScrollTop = maxScrollTop
+    }
+
+    if (newScrollTop != maxScrollTop) {
       this.onScroll(newScrollTop)
     }
   }
@@ -71,7 +84,7 @@ class Scroller extends Component {
 }
 
 Scroller.defaultProps = {
-  scrollStep: 0.5
+  scrollStep: IS_FIREFOX? 40 : 1
 }
 
 Scroller.propTypes = {
@@ -81,3 +94,4 @@ Scroller.propTypes = {
 }
 
 export default Scroller
+
