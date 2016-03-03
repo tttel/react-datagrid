@@ -66,7 +66,6 @@ class DataGrid extends Component {
       className,
       hasSelection,
       children,
-      contentHeight,
       activeIndex
     } = preparedProps
 
@@ -256,7 +255,7 @@ class DataGrid extends Component {
 
     const selected = this.getSelected()
     const hasSelection = !this.isSelectionEmptry()
-    const contentHeight = props.rowHeight * (state.data? state.data.length : 0)
+    const contentHeight = props.rowHeight * (state.data? state.data.length : 0) + props.scrollbarWidth
     const isMultiselect = typeof selected === 'object' && selected !== null
     const activeIndex = props.activeIndex !== undefined? props.activeIndex: this.state.activeIndex
 

@@ -38,10 +38,8 @@ class Body extends Component {
     if (nextProps.contentHeight !== this.props.contentHeight) {
       this.setState({
         maxScrollTop: (
-            nextProps.contentHeight - 
-            this.state.bodyHeight + 
-            this.props.rowHeight +
-            this.props.scrollbarWidth
+            nextProps.contentHeight - this.state.bodyHeight
+            // this.props.rowHeight 
           )
       })
     }
