@@ -15,7 +15,7 @@ window.start = () => Perf.start()
 window.stop = () => {
   Perf.stop()
   Perf.printWasted()
-  Perf.printInclusive()
+  // Perf.printInclusive()
 }
 
 
