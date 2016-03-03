@@ -16,8 +16,6 @@ class Body extends Component {
   constructor(props){
     super(props)
 
-    window.scrollToIndex = this.scrollToIndex
-
     this.state = {
       bodyHeight: 0,
       scrollTop: 0,

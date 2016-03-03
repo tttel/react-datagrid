@@ -19,11 +19,23 @@ class Scroller extends Component {
       dataLength, 
       contentHeight,
       scrollTop,
-      height
+      height,
+      scrollbarWidth
     } = props
     
     const scrollContentStyle = {
       height: contentHeight
+    }
+
+    const contentStyle = {
+      maxHeight: height,
+      maxWidth: `calc(100% - ${scrollbarWidth}px)`
+    }
+
+    const scrollerStyle = { 
+      height, 
+      maxHeight: height, 
+      maxWidth: scrollbarWidth 
     }
 
     return <Flex
@@ -40,7 +52,7 @@ class Scroller extends Component {
         wrap={false}
         ref="viewport"
         onWheel={this.onWheel}
-        style={{ height, maxHeight: height }}
+        style={contentStyle}
       >
         {props.children}
       </Flex> 
@@ -48,7 +60,7 @@ class Scroller extends Component {
         ref="scrollbar"
         className="react-datagrid__scroller__scrollbar"
         onScroll={this.onScrollBarScroll}
-        style={{ height, maxHeight: height, width: this.props.scrollbarWidth }}
+        style={scrollerStyle}
       >
         <div 
           className="react-datagrid__scroller__scrollbar__content"
