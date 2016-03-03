@@ -46,7 +46,7 @@ class Scroller extends Component {
         ref="scrollbar"
         className="react-datagrid__scroller__scrollbar"
         onScroll={this.onScrollBarScroll}
-        style={{ height }}
+        style={{ height, width: this.props.scrollbarWidth }}
       >
         <div 
           className="react-datagrid__scroller__scrollbar__content"

@@ -286,7 +286,7 @@ DataGrid.defaultProps = {
   rowProps: {},
   defaultSelected: undefined,
   defaultActiveIndex: -1,
-  scrollerWidth: 20
+  scrollbarWidth: 20
 }
 
 DataGrid.propTypes = {
@@ -355,7 +355,7 @@ DataGrid.propTypes = {
 
   scrollToIndex: PropTypes.func,
   scrollToId: PropTypes.func,
-  scrollerWidth: PropTypes.number
+  scrollbarWidth: PropTypes.number
 }
 
 

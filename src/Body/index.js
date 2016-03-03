@@ -37,7 +37,12 @@ class Body extends Component {
 
     if (nextProps.contentHeight !== this.props.contentHeight) {
       this.setState({
-        maxScrollTop: nextProps.contentHeight - this.state.bodyHeight + this.props.rowHeight
+        maxScrollTop: (
+            nextProps.contentHeight - 
+            this.state.bodyHeight + 
+            this.props.rowHeight +
+            this.props.scrollbarWidth
+          )
       })
     }
   }
@@ -48,7 +53,7 @@ class Body extends Component {
     const {
       data, 
       columns,
-      loading
+      loading,
     } = props
 
     const className = join(
@@ -79,13 +84,14 @@ class Body extends Component {
     }
 
     return <Scroller 
+      ref="scroller"
       contentHeight={this.props.contentHeight}
       onScroll={this.onScroll}
-      ref="scroller"
       onKeyPress={this.onScrollerKeyPress}
       scrollTop={this.state.scrollTop}
       maxScrollTop={this.state.maxScrollTop}
       height={this.state.bodyHeight}
+      scrollbarWidth={this.props.scrollbarWidth}
     >
       {this.renderColumnGroups()}
     </Scroller>
