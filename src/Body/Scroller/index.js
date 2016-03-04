@@ -149,7 +149,6 @@ class Scroller extends Component {
 
   setScroll(scrollTop){  
     this.refs.scrollbar.scrollTop = this.normalizeScrollTop(scrollTop)
-    console.log(scrollTop)
   }
 
   normalizeScrollTop(scrollTop){

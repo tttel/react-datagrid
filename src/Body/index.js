@@ -46,18 +46,18 @@ class Body extends Component {
 
   
   componentWillUpdate(nextProps, nextState){
-    if (
-        // if controlled check props
-        (nextProps != null && nextProps.scrollTop !== this.props.scrollTop)
-        ||
-        // uncontroled check state
-        (nextProps.scrollTop !== this.p.scrollTop)
-      ) {
+    if (!this.refs.scroller) {
+      return
     }
 
-    if (this.refs.scroller) {
-      this.refs.scroller.setScroll(nextProps.scrollTop)
-    }
+    if (
+        // if controlled set each time, so the scrollbar is forced to not move
+        nextProps.scrollTop != null
+      ) {
+        this.refs.scroller.setScroll(nextProps.scrollTop)
+      } else if (nextState.scrollTop !== this.state.scrollTop) {
+        this.refs.scroller.setScroll(nextState.scrollTop)
+      }
   }
 
   // todo func getBodyHeight
