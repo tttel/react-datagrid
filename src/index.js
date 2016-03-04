@@ -276,7 +276,7 @@ class DataGrid extends Component {
 }
 
 DataGrid.defaultProps = {
-  defaultLoading: true,
+  defaultLoading: false,
   hideHeader: false,
   onRowMouseEnter: () => {},
   onRowMouseLeave: () => {},

@@ -27,6 +27,7 @@
 `scrollTop` | Number | - | controls vertical scrollTop position, controlled version of `defaultScrollTop`
 `defaultScrollTop` | Number | - | se default vertical scrollTop position
 
+
 ### Rows
 * `renderRow(rowProps): Function`
   * `rowProps` : Object - an object with props for the current row - has the following properties:

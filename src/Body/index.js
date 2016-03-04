@@ -20,7 +20,7 @@ class Body extends Component {
       bodyHeight: 0,
       scrollTop: 0,
       overRowId: null,
-      maxScrollTop: 0
+      maxScrollTop: props.defaultScrollTop
     }
   }
   
@@ -39,7 +39,6 @@ class Body extends Component {
       this.setState({
         maxScrollTop: (
             nextProps.contentHeight - this.state.bodyHeight
-            // this.props.rowHeight 
           )
       })
     }
@@ -47,12 +46,14 @@ class Body extends Component {
 
   // todo func getBodyHeight
   render(){
-    const props = this.props
+    const preparedProps = this.p = this.prepareProps(this.props)
     const {
       data, 
       columns,
       loading,
-    } = props
+      scrollTop,
+      resizeTool
+    } = preparedProps
 
     const className = join(
         'react-datagrid__body'
@@ -62,15 +63,14 @@ class Body extends Component {
       return <EmptyText emptyText={this.props.emptyText} />
     }
 
-    return <Item 
-      {...props} 
+    return <Item  
       flex 
       column 
       className={className}
       data={null}
       ref="body"
     >
-      {props.resizeTool}
+      {resizeTool}
       {this.renderScroller()}
     </Item>
   }
@@ -86,7 +86,7 @@ class Body extends Component {
       contentHeight={this.props.contentHeight}
       onScroll={this.onScroll}
       onKeyPress={this.onScrollerKeyPress}
-      scrollTop={this.state.scrollTop}
+      scrollTop={this.p.scrollTop}
       maxScrollTop={this.state.maxScrollTop}
       height={this.state.bodyHeight}
       scrollbarWidth={this.props.scrollbarWidth}
@@ -241,12 +241,24 @@ class Body extends Component {
 
     this.onScroll(scrollTop)
   }
+
+
+  prepareProps(props){
+    const scrollTop = props.scrollTop != null?
+                  props.scrollTop:
+                  this.state.scrollTop
+
+    return assign({}, props, {
+      scrollTop
+    })
+  }
 }
 
 
 Body.defaultProps = {
   rowHeight: 40,
   extraRows: 4,
+  defaultScrollTop: 0,
   onRowMouseEnter: () => {},
   onRowMouseLeave: () => {},
   onScrollBottom: () => {},
