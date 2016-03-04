@@ -5,7 +5,7 @@ var loaders = require('./loaders.config')
 module.exports = {
   bail: true,
   entry: {
-    index: './index.scss'
+    index: './style/index.scss'
   },
   output: {
     filename: 'index.css',
