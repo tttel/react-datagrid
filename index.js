@@ -9,6 +9,7 @@ import './index.scss'
 import gen from './generate'
 import Perf from 'react-addons-perf'
 
+window.Promise = require('es6-promise').Promise;
 // window.Perf = Perf
 
 window.start = () => Perf.start()
