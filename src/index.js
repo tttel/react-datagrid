@@ -140,22 +140,28 @@ class DataGrid extends Component {
   onArrowUp(event, rowProps){
     if (!this.p.isActiveIndexControlled) {
       const newIndex = this.state.activeIndex - 1
-      this.setState({
-        activeIndex: newIndex 
-      })
-      
-      this.props.onActiveIndexChange(newIndex)
+
+      if (newIndex >= 0) {
+        this.setState({
+          activeIndex: newIndex 
+        })
+        
+        this.props.onActiveIndexChange(newIndex)
+      }
     }
   }
 
   onArrowDown(event, rowProps){
     if (!this.p.isActiveIndexControlled) {
       const newIndex = this.state.activeIndex + 1
-      this.setState({
-        activeIndex: newIndex 
-      })
-      
-      this.props.onActiveIndexChange(newIndex)
+
+      if (newIndex !== this.p.data.length) {
+        this.setState({
+          activeIndex: newIndex 
+        })
+        
+        this.props.onActiveIndexChange(newIndex)
+      }
     }
   }
 
