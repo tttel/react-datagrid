@@ -91,7 +91,10 @@ class Scroller extends Component {
   }
 
   onScrollBarScroll(event){
-    this.onScroll(event.target.scrollTop, event)
+    if (event.target.scrollTop !== this.props.scrollTop) {
+      console.log('aaaaa')
+      this.onScroll(event.target.scrollTop, event)
+    }
   }
 
   onWheel(event){
@@ -129,6 +132,10 @@ class Scroller extends Component {
     // debugger
     DragHelper(event, {
       scope: this,
+      onDragStart: (event, config) => {
+        console.log('drag start')
+        this.initialScrollStart = this.props.scrollTop
+      },
       onDrag: (event, config) => {
         
         if (config.diff.left === 0 && config.diff.top === 0) {
@@ -149,7 +156,8 @@ class Scroller extends Component {
           return
         }
 
-        const newScrollPos = this.props.scrollTop - config.diff['top']
+        const newScrollPos = this.initialScrollStart - config.diff.top
+        
         this.onScroll(newScrollPos, event) 
 
         event.stopPropagation()
@@ -157,6 +165,7 @@ class Scroller extends Component {
       },
       onDrop: (event, config) => {
         this.isDragHorizontal = null
+        this.initialScrollStart = null
       }
     })
 
