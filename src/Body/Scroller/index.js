@@ -35,7 +35,8 @@ class Scroller extends Component {
     const scrollerStyle = { 
       height, 
       maxHeight: height, 
-      maxWidth: scrollbarWidth 
+      maxWidth: scrollbarWidth, 
+      minWidth: scrollbarWidth 
     }
 
     return <Flex

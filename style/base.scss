@@ -50,11 +50,12 @@
 
 .react-datagrid__scroller__scrollbar {
   display: flex;
-  max-width: 20px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: auto;
 }
 
+.react-datagrid__scroller__scrollbar__content {
+  width: 100%;
+}
 
 /*----------  Empty text  ----------*/
 .react-datagrid__emptry-text {}
