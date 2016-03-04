@@ -16,6 +16,8 @@ class Body extends Component {
   constructor(props){
     super(props)
 
+    window.scrollToIndex = this.scrollToIndex.bind(this)
+
     this.state = {
       bodyHeight: 0,
       scrollTop: 0,
@@ -54,9 +56,9 @@ class Body extends Component {
         // if controlled set each time, so the scrollbar is forced to not move
         nextProps.scrollTop != null
       ) {
-        this.refs.scroller.setScroll(nextProps.scrollTop)
+        this.refs.scroller.scrollAt(nextProps.scrollTop)
       } else if (nextState.scrollTop !== this.state.scrollTop) {
-        this.refs.scroller.setScroll(nextState.scrollTop)
+        this.refs.scroller.scrollAt(nextState.scrollTop)
       }
   }
 
@@ -102,7 +104,7 @@ class Body extends Component {
       onScroll={this.onScroll}
       onKeyPress={this.onScrollerKeyPress}
       scrollTop={this.p.scrollTop}
-      maxScrollTop={this.state.maxScrollTop}
+      maxScrollTop={this.p.maxScrollTop}
       height={this.state.bodyHeight}
       scrollbarWidth={this.props.scrollbarWidth}
     >
@@ -133,7 +135,7 @@ class Body extends Component {
       children
     } = preparedProps
 
-    const bodyHeight = this.state.bodyHeight
+    const bodyHeight = this.p.bodyHeight
     const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
     
     const offsetTop = from * rowHeight
@@ -196,7 +198,7 @@ class Body extends Component {
       overRowId: rowProps.id
     })
 
-    this.props.onRowMouseEnter(event, rowProps)
+    this.p.onRowMouseEnter(event, rowProps)
   }
 
   onRowMouseLeave(event, rowProps){
@@ -207,22 +209,20 @@ class Body extends Component {
       })
     }
 
-    this.props.onRowMouseLeave(event, rowProps)
+    this.p.onRowMouseLeave(event, rowProps)
   }
 
   onScroll(scrollTop, event){
 
-    this.setState({
-      scrollTop
-    })
-
+    this.scrollAt(scrollTop)
+    
     // There is an error of one pixel in chrome, add -2 to be safe
-    if (this.props.contentHeight - 2 <= scrollTop + this.state.bodyHeight) {
-      this.props.onScrollBottom()
+    if (this.p.contentHeight - 2 <= scrollTop + this.p.bodyHeight) {
+      this.p.onScrollBottom()
     }
 
-    if (this.props.onScroll) {
-      this.props.onScroll(scrollTop, event)
+    if (this.p.onScroll) {
+      this.p.onScroll(scrollTop, event)
     }
   }
 
@@ -249,13 +249,33 @@ class Body extends Component {
     })
   }
 
-  scrollToIndex(index){
+  scrollToIndex(index, {position} = {position: 'top'}){
     // determine height at witch scrolltop should be
-    const scrollTop = (index - 1) * this.props.rowHeight || 0
+    const {
+      bodyHeight,
+      extraRows,
+      rowHeight
+    } = this.p
 
-    this.onScroll(scrollTop)
+    let scrollTop
+
+    if (position === 'top') {
+      scrollTop = (index - 1) * rowHeight || 0
+    } else if (position === 'bottom') {
+      scrollTop = ((index - 1) * rowHeight || 0) - bodyHeight + rowHeight
+    } else {
+      console.error('position can be top or bottom')
+      return
+    }
+
+    this.scrollAt(scrollTop)
   }
 
+  scrollAt(scrollTop){
+    this.setState({
+      scrollTop
+    })
+  }
 
   prepareProps(props){
     const isScrollControlled = props.scrollTop != null 
@@ -265,7 +285,9 @@ class Body extends Component {
 
     return assign({}, props, {
       scrollTop,
-      isScrollControlled
+      isScrollControlled,
+      bodyHeight: this.state.bodyHeight,
+      maxScrollTop: this.state.maxScrollTop
     })
   }
 }

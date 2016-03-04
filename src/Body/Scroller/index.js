@@ -12,7 +12,7 @@ const IS_FIREFOX = global && global.navigator && global.navigator.userAgent && !
 class Scroller extends Component {
 
   componentDidMount(){
-    this.setScroll(this.props.scrollTop)
+    this.scrollAt(this.props.scrollTop)
   }
 
   render(){
@@ -84,7 +84,7 @@ class Scroller extends Component {
   // - onScroll by scrollbar
   onScroll(scrollTop, event){
     const newScrollTop = this.normalizeScrollTop(scrollTop)
-    
+
     if (newScrollTop != this.props.scrollTop) {
       this.props.onScroll(newScrollTop, event)
     }
@@ -162,7 +162,7 @@ class Scroller extends Component {
 
   }
 
-  setScroll(scrollTop){  
+  scrollAt(scrollTop){  
     this.refs.scrollbar.scrollTop = this.normalizeScrollTop(scrollTop)
   }
 

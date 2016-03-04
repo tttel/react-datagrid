@@ -26,7 +26,7 @@
 `scrollbarWidth` | Number | 20 | specify the size rezerved for the vertical and horizontal scrollbars
 `scrollTop` | Number | - | controls vertical scrollTop position, controlled version of `defaultScrollTop`
 `defaultScrollTop` | Number | - | se default vertical scrollTop position
-
+`scrollAt(scrollTop)` | Function | you can set scrollTop by calling this method
 
 ### Rows
 * `renderRow(rowProps): Function`

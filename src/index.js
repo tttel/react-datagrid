@@ -90,6 +90,7 @@ class DataGrid extends Component {
       }
       <Body
         {...preparedProps}
+        ref="body"
         onRowMouseEnter={onRowMouseEnter}
         onRowMouseLeave={onRowMouseLeave}
         onScrollBottom={onScrollBottom}
@@ -272,6 +273,10 @@ class DataGrid extends Component {
       data: state.data,
       activeIndex
     })
+  }
+
+  scrollAt(scrollTop){
+    this.refs.body.scrollAt(scrollTop)
   }
 }
 
