@@ -84,7 +84,7 @@ class Scroller extends Component {
   // - onScroll by scrollbar
   onScroll(scrollTop, event){
     const newScrollTop = this.normalizeScrollTop(scrollTop)
-
+    
     if (newScrollTop != this.props.scrollTop) {
       this.props.onScroll(newScrollTop, event)
     }
@@ -125,24 +125,39 @@ class Scroller extends Component {
     this.onScroll(newScrollTop)
   }
 
-
   onTouchStart(event) {
     // debugger
     DragHelper(event, {
       scope: this,
-      onDrag: function(event, config) {
-       
-        // handle touch events only on vertical drags
-        if (config.diff.top == 0 || Math.abs(config.diff.left) > Math.abs(config.diff.top)){
+      onDrag: (event, config) => {
+        
+        if (config.diff.left === 0 && config.diff.top === 0) {
           return
         }
-       
-        let newScrollPos = this.props.scrollTop - config.diff['top']
+
+        // handle touch events only on vertical drags
+        if (config.diff.top == 0){
+          return
+        }
+
+        // if no flag set
+        if (this.isDragHorizontal == null) {
+          this.isDragHorizontal = Math.abs(config.diff.left) > Math.abs(config.diff.top)
+        }
+
+        if (this.isDragHorizontal) {
+          return
+        }
+
+        const newScrollPos = this.props.scrollTop - config.diff['top']
         this.onScroll(newScrollPos, event) 
 
         event.stopPropagation()
         event.preventDefault()
-      }        
+      },
+      onDrop: (event, config) => {
+        this.isDragHorizontal = null
+      }
     })
 
   }
