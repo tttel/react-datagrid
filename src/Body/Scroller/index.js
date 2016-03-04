@@ -133,32 +133,32 @@ class Scroller extends Component {
       scope: this,
       onDragStart: (event, config) => {
         this.initialScrollStart = this.props.scrollTop
-        // this.isDragHorizontal = null
+      //   // this.isDragHorizontal = null
       },
       onDrag: (event, config) => {
 
-        if (config.diff.left === 0 && config.diff.top === 0) {
-          return
-        }
-
-        if (config.diff.top == 0){
-          return
-        }
-
-        // if no flag set
-        if (this.isDragHorizontal === null) {
-          this.isDragHorizontal = Math.abs(config.diff.left/3) > Math.abs(config.diff.top)
-        }
-        
-        if (this.isDragHorizontal) {
-          return
-        }
-
-        // if (Math.abs(config.diff.left) <= Math.abs(config.diff.top * 4)) {
-        //   // event.stopPropagation()
+        // if (config.diff.left === 0 && config.diff.top === 0) {
+        //   return
         // }
 
+        // if (config.diff.top == 0){
+        //   return
+        // }
+
+        // // if no flag set
+        // if (this.isDragHorizontal === null) {
+        //   this.isDragHorizontal = Math.abs(config.diff.left/3) > Math.abs(config.diff.top)
+        // }
+        
+        // if (this.isDragHorizontal) {
+        //   return
+        // }
+
+        if (Math.abs(config.diff.left) <= Math.abs(config.diff.top * 4)) {
+          // event.stopPropagation()
           event.preventDefault()
+        }
+
 
 
         const newScrollPos = this.initialScrollStart - config.diff.top
@@ -169,7 +169,7 @@ class Scroller extends Component {
       },
 
       onDrop: (event, config) => {
-        this.isDragHorizontal = null
+        // this.isDragHorizontal = null
         this.initialScrollStart = null
       }
     })
