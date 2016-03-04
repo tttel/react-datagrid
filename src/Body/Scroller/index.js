@@ -11,6 +11,10 @@ const IS_FIREFOX = global && global.navigator && global.navigator.userAgent && !
 
 class Scroller extends Component {
 
+  componentDidMount(){
+    this.setScroll(this.props.scrollTop)
+  }
+
   render(){
     const props = this.props
   
@@ -79,7 +83,11 @@ class Scroller extends Component {
   // - onTouch 
   // - onScroll by scrollbar
   onScroll(scrollTop, event){
-    this.props.onScroll(this.normalizeScrollTop(scrollTop), event)
+    const newScrollTop = this.normalizeScrollTop(scrollTop)
+
+    if (newScrollTop != this.props.scrollTop) {
+      this.props.onScroll(newScrollTop, event)
+    }
   }
 
   onScrollBarScroll(event){
@@ -113,33 +121,35 @@ class Scroller extends Component {
    
     // don't trigger onscroll value doen't change
     // it happens when scrolltop is normalized to 0 or maxScrollTop
-    if (newScrollTop != scrollTop) {
-      this.onScroll(newScrollTop)
-    }
+    
+    this.onScroll(newScrollTop)
   }
 
-  setScroll(scrollTop){  
-    findDOMNode(this.refs.scrollbar).scrollTop = scrollTop
-  }
 
   onTouchStart(event) {
+    // debugger
     DragHelper(event, {
       scope: this,
       onDrag: function(event, config) {
-        console.log(config.diff)
+       
         // handle touch events only on vertical drags
-        if (config.diff.top == 0){
+        if (config.diff.top == 0 || Math.abs(config.diff.left) > Math.abs(config.diff.top)){
           return
         }
        
         let newScrollPos = this.props.scrollTop - config.diff['top']
+        this.onScroll(newScrollPos, event) 
 
-        this.onScroll(newScrollPos, event)
-        
-        // event.stopPropagation()
-        // event.preventDefault()
+        event.stopPropagation()
+        event.preventDefault()
       }        
     })
+
+  }
+
+  setScroll(scrollTop){  
+    this.refs.scrollbar.scrollTop = this.normalizeScrollTop(scrollTop)
+    console.log(scrollTop)
   }
 
   normalizeScrollTop(scrollTop){

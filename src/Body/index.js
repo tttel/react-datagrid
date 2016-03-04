@@ -44,6 +44,22 @@ class Body extends Component {
     }
   }
 
+  
+  componentWillUpdate(nextProps, nextState){
+    if (
+        // if controlled check props
+        (nextProps != null && nextProps.scrollTop !== this.props.scrollTop)
+        ||
+        // uncontroled check state
+        (nextProps.scrollTop !== this.p.scrollTop)
+      ) {
+    }
+
+    if (this.refs.scroller) {
+      this.refs.scroller.setScroll(nextProps.scrollTop)
+    }
+  }
+
   // todo func getBodyHeight
   render(){
     const preparedProps = this.p = this.prepareProps(this.props)
@@ -76,7 +92,6 @@ class Body extends Component {
   }
 
   renderScroller(){
-
     if (!this.props.data) {
       return
     }
@@ -96,7 +111,7 @@ class Body extends Component {
   }
 
   renderColumnGroups(){
-    const props = this.props
+    const preparedProps = this.p
     const {
       data,
       columns,
@@ -113,11 +128,12 @@ class Body extends Component {
       extraRows,
       onColumnGroupScroll,
       activeIndex,
-      onRowFocus
-    } = props
+      onRowFocus,
+      scrollTop,
+      children
+    } = preparedProps
 
     const bodyHeight = this.state.bodyHeight
-    const scrollTop = this.state.scrollTop
     const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
     
     const offsetTop = from * rowHeight
@@ -140,7 +156,7 @@ class Body extends Component {
       scrollTop,
       innerWrapperOffset,
       viewportHeight: bodyHeight,
-      globalProps: props,
+      globalProps: this.props,
       onRowMouseEnter: this.onRowMouseEnter,
       onRowMouseLeave: this.onRowMouseLeave,
       onRowClick: onRowClick, 
@@ -151,7 +167,7 @@ class Body extends Component {
     /**
      * If no coumnGroup is specified, create a ColumGroup with all passed columns
      */
-    if (!props.children) {
+    if (!children) {
       return <ColumnGroup 
         {...columnGroupProps} 
         columns={columns} 
@@ -161,7 +177,7 @@ class Body extends Component {
     /**
      * Children are specified, take each Columngroup and insert props
      */
-      return React.Children.map(props.children, (child, index) => {
+      return React.Children.map(children, (child, index) => {
          return React.cloneElement(
             child, 
             assign(
@@ -197,7 +213,7 @@ class Body extends Component {
   onScroll(scrollTop, event){
 
     this.setState({
-        scrollTop
+      scrollTop
     })
 
     // There is an error of one pixel in chrome, add -2 to be safe
@@ -242,12 +258,14 @@ class Body extends Component {
 
 
   prepareProps(props){
-    const scrollTop = props.scrollTop != null?
+    const isScrollControlled = props.scrollTop != null 
+    const scrollTop = isScrollControlled?
                   props.scrollTop:
                   this.state.scrollTop
 
     return assign({}, props, {
-      scrollTop
+      scrollTop,
+      isScrollControlled
     })
   }
 }

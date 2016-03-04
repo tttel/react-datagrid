@@ -111,7 +111,7 @@ class App extends Component {
         defaultSelected={{1:1, 2:2, 3:3}}
         aonSelectionChange={selected => console.log(selected)}
         defaultActiveIndex={4}
-        scrollTop={400}
+        // scrollTop={400}
       >
         <ColumnGroup width={900} fixed columns={columns} />
         <ColumnGroup className="myColumnGroup" columns={columns2} />
