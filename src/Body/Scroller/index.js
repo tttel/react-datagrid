@@ -54,6 +54,7 @@ class Scroller extends Component {
         wrap={false}
         ref="viewport"
         onWheel={this.onWheel}
+        onTouchStart={this.onTouchStart}
         style={contentStyle}
       >
         {props.children}
@@ -73,8 +74,16 @@ class Scroller extends Component {
     </Flex>
   }
 
+  // onScroll is triggered indirectly by:
+  // - onWheel 
+  // - onTouch 
+  // - onScroll by scrollbar
+  onScroll(scrollTop, event){
+    this.props.onScroll(this.normalizeScrollTop(scrollTop), event)
+  }
+
   onScrollBarScroll(event){
-    this.onScroll(this.normalizeScrollTop(event.target.scrollTop), event)
+    this.onScroll(event.target.scrollTop, event)
   }
 
   onWheel(event){
@@ -102,8 +111,6 @@ class Scroller extends Component {
       newScrollTop += deltaY * scrollStep
     }
    
-    newScrollTop = this.normalizeScrollTop(newScrollTop)
-    
     // don't trigger onscroll value doen't change
     // it happens when scrolltop is normalized to 0 or maxScrollTop
     if (newScrollTop != scrollTop) {
@@ -111,43 +118,28 @@ class Scroller extends Component {
     }
   }
 
-  onScroll(scrollTop, event){
-    this.props.onScroll(scrollTop, event)
-  }
-
   setScroll(scrollTop){  
     findDOMNode(this.refs.scrollbar).scrollTop = scrollTop
   }
 
-
-  // TODO test on ipad
   onTouchStart(event) {
-    var props  = this.props
-    var side
-
-      DragHelper(event, {
-        scope: this,
-        onDrag: function(event, config) {
-          if (config.diff.top == 0 && config.diff.left == 0){
-            return
-          }
-
-          if (!side){
-            side = ABS(config.diff.top) > ABS(config.diff.left)? 'top': 'left'
-          }
-
-          var diff = config.diff[side]
-
-          newScrollPos = scroll[side] - diff
-
-          if (side == 'top'){
-            this.onScroll(newScrollPos, event)
-          } 
+    DragHelper(event, {
+      scope: this,
+      onDrag: function(event, config) {
+        console.log(config.diff)
+        // handle touch events only on vertical drags
+        if (config.diff.top == 0){
+          return
         }
-      })
+       
+        let newScrollPos = this.props.scrollTop - config.diff['top']
 
-      event.stopPropagation()
-      preventDefault(event)
+        this.onScroll(newScrollPos, event)
+        
+        // event.stopPropagation()
+        // event.preventDefault()
+      }        
+    })
   }
 
   normalizeScrollTop(scrollTop){

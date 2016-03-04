@@ -200,8 +200,6 @@ class Body extends Component {
         scrollTop
     })
 
-    this.refs.scroller.setScroll(scrollTop)
-
     // There is an error of one pixel in chrome, add -2 to be safe
     if (this.props.contentHeight - 2 <= scrollTop + this.state.bodyHeight) {
       this.props.onScrollBottom()
