@@ -29,6 +29,7 @@ class Scroller extends Component {
 
     const contentStyle = {
       maxHeight: height,
+      minHeight: height, // needed for ie
       maxWidth: `calc(100% - ${scrollbarWidth}px)`
     }
 
