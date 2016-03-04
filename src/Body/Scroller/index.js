@@ -128,41 +128,48 @@ class Scroller extends Component {
     this.onScroll(newScrollTop)
   }
 
-  onTouchStart(event) {
-    // debugger
-    DragHelper(event, {
+  onTouchStart(event){
+    DragHelper(event.nativeEvent, {
       scope: this,
       onDragStart: (event, config) => {
-        console.log('drag start')
         this.initialScrollStart = this.props.scrollTop
+        // this.isDragHorizontal = null
       },
       onDrag: (event, config) => {
-        
+
         if (config.diff.left === 0 && config.diff.top === 0) {
           return
         }
 
-        // handle touch events only on vertical drags
-        if (config.diff.top == 0){
-          return
-        }
+        // if (config.diff.top == 0){
+        //   return
+        // }
 
         // if no flag set
-        if (this.isDragHorizontal == null) {
-          this.isDragHorizontal = Math.abs(config.diff.left) > Math.abs(config.diff.top)
+        // if (this.isDragHorizontal === null) {
+        //   this.isDragHorizontal = Math.abs(config.diff.left/3) > Math.abs(config.diff.top)
+        //   console.log('must be only onece ',this.isDragHorizontal)
+        // }
+        
+        // if (this.isDragHorizontal) {
+        //   console.log('not stoped because it is horizontal')
+        //   return
+        // }
+
+        if (Math.abs(config.diff.left) <= Math.abs(config.diff.top * 4)) {
+          // event.stopPropagation()
+          event.preventDefault()
         }
 
-        if (this.isDragHorizontal) {
-          return
-        }
+
 
         const newScrollPos = this.initialScrollStart - config.diff.top
         
-        this.onScroll(newScrollPos, event) 
-
-        event.stopPropagation()
-        event.preventDefault()
+        requestAnimationFrame(() => {
+          this.onScroll(newScrollPos, event) 
+        })
       },
+
       onDrop: (event, config) => {
         this.isDragHorizontal = null
         this.initialScrollStart = null
