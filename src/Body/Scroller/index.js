@@ -141,26 +141,24 @@ class Scroller extends Component {
           return
         }
 
-        // if (config.diff.top == 0){
-        //   return
-        // }
-
-        // if no flag set
-        // if (this.isDragHorizontal === null) {
-        //   this.isDragHorizontal = Math.abs(config.diff.left/3) > Math.abs(config.diff.top)
-        //   console.log('must be only onece ',this.isDragHorizontal)
-        // }
-        
-        // if (this.isDragHorizontal) {
-        //   console.log('not stoped because it is horizontal')
-        //   return
-        // }
-
-        if (Math.abs(config.diff.left) <= Math.abs(config.diff.top * 4)) {
-          // event.stopPropagation()
-          event.preventDefault()
+        if (config.diff.top == 0){
+          return
         }
 
+        // if no flag set
+        if (this.isDragHorizontal === null) {
+          this.isDragHorizontal = Math.abs(config.diff.left/3) > Math.abs(config.diff.top)
+        }
+        
+        if (this.isDragHorizontal) {
+          return
+        }
+
+        // if (Math.abs(config.diff.left) <= Math.abs(config.diff.top * 4)) {
+        //   // event.stopPropagation()
+        // }
+
+          event.preventDefault()
 
 
         const newScrollPos = this.initialScrollStart - config.diff.top
