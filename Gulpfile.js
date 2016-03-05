@@ -45,3 +45,10 @@ gulp.task('copy-react', function(){
 })
 
 gulp.task('default', ['build-html', 'copy-react'])
+
+
+gulp.task('lib', function () {
+    return gulp.src('./src/**')
+        .pipe(babel())
+        .pipe(gulp.dest('./lib'));
+});

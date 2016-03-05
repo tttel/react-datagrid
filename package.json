@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "dev": "webpack-dev-server --progress --colors --config ./build/dev.config.js",
-    "lib": "gulp",
+    "lib": "gulp lib",
     "prepublish": "npm run lib && npm run build-style",
     "build-style": "webpack -p --config ./build/style.config.js",
     "build": "npm run lib && npm run build-style",
