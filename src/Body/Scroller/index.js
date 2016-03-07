@@ -92,7 +92,6 @@ class Scroller extends Component {
 
   onScrollBarScroll(event){
     if (event.target.scrollTop !== this.props.scrollTop) {
-      console.log('aaaaa')
       this.onScroll(event.target.scrollTop, event)
     }
   }
@@ -112,7 +111,7 @@ class Scroller extends Component {
       return
     }
 
-      event.preventDefault()
+    event.preventDefault()
    
     let newScrollTop = scrollTop
     
@@ -136,7 +135,7 @@ class Scroller extends Component {
       //   // this.isDragHorizontal = null
       },
       onDrag: (event, config) => {
-
+        // TODO: remove after test safari tablet
         // if (config.diff.left === 0 && config.diff.top === 0) {
         //   return
         // }

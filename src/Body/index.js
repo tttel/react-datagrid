@@ -20,9 +20,9 @@ class Body extends Component {
 
     this.state = {
       bodyHeight: 0,
-      scrollTop: 0,
+      scrollTop: props.defaultScrollTop,
       overRowId: null,
-      maxScrollTop: props.defaultScrollTop
+      maxScrollTop: props.defaultScrollTop,
     }
   }
   
@@ -132,12 +132,30 @@ class Body extends Component {
       activeIndex,
       onRowFocus,
       scrollTop,
-      children
+      children,
+      buffer
     } = preparedProps
 
     const bodyHeight = this.p.bodyHeight
-    const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
+
+    let fromTo
+    // first render
+    if (!this.fromTo) {
+      this.fromTo = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
+      this.oldScrollTop = scrollTop
+    }
     
+    // we need to buffer rendering
+    // only rerender rows when buffer (half of extra rows height) is scrolled
+    // and we need to render anoter set of rows
+    // cache scrollTop and from and to
+    if (Math.abs(this.oldScrollTop - scrollTop) >= buffer - 10) { // buffer pass check
+      // render anoter set or forws
+      this.fromTo = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
+      this.oldScrollTop = scrollTop
+    }
+
+    const {from, to} = this.fromTo
     const offsetTop = from * rowHeight
     const innerWrapperOffset = offsetTop - scrollTop
 
@@ -283,11 +301,14 @@ class Body extends Component {
                   props.scrollTop:
                   this.state.scrollTop
 
+    const buffer = (props.extraRows / 2) * props.rowHeight
+    
     return assign({}, props, {
       scrollTop,
+      buffer,
       isScrollControlled,
       bodyHeight: this.state.bodyHeight,
-      maxScrollTop: this.state.maxScrollTop
+      maxScrollTop: this.state.maxScrollTop,
     })
   }
 }
@@ -295,7 +316,7 @@ class Body extends Component {
 
 Body.defaultProps = {
   rowHeight: 40,
-  extraRows: 4,
+  extraRows: 10,
   defaultScrollTop: 0,
   onRowMouseEnter: () => {},
   onRowMouseLeave: () => {},
