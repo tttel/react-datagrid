@@ -112,7 +112,7 @@ export default class Row extends Component {
       } = columnProps
       
       // column.name can be ommited if it has a render method
-      const key = `${name}-${index}` || index 
+      const key = `${name}-${index}` 
       const isFirst = index === 0
       const isLast = index === lastIndex
       const value = data[name]

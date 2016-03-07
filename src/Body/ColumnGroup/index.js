@@ -134,7 +134,7 @@ export default class ColumnGroup extends Component {
 
     return data.slice(from, to).map((rowData, index, dataSlice) => {
       const id = rowData[globalProps.idProperty]
-      const key = `row-${id}`
+      const key = `row-${index}`
       const over = overRowId === id
       const realIndex = index + from
       const even = !!(realIndex % 2)
