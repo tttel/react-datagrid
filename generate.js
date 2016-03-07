@@ -14,7 +14,7 @@ const gen = (() => {
 
     for (var i = 0; i < len; i++){
       arr.push({
-        id       : faker.internet.email() + i,
+        id       : i,
         grade    : Math.round(Math.random() * 10),
         email    : faker.internet.email(),
         firstName: faker.name.firstName(),
