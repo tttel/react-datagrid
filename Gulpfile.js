@@ -44,4 +44,10 @@ gulp.task('copy-react', function(){
      .pipe(gulp.dest('./dist'))
 })
 
-gulp.task('default', ['build-html', 'copy-react'])
+gulp.task('build', ['build-html', 'copy-react'])
+
+gulp.task('default', function () {
+  return gulp.src('./src/**')
+    .pipe(babel())
+    .pipe(gulp.dest('./lib'))
+});
