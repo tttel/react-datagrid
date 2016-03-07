@@ -106,12 +106,10 @@ class Scroller extends Component {
    
     const { deltaY, deltaX } = event
 
-    // horizontal scroll is native so do nothing
-    if (~~deltaX !== 0) {
-      return
+    if (Math.abs(deltaX) < Math.abs(deltaY) {
+      event.preventDefault()
     }
 
-    event.preventDefault()
    
     let newScrollTop = scrollTop
     
