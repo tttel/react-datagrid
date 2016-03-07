@@ -5,6 +5,7 @@ import { Item } from 'react-flex'
 import getDataRangeToRender from './getDataRangeToRender'
 import assign from 'object-assign'
 import join from '../utils/join'
+import raf from 'raf'
 
 import EmptyText from './EmptyText'
 
@@ -292,8 +293,11 @@ class Body extends Component {
   }
 
   scrollAt(scrollTop){
-    this.setState({
-      scrollTop
+
+    raf(() => {
+      this.setState({
+        scrollTop
+      })
     })
 
     return scrollTop

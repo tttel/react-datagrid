@@ -64,6 +64,7 @@
     "drag-helper": "1.2.3",
     "hasown": "1.0.1",
     "object-assign": "4.0.1",
+    "raf": "^3.2.0",
     "react-class": "2.0.0",
     "react-flex": "1.2.3",
     "react-load-mask": "1.0.1",
