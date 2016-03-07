@@ -139,14 +139,8 @@ class DataGrid extends Component {
     if (!this.p.isActiveIndexControlled) {
       const newIndex = this.state.activeIndex - 1
 
-
-      if (newIndex >= 0) {
-        this.setState({
-          activeIndex: newIndex,
-          previousActiveIndex: this.state.activeIndex
-        })
-        
-        this.props.onActiveIndexChange(newIndex)
+      if (newIndex >= 0) {   
+        this.changeActiveIndex(newIndex) 
       }
     }
   }
@@ -155,16 +149,21 @@ class DataGrid extends Component {
     if (!this.p.isActiveIndexControlled) {
       const newIndex = this.state.activeIndex + 1
 
-
       if (newIndex !== this.p.data.length) {
-        this.setState({
-          activeIndex: newIndex,
-          previousActiveIndex: this.state.activeIndex
-        })
-        
-        this.props.onActiveIndexChange(newIndex)
+        this.changeActiveIndex(newIndex) 
       }
     }
+  }
+
+  changeActiveIndex(newIndex){
+    const direction = newIndex > this.state.activeIndex? 1 : -1 
+    
+    this.setState({
+      activeIndex: newIndex,
+      // direction
+    })
+
+    this.props.onActiveIndexChange(newIndex)
   }
 
   loadSourceData(dataSource, props){
