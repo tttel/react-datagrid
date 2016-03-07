@@ -140,7 +140,7 @@ class DataGrid extends Component {
       const newIndex = this.state.activeIndex - 1
 
       if (newIndex >= 0) {   
-        this.changeActiveIndex(newIndex) 
+        this.changeActiveIndex(newIndex, rowProps) 
       }
     }
   }
@@ -150,14 +150,14 @@ class DataGrid extends Component {
       const newIndex = this.state.activeIndex + 1
 
       if (newIndex !== this.p.data.length) {
-        this.changeActiveIndex(newIndex) 
+        this.changeActiveIndex(newIndex, rowProps) 
       }
     }
   }
 
-  changeActiveIndex(newIndex){
+  changeActiveIndex(newIndex, rowProps){
     const direction = newIndex > this.state.activeIndex? 1 : -1 
-    
+
     this.setState({
       activeIndex: newIndex,
       // direction

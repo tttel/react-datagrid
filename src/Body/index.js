@@ -6,6 +6,7 @@ import getDataRangeToRender from './getDataRangeToRender'
 import assign from 'object-assign'
 import join from '../utils/join'
 import raf from 'raf'
+import getIndexBy from '../utils/getIndexBy'
 
 import EmptyText from './EmptyText'
 
@@ -295,18 +296,9 @@ class Body extends Component {
 
   scrollToId(id, config){
     // find index of id
-    const data = this.props.data
+    const index = getIndexBy(this.props.data, this.props.idProperty, id)
 
-    for (let i = 0, len = data.length; i < len; i++) {
-      if (data[i][this.props.idProperty] === id) {
-        // we found our id
-        this.scrollToIndex(i, config)
-        
-        return i
-      }
-    }   
-
-    return false
+    return this.scrollToIndex(index, config)
   }
 
   prepareProps(props){
