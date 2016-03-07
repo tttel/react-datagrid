@@ -282,17 +282,37 @@ class Body extends Component {
     } else if (position === 'bottom') {
       scrollTop = ((index - 1) * rowHeight || 0) - bodyHeight + rowHeight
     } else {
-      console.error('position can be top or bottom')
-      return
+      console.error('ScrollToIndex can have position top or bottom.')
+      return false
     }
 
     this.scrollAt(scrollTop)
+
+    return index
   }
 
   scrollAt(scrollTop){
     this.setState({
       scrollTop
     })
+
+    return scrollTop
+  }
+
+  scrollToId(id, config){
+    // find index of id
+    const data = this.props.data
+
+    for (let i = 0, len = data.length; i < len; i++) {
+      if (data[i][this.props.idProperty] === id) {
+        // we found our id
+        this.scrollToIndex(i, config)
+        
+        return i
+      }
+    }   
+
+    return false
   }
 
   prepareProps(props){

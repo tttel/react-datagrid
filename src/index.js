@@ -281,8 +281,17 @@ class DataGrid extends Component {
     })
   }
 
+  // TODO: find a fix to extra nesting
   scrollAt(scrollTop){
-    this.refs.body.scrollAt(scrollTop)
+    return this.refs.body.refs.notifyResizeWrapper.refs.component.scrollAt(scrollTop)
+  }
+
+  scrollToIndex(...args){
+    return this.refs.body.refs.notifyResizeWrapper.refs.component.scrollToIndex(...args)
+  }
+
+  scrollToId(...args){
+    return this.refs.body.refs.notifyResizeWrapper.refs.component.scrollToId(...args)
   }
 }
 
