@@ -162,9 +162,7 @@ class Scroller extends Component {
 
         const newScrollPos = this.initialScrollStart - config.diff.top
         
-        requestAnimationFrame(() => {
-          this.onScroll(newScrollPos, event) 
-        })
+        this.onScroll(newScrollPos, event) 
       },
 
       onDrop: (event, config) => {
