@@ -155,15 +155,24 @@ class DataGrid extends Component {
     }
   }
 
-  changeActiveIndex(newIndex, rowProps){
-    const direction = newIndex > this.state.activeIndex? 1 : -1 
+  changeActiveIndex(newIndex){
+    const scrollTop = this.getScrollTop()
+    const bodyHeight = this.getBodyHeight()
+    const rowScrollTop = newIndex * this.props.rowHeight
 
-    // if top
-    
+    // scroll to item if is not visible
+    // top 
+    if (scrollTop > rowScrollTop) {
+      this.scrollToIndex(newIndex)
+    }
+
+    // bottom
+    if ((scrollTop + bodyHeight) < rowScrollTop + this.props.rowHeight) {
+      this.scrollToIndex(newIndex, {position: 'bottom'})
+    }
 
     this.setState({
       activeIndex: newIndex,
-      // direction
     })
 
     this.props.onActiveIndexChange(newIndex)

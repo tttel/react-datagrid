@@ -270,9 +270,9 @@ class Body extends Component {
     let scrollTop
 
     if (position === 'top') {
-      scrollTop = (index - 1) * rowHeight || 0
+      scrollTop = index * rowHeight
     } else if (position === 'bottom') {
-      scrollTop = ((index - 1) * rowHeight || 0) - bodyHeight + rowHeight
+      scrollTop = (index * rowHeight) - bodyHeight + rowHeight
     } else {
       console.error('ScrollToIndex can have position top or bottom.')
       return false
