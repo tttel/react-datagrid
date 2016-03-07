@@ -154,7 +154,7 @@ export default class ColumnGroup extends Component {
         even,
         over,
         active,
-        // index,
+        index,
         key,
         renderRow,
         cellFactory,
