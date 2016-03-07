@@ -318,6 +318,14 @@ class Body extends Component {
       maxScrollTop: this.state.maxScrollTop,
     })
   }
+
+  getScrollTop(){
+    return this.state.scrollTop
+  }
+
+  getBodyHeight(){
+    return this.state.bodyHeight
+  }
 }
 
 

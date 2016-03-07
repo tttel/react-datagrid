@@ -158,6 +158,9 @@ class DataGrid extends Component {
   changeActiveIndex(newIndex, rowProps){
     const direction = newIndex > this.state.activeIndex? 1 : -1 
 
+    // if top
+    
+
     this.setState({
       activeIndex: newIndex,
       // direction
@@ -293,6 +296,14 @@ class DataGrid extends Component {
 
   scrollToId(...args){
     return this.refs.body.component.scrollToId(...args)
+  }
+
+  getScrollTop(){
+    return this.refs.body.component.getScrollTop()
+  }
+
+  getBodyHeight(){
+    return this.refs.body.component.getBodyHeight()
   }
 }
 
