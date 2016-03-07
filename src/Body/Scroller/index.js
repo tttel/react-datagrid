@@ -106,7 +106,7 @@ class Scroller extends Component {
    
     const { deltaY, deltaX } = event
 
-    if (Math.abs(deltaX) < Math.abs(deltaY) {
+    if (Math.abs(deltaX) < Math.abs(deltaY)) {
       event.preventDefault()
     }
 
