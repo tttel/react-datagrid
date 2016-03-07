@@ -112,7 +112,7 @@ class App extends Component {
         aonSelectionChange={selected => console.log(selected)}
         defaultActiveIndex={4}
         xscrollTop={400}
-        ref={(c) => window.scrollAt = c.scrollAt}
+        ref={(c) => window.c = c}
       >
         <ColumnGroup width={900} fixed columns={columns} />
         <ColumnGroup className="myColumnGroup" columns={columns2} />
