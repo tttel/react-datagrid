@@ -84,7 +84,7 @@ export default class ColumnGroup extends Component {
       )
 
     const innerWrapperStyle = {
-      transform: `translateY(${innerWrapperOffset}px)` 
+      transform: `translate3d(0,${innerWrapperOffset}px, 0)` 
     }
 
     return <div 
@@ -130,13 +130,16 @@ export default class ColumnGroup extends Component {
       activeIndex,
       onRowFocus,
       rowProps: passedProps,
+      zebraRows,
+      bufferValid,
+      isScrolling,
     } = props
 
     return data.slice(from, to).map((rowData, index, dataSlice) => {
       const id = rowData[globalProps.idProperty]
-      const key = `row-${id}`
       const over = overRowId === id
       const realIndex = index + from
+      const key = `row-${realIndex}`
       const even = !!(realIndex % 2)
       const active = activeIndex === realIndex
 
@@ -151,23 +154,32 @@ export default class ColumnGroup extends Component {
         id,
         columns,
         minWidth,
-        even,
-        over,
         active,
         // index,
         key,
+        over,
         renderRow,
         cellFactory,
         rowStyle,
         realIndex, // is used rowSelect, for a correct selection (onClick)
         rowHeight,
         passedProps,
+        bufferValid,
+        isScrolling,
         selected: isSelected, // row uses selected as a bool, a state 
         data: rowData, 
         onMouseEnter: onRowMouseEnter,
         onMouseLeave: onRowMouseLeave,
         onClick: onRowClick,
         onFocus: onRowFocus
+      }
+
+      if (zebraRows) {
+        rowProps.even = even
+        rowProps.odd = !even
+      } else {
+        rowProps.even = false
+        rowProps.odd = false
       }
 
       let row

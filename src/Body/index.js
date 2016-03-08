@@ -5,6 +5,8 @@ import { Item } from 'react-flex'
 import getDataRangeToRender from './getDataRangeToRender'
 import assign from 'object-assign'
 import join from '../utils/join'
+import raf from 'raf'
+import getIndexBy from '../utils/getIndexBy'
 
 import EmptyText from './EmptyText'
 
@@ -16,13 +18,12 @@ class Body extends Component {
   constructor(props){
     super(props)
 
-    window.scrollToIndex = this.scrollToIndex.bind(this)
-
     this.state = {
       bodyHeight: 0,
-      scrollTop: 0,
+      scrollTop: props.defaultScrollTop,
       overRowId: null,
-      maxScrollTop: props.defaultScrollTop
+      maxScrollTop: props.defaultScrollTop,
+      isScrolling: false,
     }
   }
   
@@ -73,8 +74,10 @@ class Body extends Component {
       resizeTool
     } = preparedProps
 
+
     const className = join(
-        'react-datagrid__body'
+        'react-datagrid__body',
+        this.state.isScrolling && 'react-datagrid__body--scrolling'
       )
 
     if ((Array.isArray(data) && data.length === 0) || data === null && !loading) {
@@ -107,6 +110,8 @@ class Body extends Component {
       maxScrollTop={this.p.maxScrollTop}
       height={this.state.bodyHeight}
       scrollbarWidth={this.props.scrollbarWidth}
+      toggleIsScrolling={this.toggleIsScrolling}
+
     >
       {this.renderColumnGroups()}
     </Scroller>
@@ -132,12 +137,26 @@ class Body extends Component {
       activeIndex,
       onRowFocus,
       scrollTop,
-      children
+      children,
+      buffer,
+      zebraRows
     } = preparedProps
 
     const bodyHeight = this.p.bodyHeight
-    const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
-    
+    let bufferValid = true
+
+    // we need to buffer rendering
+    // only rerender rows when buffer (half of extra rows height) is scrolled
+    // and we need to render anoter set of rows
+    // cache scrollTop and fromTo
+    // const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
+    if ((Math.abs(this.oldScrollTop - scrollTop - rowHeight) >= buffer) || !this.fromTo) {
+      this.fromTo = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
+      this.oldScrollTop = scrollTop
+      bufferValid = false
+    }
+
+    const {from, to} = this.fromTo
     const offsetTop = from * rowHeight
     const innerWrapperOffset = offsetTop - scrollTop
 
@@ -157,13 +176,16 @@ class Body extends Component {
       onRowFocus,
       scrollTop,
       innerWrapperOffset,
+      zebraRows,
+      bufferValid,
+      isScrolling: this.state.isScrolling,
       viewportHeight: bodyHeight,
       globalProps: this.props,
       onRowMouseEnter: this.onRowMouseEnter,
       onRowMouseLeave: this.onRowMouseLeave,
       onRowClick: onRowClick, 
       overRowId: this.state.overRowId,
-      onScroll: onColumnGroupScroll
+      onScroll: onColumnGroupScroll,
     }
 
     /**
@@ -249,6 +271,12 @@ class Body extends Component {
     })
   }
 
+  toggleIsScrolling(){
+    this.setState({
+      isScrolling: !this.state.isScrolling
+    })
+  }
+
   scrollToIndex(index, {position} = {position: 'top'}){
     // determine height at witch scrolltop should be
     const {
@@ -260,21 +288,35 @@ class Body extends Component {
     let scrollTop
 
     if (position === 'top') {
-      scrollTop = (index - 1) * rowHeight || 0
+      scrollTop = index * rowHeight
     } else if (position === 'bottom') {
-      scrollTop = ((index - 1) * rowHeight || 0) - bodyHeight + rowHeight
+      scrollTop = (index * rowHeight) - bodyHeight + rowHeight
     } else {
-      console.error('position can be top or bottom')
-      return
+      console.error('ScrollToIndex can have position top or bottom.')
+      return false
     }
 
     this.scrollAt(scrollTop)
+
+    return index
   }
 
   scrollAt(scrollTop){
-    this.setState({
-      scrollTop
+    raf(() => {
+      this.setState({
+        scrollTop
+      })     
     })
+
+    return scrollTop
+  }
+
+
+  scrollToId(id, config){
+    // find index of id
+    const index = getIndexBy(this.props.data, this.props.idProperty, id)
+
+    return this.scrollToIndex(index, config)
   }
 
   prepareProps(props){
@@ -283,24 +325,37 @@ class Body extends Component {
                   props.scrollTop:
                   this.state.scrollTop
 
+    // buffer is half of extrarows height
+    const buffer = (props.extraRows / 2) * props.rowHeight
+    
     return assign({}, props, {
       scrollTop,
+      buffer,
       isScrollControlled,
       bodyHeight: this.state.bodyHeight,
-      maxScrollTop: this.state.maxScrollTop
+      maxScrollTop: this.state.maxScrollTop,
     })
+  }
+
+  getScrollTop(){
+    return this.state.scrollTop
+  }
+
+  getBodyHeight(){
+    return this.state.bodyHeight
   }
 }
 
 
 Body.defaultProps = {
   rowHeight: 40,
-  extraRows: 4,
+  extraRows: 10,
   defaultScrollTop: 0,
   onRowMouseEnter: () => {},
   onRowMouseLeave: () => {},
   onScrollBottom: () => {},
-  onColumnGroupScroll: () => {}
+  onColumnGroupScroll: () => {},
+  zebraRows: true,
 }
 
 Body.propTypes = {
@@ -309,7 +364,8 @@ Body.propTypes = {
   onRowMouseEnter: PropTypes.func,
   onRowMouseLeave: PropTypes.func,
   onScrollBottom: PropTypes.func,
-  onColumnGroupScroll: PropTypes.func
+  onColumnGroupScroll: PropTypes.func,
+  zebraRows: PropTypes.bool,
 }
 
 import resizeNotifier from 'react-notify-resize'

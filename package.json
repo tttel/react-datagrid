@@ -1,6 +1,6 @@
 {
   "name": "react-datagrid",
-  "version": "3.0.2-beta11",
+  "version": "3.0.2-beta22",
   "description": "React DataGrid",
   "main": "lib/index.js",
   "scripts": {
@@ -63,11 +63,13 @@
   "dependencies": {
     "drag-helper": "1.2.3",
     "hasown": "1.0.1",
+    "lodash.debounce": "^4.0.3",
     "object-assign": "4.0.1",
+    "raf": "^3.2.0",
     "react-class": "2.0.0",
     "react-flex": "1.2.3",
     "react-load-mask": "1.0.1",
-    "react-notify-resize": "0.1.6",
+    "react-notify-resize": "^0.1.8",
     "shallowequal": "0.2.2"
   }
 }

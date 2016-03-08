@@ -31,7 +31,8 @@ class DataGrid extends Component {
       loading: isLoading,
       data: false,
       selected: props.defaultSelected,
-      activeIndex: props.defaultActiveIndex
+      activeIndex: props.defaultActiveIndex,
+      previousActiveIndex: props.defaultActiveIndex,
     }
   }
 
@@ -114,17 +115,14 @@ class DataGrid extends Component {
   }
 
   onRowClick(event, rowProps){
-    // only trigger selectn when click comes from row, and not it's children
-    if (event.target.className.indexOf('react-datagrid__row') !== -1) {
-      this.handleSelection(rowProps, event)
-    }
+    this.handleSelection(rowProps, event)
   }
 
   onRowFocus(event, rowProps){
     let newActiveIndex
 
     // check if the event comes from the row and not one of it's children
-    if (event.target.className.indexOf('react-datagrid__row') !== -1) {
+    if (event.target === event.currentTarget) {
       newActiveIndex = rowProps.realIndex
 
       this.refs.NavigationHelper.focus()
@@ -141,12 +139,8 @@ class DataGrid extends Component {
     if (!this.p.isActiveIndexControlled) {
       const newIndex = this.state.activeIndex - 1
 
-      if (newIndex >= 0) {
-        this.setState({
-          activeIndex: newIndex 
-        })
-        
-        this.props.onActiveIndexChange(newIndex)
+      if (newIndex >= 0) {   
+        this.changeActiveIndex(newIndex, rowProps) 
       }
     }
   }
@@ -156,13 +150,32 @@ class DataGrid extends Component {
       const newIndex = this.state.activeIndex + 1
 
       if (newIndex !== this.p.data.length) {
-        this.setState({
-          activeIndex: newIndex 
-        })
-        
-        this.props.onActiveIndexChange(newIndex)
+        this.changeActiveIndex(newIndex, rowProps) 
       }
     }
+  }
+
+  changeActiveIndex(newIndex){
+    const scrollTop = this.getScrollTop()
+    const bodyHeight = this.getBodyHeight()
+    const rowScrollTop = newIndex * this.props.rowHeight
+
+    // scroll to item if is not visible
+    // top 
+    if (scrollTop > rowScrollTop) {
+      this.scrollToIndex(newIndex)
+    }
+
+    // bottom
+    if ((scrollTop + bodyHeight) < rowScrollTop + this.props.rowHeight) {
+      this.scrollToIndex(newIndex, {position: 'bottom'})
+    }
+
+    this.setState({
+      activeIndex: newIndex,
+    })
+
+    this.props.onActiveIndexChange(newIndex)
   }
 
   loadSourceData(dataSource, props){
@@ -281,8 +294,25 @@ class DataGrid extends Component {
     })
   }
 
+  // TODO: find a fix to extra nesting
   scrollAt(scrollTop){
-    this.refs.body.scrollAt(scrollTop)
+    return this.refs.body.component.scrollAt(scrollTop)
+  }
+
+  scrollToIndex(...args){
+    return this.refs.body.component.scrollToIndex(...args)
+  }
+
+  scrollToId(...args){
+    return this.refs.body.component.scrollToId(...args)
+  }
+
+  getScrollTop(){
+    return this.refs.body.component.getScrollTop()
+  }
+
+  getBodyHeight(){
+    return this.refs.body.component.getBodyHeight()
   }
 }
 

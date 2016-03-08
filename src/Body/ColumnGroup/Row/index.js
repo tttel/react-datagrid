@@ -9,6 +9,7 @@ import shallowequal from 'shallowequal'
 import Cell from '../../../Cell'
 import getColumnsWidth from '../../../utils/getColumnsWidth'
 
+const Placeholder = <div className="react-datagrid__row__placeholder" />
 
 export default class Row extends Component {
 
@@ -17,7 +18,11 @@ export default class Row extends Component {
       return nextProps.shouldComponentUpdate(nextProps, this.props)
     }
 
-    return !shallowequal(nextProps, this.props)    
+    if (nextProps.bufferValid && nextProps.isScrolling) {
+      return false
+    }
+
+    return !shallowequal(nextProps, this.props)
   }
 
   render(){
@@ -30,10 +35,13 @@ export default class Row extends Component {
       rowStyle,
       renderRow,
       even,
+      odd,
       over,
       active,
       selected,
       passedProps,
+      isScrolling,
+      bufferValid
     } = props
 
     const {
@@ -45,7 +53,7 @@ export default class Row extends Component {
     let className = join(
         'react-datagrid__row',
         even &&  'react-datagrid__row--even',
-        !even && 'react-datagrid__row--odd',
+        odd && 'react-datagrid__row--odd',
         over && 'react-datagrid__row--over',
         selected && 'react-datagrid__row--selected',
         active && 'react-datagrid__row--active',
@@ -76,7 +84,6 @@ export default class Row extends Component {
     const rowProps = assign({}, props, {
       className,
       style,
-      children: this.renderRow(data, columns),
       tabIndex: -1,
     }, 
       passedProps,
@@ -89,7 +96,12 @@ export default class Row extends Component {
       onFocus: this.onFocus,
     })
 
-
+    // Placeholder
+    if (isScrolling && !bufferValid) {
+      rowProps.children = Placeholder
+    } else {
+      rowProps.children = this.renderRow(data, columns)
+    }
 
     let row
     if (renderRow) {
@@ -112,7 +124,7 @@ export default class Row extends Component {
       } = columnProps
       
       // column.name can be ommited if it has a render method
-      const key = `${name}-${index}` || index 
+      const key = `${name}-${index}` 
       const isFirst = index === 0
       const isLast = index === lastIndex
       const value = data[name]
