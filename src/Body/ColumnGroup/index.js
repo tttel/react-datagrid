@@ -84,7 +84,7 @@ export default class ColumnGroup extends Component {
       )
 
     const innerWrapperStyle = {
-      transform: `translateY(${innerWrapperOffset}px)` 
+      transform: `translate3d(0,${innerWrapperOffset}px, 0)` 
     }
 
     return <div 

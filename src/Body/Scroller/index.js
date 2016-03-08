@@ -16,9 +16,9 @@ class Scroller extends Component {
   constructor(props){
     super(props)
 
-    this.onScrollDebounced = debounce(this.onScrollDebounced, 100, {
-      leading: true
-    })
+    // this.onScrollDebounced = debounce(this.onScrollDebounced, 100, {
+    //   leading: true
+    // })
   }
 
   componentDidMount(){
@@ -159,7 +159,8 @@ class Scroller extends Component {
 
   onScrollDebounced(event){
     // functions invoked when scroll starts and when it ends
-    this.props.toggleIsScrolling() 
+    
+    
   }
 
   scrollAt(scrollTop){  

@@ -9,6 +9,7 @@ import shallowequal from 'shallowequal'
 import Cell from '../../../Cell'
 import getColumnsWidth from '../../../utils/getColumnsWidth'
 
+const Placeholder = <div className="react-datagrid__row__placeholder" />
 
 export default class Row extends Component {
 
@@ -39,6 +40,8 @@ export default class Row extends Component {
       active,
       selected,
       passedProps,
+      isScrolling,
+      bufferValid
     } = props
 
     const {
@@ -81,7 +84,6 @@ export default class Row extends Component {
     const rowProps = assign({}, props, {
       className,
       style,
-      children: this.renderRow(data, columns),
       tabIndex: -1,
     }, 
       passedProps,
@@ -94,7 +96,12 @@ export default class Row extends Component {
       onFocus: this.onFocus,
     })
 
-
+    // Placeholder
+    if (isScrolling && !bufferValid) {
+      rowProps.children = Placeholder
+    } else {
+      rowProps.children = this.renderRow(data, columns)
+    }
 
     let row
     if (renderRow) {

@@ -349,7 +349,7 @@ class Body extends Component {
 
 Body.defaultProps = {
   rowHeight: 40,
-  extraRows: 4,
+  extraRows: 10,
   defaultScrollTop: 0,
   onRowMouseEnter: () => {},
   onRowMouseLeave: () => {},
