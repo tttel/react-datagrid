@@ -138,7 +138,8 @@ class Body extends Component {
       onRowFocus,
       scrollTop,
       children,
-      buffer
+      buffer,
+      zebraRows
     } = preparedProps
 
     const bodyHeight = this.p.bodyHeight
@@ -172,6 +173,7 @@ class Body extends Component {
       onRowFocus,
       scrollTop,
       innerWrapperOffset,
+      zebraRows,
       viewportHeight: bodyHeight,
       globalProps: this.props,
       onRowMouseEnter: this.onRowMouseEnter,
@@ -347,7 +349,8 @@ Body.defaultProps = {
   onRowMouseEnter: () => {},
   onRowMouseLeave: () => {},
   onScrollBottom: () => {},
-  onColumnGroupScroll: () => {}
+  onColumnGroupScroll: () => {},
+  zebraRows: true,
 }
 
 Body.propTypes = {
@@ -356,7 +359,8 @@ Body.propTypes = {
   onRowMouseEnter: PropTypes.func,
   onRowMouseLeave: PropTypes.func,
   onScrollBottom: PropTypes.func,
-  onColumnGroupScroll: PropTypes.func
+  onColumnGroupScroll: PropTypes.func,
+  zebraRows: PropTypes.bool,
 }
 
 import resizeNotifier from 'react-notify-resize'

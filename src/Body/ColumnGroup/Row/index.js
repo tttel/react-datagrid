@@ -30,6 +30,7 @@ export default class Row extends Component {
       rowStyle,
       renderRow,
       even,
+      odd,
       over,
       active,
       selected,
@@ -45,7 +46,7 @@ export default class Row extends Component {
     let className = join(
         'react-datagrid__row',
         even &&  'react-datagrid__row--even',
-        !even && 'react-datagrid__row--odd',
+        odd && 'react-datagrid__row--odd',
         over && 'react-datagrid__row--over',
         selected && 'react-datagrid__row--selected',
         active && 'react-datagrid__row--active',

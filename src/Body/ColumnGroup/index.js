@@ -130,6 +130,7 @@ export default class ColumnGroup extends Component {
       activeIndex,
       onRowFocus,
       rowProps: passedProps,
+      zebraRows,
     } = props
 
     return data.slice(from, to).map((rowData, index, dataSlice) => {
@@ -151,11 +152,10 @@ export default class ColumnGroup extends Component {
         id,
         columns,
         minWidth,
-        even,
-        over,
         active,
         index,
         key,
+        over,
         renderRow,
         cellFactory,
         rowStyle,
@@ -168,6 +168,14 @@ export default class ColumnGroup extends Component {
         onMouseLeave: onRowMouseLeave,
         onClick: onRowClick,
         onFocus: onRowFocus
+      }
+
+      if (zebraRows) {
+        rowProps.even = even
+        rowProps.odd = !even
+      } else {
+        rowProps.even = false
+        rowProps.odd = false
       }
 
       let row
