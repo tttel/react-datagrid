@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --progress --colors --config ./build/dev.config.js",
     "lib": "gulp lib",
-    "prepublish": "npm run lib && npm run build-style",
+    "aprepublish": "npm run lib && npm run build-style",
     "build-style": "webpack -p --config ./build/style.config.js",
     "build": "npm run lib && npm run build-style",
     "buildStatic": "npm i && NODE_ENV=production gulp && NODE_ENV=production webpack -p --progress --colors --config ./build/build.config.js"
@@ -65,11 +65,11 @@
     "hasown": "1.0.1",
     "lodash.debounce": "^4.0.3",
     "object-assign": "4.0.1",
-    "raf": "^3.2.0",
+    "raf": "3.2.0",
     "react-class": "2.0.0",
     "react-flex": "1.2.3",
     "react-load-mask": "1.0.1",
-    "react-notify-resize": "^0.1.8",
+    "react-notify-resize": "0.1.8",
     "shallowequal": "0.2.2"
   }
 }

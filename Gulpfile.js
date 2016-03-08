@@ -46,7 +46,7 @@ gulp.task('copy-react', function(){
 
 gulp.task('build', ['build-html', 'copy-react'])
 
-gulp.task('default', function () {
+gulp.task('lib', function () {
   return gulp.src('./src/**')
     .pipe(babel())
     .pipe(gulp.dest('./lib'))

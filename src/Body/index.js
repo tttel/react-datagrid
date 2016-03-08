@@ -246,6 +246,16 @@ class Body extends Component {
     if (this.p.onScroll) {
       this.p.onScroll(scrollTop, event)
     }
+
+    this.toggleIsScrolling()
+
+    if (!this.state.isScrolling) {
+      this.setState({
+        isScrolling: true
+      })
+    }
+
+    console.log("this.state.isScrolling", this.state.isScrolling)
   }
 
   onResize(){
@@ -272,9 +282,15 @@ class Body extends Component {
   }
 
   toggleIsScrolling(){
-    this.setState({
-      isScrolling: !this.state.isScrolling
-    })
+    if (this.disableIsScrollingTimeoutId) {
+      clearTimeout(this.disableIsScrollingTimeoutId)
+    }
+    this.disableIsScrollingTimeoutId = setTimeout(() => {
+      delete this.disableIsScrollingTimeoutId
+      this.setState({
+        isScrolling: false
+      })
+    }, 150)
   }
 
   scrollToIndex(index, {position} = {position: 'top'}){

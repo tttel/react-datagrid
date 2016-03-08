@@ -5,7 +5,6 @@ import join from '../../utils/join'
 import assign from 'object-assign'
 import { Flex, Item } from 'react-flex'
 import DragHelper from 'drag-helper'
-import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
 
 const IS_MAC     = global && global.navigator && global.navigator.appVersion && global.navigator.appVersion.indexOf("Mac") != -1
@@ -15,10 +14,6 @@ class Scroller extends Component {
 
   constructor(props){
     super(props)
-
-    // this.onScrollDebounced = debounce(this.onScrollDebounced, 100, {
-    //   leading: true
-    // })
   }
 
   componentDidMount(){
@@ -97,7 +92,7 @@ class Scroller extends Component {
 
     if (newScrollTop != this.props.scrollTop) {
       this.props.onScroll(newScrollTop, event)
-      this.onScrollDebounced(scrollTop, event)
+      // this.onScrollDebounced(scrollTop, event)
     }
   }
 
@@ -156,13 +151,7 @@ class Scroller extends Component {
       }
     })
   }
-
-  onScrollDebounced(event){
-    // functions invoked when scroll starts and when it ends
-    
-    
-  }
-
+  
   scrollAt(scrollTop){  
     this.refs.scrollbar.scrollTop = this.normalizeScrollTop(scrollTop)
   }
