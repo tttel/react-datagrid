@@ -27,6 +27,7 @@
 `scrollTop` | Number | - | controls vertical scrollTop position, controlled version of `defaultScrollTop`
 `defaultScrollTop` | Number | - | se default vertical scrollTop position
 `scrollAt(scrollTop)` | Function | you can set scrollTop by calling this method
+`zebraRows` | Bool | true | controll `react-datagrid__row---odd` and `eact-datagrid__row---even` classNames on rows.
 
 ### Rows
 * `renderRow(rowProps): Function`
