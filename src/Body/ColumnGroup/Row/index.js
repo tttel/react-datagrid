@@ -40,7 +40,7 @@ export default class Row extends Component {
       selected,
       passedProps,
     } = props
-    console.log('hey from row')
+
     const {
       overClassName,
       selectedClassName,
