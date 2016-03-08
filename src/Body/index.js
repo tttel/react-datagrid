@@ -143,18 +143,20 @@ class Body extends Component {
     } = preparedProps
 
     const bodyHeight = this.p.bodyHeight
-    
+    let bufferValid = true
+
     // we need to buffer rendering
     // only rerender rows when buffer (half of extra rows height) is scrolled
     // and we need to render anoter set of rows
     // cache scrollTop and fromTo
+    // const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
     if ((Math.abs(this.oldScrollTop - scrollTop - rowHeight) >= buffer) || !this.fromTo) {
       this.fromTo = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
       this.oldScrollTop = scrollTop
+      bufferValid = false
     }
 
     const {from, to} = this.fromTo
-    // const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
     const offsetTop = from * rowHeight
     const innerWrapperOffset = offsetTop - scrollTop
 
@@ -175,13 +177,15 @@ class Body extends Component {
       scrollTop,
       innerWrapperOffset,
       zebraRows,
+      bufferValid,
+      isScrolling: this.state.isScrolling,
       viewportHeight: bodyHeight,
       globalProps: this.props,
       onRowMouseEnter: this.onRowMouseEnter,
       onRowMouseLeave: this.onRowMouseLeave,
       onRowClick: onRowClick, 
       overRowId: this.state.overRowId,
-      onScroll: onColumnGroupScroll
+      onScroll: onColumnGroupScroll,
     }
 
     /**
@@ -345,7 +349,7 @@ class Body extends Component {
 
 Body.defaultProps = {
   rowHeight: 40,
-  extraRows: 0,
+  extraRows: 4,
   defaultScrollTop: 0,
   onRowMouseEnter: () => {},
   onRowMouseLeave: () => {},

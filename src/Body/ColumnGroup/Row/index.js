@@ -17,7 +17,11 @@ export default class Row extends Component {
       return nextProps.shouldComponentUpdate(nextProps, this.props)
     }
 
-    return !shallowequal(nextProps, this.props)    
+    if (nextProps.bufferValid && nextProps.isScrolling) {
+      return false
+    }
+
+    return !shallowequal(nextProps, this.props)
   }
 
   render(){
@@ -36,7 +40,7 @@ export default class Row extends Component {
       selected,
       passedProps,
     } = props
-
+    console.log('hey from row')
     const {
       overClassName,
       selectedClassName,

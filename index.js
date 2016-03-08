@@ -113,6 +113,7 @@ class App extends Component {
         defaultActiveIndex={4}
         xscrollTop={400}
         ref={(c) => window.c = c}
+        azebraRows={false}
       >
         <ColumnGroup width={900} fixed columns={columns} />
         <ColumnGroup className="myColumnGroup" columns={columns2} />
