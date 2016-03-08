@@ -137,7 +137,7 @@ export default class ColumnGroup extends Component {
       const id = rowData[globalProps.idProperty]
       const over = overRowId === id
       const realIndex = index + from
-      const key = `row-${index}`
+      const key = `row-${realIndex}`
       const even = !!(realIndex % 2)
       const active = activeIndex === realIndex
 
