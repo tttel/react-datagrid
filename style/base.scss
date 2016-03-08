@@ -27,7 +27,14 @@
   position: relative;
 }
 
-.react-datagrid__body--loading { }
+.react-datagrid__body--loading {}
+
+.react-datagrid__body--scrolling {
+  // usefull, when you scroll rows don't trigger onMouseOver 
+  .react-datagrid__row { 
+    pointer-events: none;
+  }
+}
 
 /*----------  Column/Cell Groups  ----------*/
 .react-datagrid__colum-group {

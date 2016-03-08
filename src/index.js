@@ -32,7 +32,7 @@ class DataGrid extends Component {
       data: false,
       selected: props.defaultSelected,
       activeIndex: props.defaultActiveIndex,
-      previousActiveIndex: props.defaultActiveIndex
+      previousActiveIndex: props.defaultActiveIndex,
     }
   }
 

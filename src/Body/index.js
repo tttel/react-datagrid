@@ -23,6 +23,7 @@ class Body extends Component {
       scrollTop: props.defaultScrollTop,
       overRowId: null,
       maxScrollTop: props.defaultScrollTop,
+      isScrolling: false,
     }
   }
   
@@ -73,8 +74,10 @@ class Body extends Component {
       resizeTool
     } = preparedProps
 
+
     const className = join(
-        'react-datagrid__body'
+        'react-datagrid__body',
+        this.state.isScrolling && 'react-datagrid__body--scrolling'
       )
 
     if ((Array.isArray(data) && data.length === 0) || data === null && !loading) {
@@ -107,6 +110,8 @@ class Body extends Component {
       maxScrollTop={this.p.maxScrollTop}
       height={this.state.bodyHeight}
       scrollbarWidth={this.props.scrollbarWidth}
+      toggleIsScrolling={this.toggleIsScrolling}
+
     >
       {this.renderColumnGroups()}
     </Scroller>
@@ -256,6 +261,12 @@ class Body extends Component {
 
     this.setState({
       bodyHeight: bodyHeight,
+    })
+  }
+
+  toggleIsScrolling(){
+    this.setState({
+      isScrolling: !this.state.isScrolling
     })
   }
 

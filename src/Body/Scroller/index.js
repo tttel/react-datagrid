@@ -4,12 +4,22 @@ import Component from 'react-class'
 import join from '../../utils/join'
 import assign from 'object-assign'
 import { Flex, Item } from 'react-flex'
-const DragHelper = require('drag-helper')
+import DragHelper from 'drag-helper'
+import throttle from 'lodash.throttle'
+import debounce from 'lodash.debounce'
 
 const IS_MAC     = global && global.navigator && global.navigator.appVersion && global.navigator.appVersion.indexOf("Mac") != -1
 const IS_FIREFOX = global && global.navigator && global.navigator.userAgent && !!~global.navigator.userAgent.toLowerCase().indexOf('firefox')
 
 class Scroller extends Component {
+
+  constructor(props){
+    super(props)
+
+    this.onScrollDebounced = debounce(this.onScrollDebounced, 100, {
+      leading: true
+    })
+  }
 
   componentDidMount(){
     this.scrollAt(this.props.scrollTop)
@@ -87,6 +97,7 @@ class Scroller extends Component {
 
     if (newScrollTop != this.props.scrollTop) {
       this.props.onScroll(newScrollTop, event)
+      this.onScrollDebounced(scrollTop, event)
     }
   }
 
@@ -144,7 +155,11 @@ class Scroller extends Component {
         this.initialScrollStart = null
       }
     })
+  }
 
+  onScrollDebounced(event){
+    // functions invoked when scroll starts and when it ends
+    this.props.toggleIsScrolling() 
   }
 
   scrollAt(scrollTop){  
