@@ -1,10 +1,7 @@
 const getDataRangeToRender = (bodyHeight, itemHeight, scrollTop, extraRows = 4) => {
-  let noItemsToRender = parseInt(bodyHeight / itemHeight + extraRows, 10)
+  extraRows += 2
 
-  // ajust from and to so that rows have the same
-  // odd and even classNames
-  // from must be even
-  // and to must be od
+  let noItemsToRender = parseInt(bodyHeight / itemHeight + extraRows, 10)
 
   // noItemsToRender must be odd
   if (noItemsToRender % 2 === 0) {
