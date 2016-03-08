@@ -148,13 +148,13 @@ class Body extends Component {
     // only rerender rows when buffer (half of extra rows height) is scrolled
     // and we need to render anoter set of rows
     // cache scrollTop and fromTo
-    // if ((Math.abs(this.oldScrollTop - scrollTop - rowHeight) >= buffer) || !this.fromTo) {
-    //   this.fromTo = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
-    //   this.oldScrollTop = scrollTop
-    // }
+    if ((Math.abs(this.oldScrollTop - scrollTop - rowHeight) >= buffer) || !this.fromTo) {
+      this.fromTo = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
+      this.oldScrollTop = scrollTop
+    }
 
-    // const {from, to} = this.fromTo
-    const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
+    const {from, to} = this.fromTo
+    // const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
     const offsetTop = from * rowHeight
     const innerWrapperOffset = offsetTop - scrollTop
 
@@ -322,11 +322,11 @@ class Body extends Component {
                   this.state.scrollTop
 
     // buffer is half of extrarows height
-    // const buffer = (props.extraRows / 2) * props.rowHeight
+    const buffer = (props.extraRows / 2) * props.rowHeight
     
     return assign({}, props, {
       scrollTop,
-      // buffer,
+      buffer,
       isScrollControlled,
       bodyHeight: this.state.bodyHeight,
       maxScrollTop: this.state.maxScrollTop,
