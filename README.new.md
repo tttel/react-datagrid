@@ -132,7 +132,7 @@ Prop|Type|Default|Description
 `fixed`| Booleon| false | if the ColumnGroup show be a fixed size, given by the acumulative width of it's columns, so it doesn't have a horizontal scrollbar.
 `columns`| JSON | - | Read more on how to configure [columns](#columns).
 `children`| JSX | - | Used to configure it's columns, use `Column` componnet. Read more on how to configure [columns](#columns).
-`rowPlaceholder` | Bool | false | if true while scrolling and buffered items are consumed (we scroll at the end the extra rows rendered) a placeholder is rendered it's columns. It can be set on datagrid or directly on ColumnGroup.
+`isPlaceholderActive` | Bool | false | controll if `rowPlaceholder` shold be rendered
 
 
 **Example:**
