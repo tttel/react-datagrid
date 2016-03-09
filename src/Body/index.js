@@ -209,8 +209,8 @@ class Body extends Component {
             child, 
             assign(
               {}, 
-              child.props, 
               columnGroupProps,
+              child.props,
               { key: index, ref: `columnGroup-${index}` }
             )
           )
