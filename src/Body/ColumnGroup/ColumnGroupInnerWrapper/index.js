@@ -35,6 +35,7 @@ export default class ColumnGroupInnerWrapper extends Component {
        bufferValid,
        isScrolling,
        isPlaceholderActive,
+       renderPlaceholder,
        columns,
        minWidth
      } = props
@@ -70,6 +71,7 @@ export default class ColumnGroupInnerWrapper extends Component {
          bufferValid,
          isScrolling,
          isPlaceholderActive,
+         renderPlaceholder,
          selected: isSelected, // row uses selected as a bool, a state 
          data: rowData, 
          onMouseEnter: onRowMouseEnter,

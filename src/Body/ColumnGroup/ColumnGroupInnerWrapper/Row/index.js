@@ -9,10 +9,6 @@ import shallowequal from 'shallowequal'
 import Cell from '../../../../Cell'
 import getColumnsWidth from '../../../../utils/getColumnsWidth'
 
-const Placeholder = ({width}) => {
-  return <div style={{width: width}} className="react-datagrid__row__placeholder" />
-}
-
 export default class Row extends Component {
 
   shouldComponentUpdate(nextProps){
@@ -106,7 +102,7 @@ export default class Row extends Component {
     // to improve performance when rows are heavy in content
     // using prop placeholder={true} will render a placeholder insted of row's content
     if (isPlaceholderActive && !bufferValid) {
-      rowProps.children = realIndex % 2 === 0? <Placeholder width={140} /> : <Placeholder width={120} /> 
+      rowProps.children = realIndex % 2 === 0? this.props.renderRowPlaceholder(140) : this.props.renderRowPlaceholder(120) 
     } else {
       rowProps.children = this.renderRow(data, columns)
     }
@@ -226,6 +222,9 @@ export default class Row extends Component {
 //   onMouseEnter: generate('mouseEnter')
 // })
 
+Row.defaultProps = {
+  renderRowPlaceholder: (width) => <div style={{width}} className="react-datagrid__row__placeholder" />
+}
 
 Row.propTypes = {
   renderRow: PropTypes.func,
