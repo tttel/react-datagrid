@@ -17,13 +17,8 @@ import 'react-load-mask/index.css'
 const SCREEN_HEIGHT = global.screen && global.screen.height
 
 class DataGrid extends Component {
-
   constructor(props){
     super(props)
-
-    const {
-      selected
-    } = props
 
     const isLoading = props.dataSource && !!props.dataSource.then
 
@@ -31,8 +26,7 @@ class DataGrid extends Component {
       loading: isLoading,
       data: false,
       selected: props.defaultSelected,
-      activeIndex: props.defaultActiveIndex,
-      previousActiveIndex: props.defaultActiveIndex,
+      activeIndex: props.defaultActiveIndex
     }
   }
 
@@ -44,7 +38,9 @@ class DataGrid extends Component {
   }
 
   componentWillReceiveProps(nextProps, nextState){
-    // if data changed
+    
+    // data is cached in state
+    // needs to be updated if dataSource changes
     if (this.p.dataSource !== nextProps.dataSource) {
       this.loadSourceData(nextProps.dataSource, nextProps)
     }
@@ -54,32 +50,22 @@ class DataGrid extends Component {
     const preparedProps = this.p = this.prepareProps(this.props, this.state)
      
     const {
-      dataSource,
       columns,
       hideHeader,
-      onRowMouseEnter,
-      onRowMouseLeave,
-      onScrollBottom,
       loading,
-      data,
-      isMultiselect,
-      selected,
       className,
-      hasSelection,
       children,
-      activeIndex
     } = preparedProps
 
     return <Flex 
-      {...preparedProps} 
-      column 
+      {...this.props} 
+      ref="dataGrid"
+      className={className}
+      column
       flex
       alignItems="stretch" 
       wrap={false}
-      className={className}
-      ref="dataGrid"
     >
-      
       {false && loading && this.renderLoadMask()}
       { 
         !hideHeader 
@@ -92,10 +78,6 @@ class DataGrid extends Component {
       <Body
         {...preparedProps}
         ref="body"
-        onRowMouseEnter={onRowMouseEnter}
-        onRowMouseLeave={onRowMouseLeave}
-        onScrollBottom={onScrollBottom}
-        selected={selected}
         onRowClick={this.onRowClick}
         onRowFocus={this.onRowFocus}
       />
@@ -161,7 +143,6 @@ class DataGrid extends Component {
     const rowScrollTop = newIndex * this.props.rowHeight
 
     // scroll to item if is not visible
-    // top 
     if (scrollTop > rowScrollTop) {
       this.scrollToIndex(newIndex)
     }
@@ -178,6 +159,8 @@ class DataGrid extends Component {
     this.props.onActiveIndexChange(newIndex)
   }
 
+  // handles source data it it is array, it is passed directly to setData
+  // if is a promise, sets loading flat to true, when resolves passes data to setData
   loadSourceData(dataSource, props){
 
     if (dataSource === null) {
@@ -208,6 +191,11 @@ class DataGrid extends Component {
     }
   }
 
+  /**
+   * updates state with data removes loading flag
+   * and if selection is enabled creates a hasmap from the data
+   * { idProperty: {..}, .. }
+   */
   setData(data){
     const props = this.props
     const {
@@ -253,6 +241,10 @@ class DataGrid extends Component {
     return selected !== undefined || defaultSelected !== undefined
   }
 
+  /**
+   * selected can be an object is case of multiselect
+   * or a string or number in case of single select
+   */
   isSelectionEmptry(){
     const selected = this.getSelected()
     let selectionEmptry = false
@@ -268,18 +260,29 @@ class DataGrid extends Component {
     return selectionEmptry
   }
 
+  /**
+   * creates an object with props, that can come from
+   * this.props, this.state, or computed
+   * it is helpful to have a single point of access
+   */
   prepareProps(props, state){
     const loading = props.loading == undefined? 
                     this.state.loading :
                     props.loading 
 
+    const className = join(props.className, 'react-datagrid')
     const selected = this.getSelected()
     const hasSelection = !this.isSelectionEmptry()
+
+    /**
+     * content height, is the hight of the container that hods all the rows, if the all the rows
+     * are rendered, it is used for virtual scroll, based on it we know what to render
+     */
     const contentHeight = props.rowHeight * (state.data? state.data.length : 0) + props.scrollbarWidth
     const isMultiselect = typeof selected === 'object' && selected !== null
-    const activeIndex = props.activeIndex !== undefined? props.activeIndex: this.state.activeIndex
 
-    const className = join(props.className, 'react-datagrid')
+    // active index is used for rows navigation
+    const activeIndex = props.activeIndex !== undefined? props.activeIndex: this.state.activeIndex
     const isActiveIndexControlled = this.props.activeIndex !== undefined
 
     return assign({}, props, {
@@ -294,7 +297,8 @@ class DataGrid extends Component {
     })
   }
 
-  // TODO: find a fix to extra nesting
+
+  // exposed methods on body component
   scrollAt(scrollTop){
     return this.refs.body.component.scrollAt(scrollTop)
   }
@@ -331,17 +335,74 @@ DataGrid.defaultProps = {
 }
 
 DataGrid.propTypes = {
-  loading          : React.PropTypes.bool,
-  idProperty       : React.PropTypes.string.isRequired,
+  idProperty : React.PropTypes.string.isRequired,
+  loading: React.PropTypes.bool,
+  hideHeader: PropTypes.bool,
+  defaultLoading : React.PropTypes.bool,
+  
 
+  // row config
+  onRowMouseEnter: PropTypes.func,
+  onRowMouseLeave: PropTypes.func,
+
+  /**
+   * TODO: refactor find a more elengant way of declaring placeholder
+   * you should be able to configure placeholder global on dataGrid
+   * and also on ColumnGroup
+   */
+  rowPlaceholder: PropTypes.bool,
+  renderRowPlaceholder: PropTypes.func,
+  rowPlaceholderDelay: PropTypes.number,
+
+  // scrolling and scroll
+  onScroll: PropTypes.func,
+  onScrollBottom: PropTypes.func, 
+  scrollToIndex: PropTypes.func,
+  scrollToId: PropTypes.func,
+  scrollbarWidth: PropTypes.number,
+
+  // selection
+  selected: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+      PropTypes.object
+    ]),
+  defaultSelected: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+      PropTypes.object
+    ]),
+  onSelectionChange: PropTypes.func,
+
+
+  // navigation
+  activeIndex: PropTypes.number,
+  defaultActiveIndex: PropTypes.number,  
+  onActiveIndexChange: PropTypes.func,
+
+
+  // columns config
   columns: PropTypes.arrayOf((props, propName) => {
     const column = props[propName]
-    
     if (!column.name && typeof column.render != 'function'){
       return new Error(`column ${propName} should have a "name" prop or a "render" function!`)
     }
   }),
+  children: (props, propName) => {
+    const children = props[propName]
 
+    React.Children.map(children, (child) => {
+      if (
+          !child || !child.props || 
+          (!child.props.isColumnGroup || !child.props.isColumn)
+        ) {
+        return new Error('The only children allowed of Datagrid are ColumnGroup and Column')
+      }
+    })
+  },
+
+
+  // data
   dataSource: (props, propName) => {
     const dataSource = props[propName]
 
@@ -357,63 +418,20 @@ DataGrid.propTypes = {
       return new Error(`dataSource must be an array, null or a promise.`)
     }
   },
-
   onDataSourceResponse: PropTypes.func,
-  children: (props, propName) => {
-    const children = props[propName]
-
-    React.Children.map(children, (child) => {
-      if (
-          !child || !child.props || 
-          (!child.props.isColumnGroup || !child.props.isColumn)
-        ) {
-        return new Error('The only children allowed of Datagrid are ColumnGroup and Column')
-      }
-    })
-  },
-
-  onScroll: PropTypes.func,
-  hideHeader: PropTypes.bool,
-  onRowMouseEnter: PropTypes.func,
-  onRowMouseLeave: PropTypes.func,
-  onScrollBottom: PropTypes.func,
-
-  rowPlaceholder: PropTypes.bool,
-  renderRowPlaceholder: PropTypes.func,
-  rowPlaceholderDelay: PropTypes.number,
-
-  selected: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string,
-      PropTypes.object
-    ]),
-  defaultSelected: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string,
-      PropTypes.object
-    ]),
-  onSelectionChange: PropTypes.func,
-
-  activeIndex: PropTypes.number,
-  defaultActiveIndex: PropTypes.number,
-  onActiveIndexChange: PropTypes.func,
-
-  scrollToIndex: PropTypes.func,
-  scrollToId: PropTypes.func,
-  scrollbarWidth: PropTypes.number,
 }
 
 
 import rowSelect from './rowSelect'
 DataGrid.prototype = assign(DataGrid.prototype, rowSelect)
 
-
 export default DataGrid
 
-// Column is a dummy componnet only used for configuration
 import Column from './Column'
 
+// you can configurate the grid using an array of configuration objects
+// or declaratively (jsx) using ColumnGroup and Column. 
 export {
   ColumnGroup,
-  Column
+  Column // Column is a dummy componnet only used for configuration
 }

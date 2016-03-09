@@ -114,9 +114,12 @@ class App extends Component {
         xscrollTop={400}
         ref={(c) => window.c = c}
         azebraRows={false}
+        rowPlaceholder={true}
+        // renderRowPlaceholder={() => <div> asdasd</div>}
+        rowPlaceholderDelay={300}
       >
         <ColumnGroup width={900} fixed columns={columns} />
-        <ColumnGroup className="myColumnGroup" columns={columns2} />
+        <ColumnGroup renderRowPlaceholder={() => <div> aaa</div>} className="myColumnGroup" columns={columns2} />
       </DataGrid>
     </Flex>
   }
