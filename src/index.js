@@ -380,6 +380,7 @@ DataGrid.propTypes = {
 
   rowPlaceholder: PropTypes.bool,
   renderRowPlaceholder: PropTypes.func,
+  rowPlaceholderDelay: PropTypes.number,
 
   selected: PropTypes.oneOfType([
       PropTypes.number,
@@ -400,7 +401,6 @@ DataGrid.propTypes = {
   scrollToIndex: PropTypes.func,
   scrollToId: PropTypes.func,
   scrollbarWidth: PropTypes.number,
-  
 }
 
 

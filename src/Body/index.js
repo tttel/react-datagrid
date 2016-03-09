@@ -266,7 +266,7 @@ class Body extends Component {
               isPlaceholderActive: true
             })
           }
-        }, 600)
+        }, this.props.rowPlaceholderDelay)
       }
     }
   }
@@ -391,6 +391,7 @@ Body.defaultProps = {
   onScrollBottom: () => {},
   onColumnGroupScroll: () => {},
   zebraRows: true,
+  rowPlaceholderDelay: 300
 }
 
 Body.propTypes = {

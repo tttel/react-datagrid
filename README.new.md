@@ -29,7 +29,8 @@
 `scrollAt(scrollTop)` | Function | you can set scrollTop by calling this method
 `zebraRows` | Bool | true | controll `react-datagrid__row---odd` and `eact-datagrid__row---even` classNames on rows.
 `rowPlaceholder` | Bool | false | if true while scrolling and buffered items are consumed (we scroll at the end the extra rows rendered) a placeholder is rendered it's columns. It can be set on datagrid or directly on ColumnGroup.
-`renderPlaceholder` | Function | - | custom render function for placeholder, to take efect `rowPlaceholder` must be `true`
+`renderRowPlaceholder` | Function | - | custom render function for placeholder, to take efect `rowPlaceholder` must be `true`
+`rowPlaceholderDelay` | Number | 300 | time in ms, that has to pass from you start scrolling to activate rowPlaceholder
 
 ### Rows
 * `renderRow(rowProps): Function`
