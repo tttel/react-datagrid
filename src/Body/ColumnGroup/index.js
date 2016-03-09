@@ -133,6 +133,7 @@ export default class ColumnGroup extends Component {
       zebraRows,
       bufferValid,
       isScrolling,
+      rowPlaceholder,
     } = props
 
     return data.slice(from, to).map((rowData, index, dataSlice) => {
@@ -166,6 +167,7 @@ export default class ColumnGroup extends Component {
         passedProps,
         bufferValid,
         isScrolling,
+        rowPlaceholder,
         selected: isSelected, // row uses selected as a bool, a state 
         data: rowData, 
         onMouseEnter: onRowMouseEnter,
