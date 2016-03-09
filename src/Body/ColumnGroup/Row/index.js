@@ -43,7 +43,8 @@ export default class Row extends Component {
       selected,
       passedProps,
       isScrolling,
-      rowPlaceholder
+      rowPlaceholder,
+      bufferValid
     } = props
 
     const {
@@ -99,7 +100,7 @@ export default class Row extends Component {
     })
 
     // Placeholder
-    if (rowPlaceholder) {
+    if (rowPlaceholder && !bufferValid) {
       rowProps.children = <Placeholder />
     } else {
       rowProps.children = this.renderRow(data, columns)
