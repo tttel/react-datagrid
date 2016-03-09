@@ -3,8 +3,9 @@ import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
 import assign from 'object-assign'
 import join from '../../utils/join'
+import shallowequal from 'shallowequal'
 
-import Row from './Row'
+import ColumnGroupInnerWrapper from './ColumnGroupInnerWrapper'
 import Column from '../../Column'
 import getColumnsWidth from '../../utils/getColumnsWidth'
 
@@ -28,28 +29,6 @@ export default class ColumnGroup extends Component {
     }
   }
 
-  getColumns(props){
-    props = props || this.props
-    const children = props.children
-
-    // We want to allow users to use columns configuration as jsx
-    // or as an array of config objects
-    let columns
-    if (children) {
-      // if we have children, we want to take only valid children
-      columns = React.Children
-        .toArray(children)
-        .filter(child => child && child.props && child.props.isColumn)
-    } else {
-      // used to add default props
-      columns = props.columns.map(column => <Column {...column} />)
-    }
-    
-    return columns
-      .map(c => c.props)
-  }
-
-
   render(){
     const props = this.props
     const {
@@ -59,7 +38,7 @@ export default class ColumnGroup extends Component {
       fixed,
       innerWrapperOffset
     } = props
-
+    
     const style = assign({}, props.style, {
        height: viewportHeight,
       }
@@ -94,107 +73,36 @@ export default class ColumnGroup extends Component {
       data={null}
       onScroll={this.onScroll}
     > 
-      <div
-        style={innerWrapperStyle}
-      >
-        {this.renderRows(columns, minWidth)}
+      <div style={innerWrapperStyle}>
+        <ColumnGroupInnerWrapper {...props} columns={columns} minWidth={minWidth} innerWrapperOffset={null} />
       </div>
     </div>
   }
 
   onScroll(ev){
     ev.stopPropagation()
-
     this.props.onScroll(ev)
   }
 
-  renderRows(columns, minWidth){
-    const props = this.props
-    const {
-      data,
-      from,
-      to,
-      rowHeight,
-      globalProps,
-      onRowMouseEnter,
-      onRowMouseLeave,
-      onRowClick,
-      renderRow,
-      cellFactory,
-      rowStyle,
-      overRowId,
-      // selected can be an object or an index
-      selected,
-      isMultiselect,
-      hasSelection,
-      activeIndex,
-      onRowFocus,
-      rowProps: passedProps,
-      zebraRows,
-      bufferValid,
-      isScrolling,
-      rowPlaceholder,
-    } = props
+  getColumns(props){
+    props = props || this.props
+    const children = props.children
 
-    return data.slice(from, to).map((rowData, index, dataSlice) => {
-      const id = rowData[globalProps.idProperty]
-      const over = overRowId === id
-      const realIndex = index + from
-      const key = `row-${realIndex}`
-      const even = !!(realIndex % 2)
-      const active = activeIndex === realIndex
-
-      const isSelected = hasSelection && 
-                        (
-                          isMultiselect? 
-                            selected.hasOwnProperty(id) : // TODO: use hasOwn, with curry
-                            selected == id // to allow type conversion, so 5 == '5'
-                        )
-
-      const rowProps = {
-        id,
-        columns,
-        minWidth,
-        active,
-        // index,
-        key,
-        over,
-        renderRow,
-        cellFactory,
-        rowStyle,
-        realIndex, // is used rowSelect, for a correct selection (onClick)
-        rowHeight,
-        passedProps,
-        bufferValid,
-        isScrolling,
-        rowPlaceholder,
-        selected: isSelected, // row uses selected as a bool, a state 
-        data: rowData, 
-        onMouseEnter: onRowMouseEnter,
-        onMouseLeave: onRowMouseLeave,
-        onClick: onRowClick,
-        onFocus: onRowFocus
-      }
-
-      if (zebraRows) {
-        rowProps.even = even
-        rowProps.odd = !even
-      } else {
-        rowProps.even = false
-        rowProps.odd = false
-      }
-
-      let row
-      if (props.rowFactory){
-        row = props.rowFactory(rowProps)
-      }
-
-      if (row === undefined){
-        row = <Row {...rowProps} />
-      }
-
-      return row
-    })
+    // We want to allow users to use columns configuration as jsx
+    // or as an array of config objects
+    let columns
+    if (children) {
+      // if we have children, we want to take only valid children
+      columns = React.Children
+        .toArray(children)
+        .filter(child => child && child.props && child.props.isColumn)
+    } else {
+      // used to add default props
+      columns = props.columns.map(column => <Column {...column} />)
+    }
+    
+    return columns
+      .map(c => c.props)
   }
 }
 

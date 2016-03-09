@@ -3,14 +3,14 @@ import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
 import {Flex} from 'react-flex'
 import assign from 'object-assign'
-import join from '../../../utils/join'
+import join from '../../../../utils/join'
 import shallowequal from 'shallowequal'
 
-import Cell from '../../../Cell'
-import getColumnsWidth from '../../../utils/getColumnsWidth'
+import Cell from '../../../../Cell'
+import getColumnsWidth from '../../../../utils/getColumnsWidth'
 
-const Placeholder = () => {
-  return <div style={{width: Math.random() * (200 - 120) + 120}} className="react-datagrid__row__placeholder" />
+const Placeholder = ({width}) => {
+  return <div style={{width: width}} className="react-datagrid__row__placeholder" />
 }
 
 export default class Row extends Component {
@@ -44,6 +44,7 @@ export default class Row extends Component {
       passedProps,
       isScrolling,
       rowPlaceholder,
+      realIndex,
       bufferValid
     } = props
 
@@ -99,9 +100,10 @@ export default class Row extends Component {
       onFocus: this.onFocus,
     })
 
-    // Placeholder
+    // to improve performance when rows are heavy in content
+    // using prop placeholder={true} will render a placeholder insted of row's content
     if (rowPlaceholder && !bufferValid) {
-      rowProps.children = <Placeholder />
+      rowProps.children = realIndex % 2 === 0? <Placeholder width={140} /> : <Placeholder width={120} /> 
     } else {
       rowProps.children = this.renderRow(data, columns)
     }

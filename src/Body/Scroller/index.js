@@ -12,10 +12,6 @@ const IS_FIREFOX = global && global.navigator && global.navigator.userAgent && !
 
 class Scroller extends Component {
 
-  constructor(props){
-    super(props)
-  }
-
   componentDidMount(){
     this.scrollAt(this.props.scrollTop)
   }

@@ -80,7 +80,7 @@ class DataGrid extends Component {
       ref="dataGrid"
     >
       
-      {loading && this.renderLoadMask()}
+      {false && loading && this.renderLoadMask()}
       { 
         !hideHeader 
         && 

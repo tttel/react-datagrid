@@ -174,7 +174,6 @@ class Body extends Component {
       selected,
       activeIndex,
       onRowFocus,
-      scrollTop,
       innerWrapperOffset,
       zebraRows,
       bufferValid,
@@ -197,6 +196,7 @@ class Body extends Component {
         {...columnGroupProps} 
         columns={columns} 
         width={'100%'}
+        ref="colunGroup-1"
       />  
     } else {
     /**
@@ -209,7 +209,7 @@ class Body extends Component {
               {}, 
               child.props, 
               columnGroupProps,
-              { key: index }
+              { key: index, ref: `columnGroup-${index}` }
             )
           )
       })
@@ -255,7 +255,7 @@ class Body extends Component {
         isScrolling: true
       })
 
-      // if it scrolling after 200ms
+      // if it scrolling after 600ms
       // add trigger placeholder
       setTimeout(() => {
         if (this.state.isScrolling) {
@@ -263,7 +263,7 @@ class Body extends Component {
             rowPlaceholder: true
           })
         }
-      }, 200)     
+      }, 600)     
     }
   }
 
@@ -375,7 +375,7 @@ class Body extends Component {
 
 Body.defaultProps = {
   rowHeight: 40,
-  extraRows: 10,
+  extraRows: 4,
   defaultScrollTop: 0,
   onRowMouseEnter: () => {},
   onRowMouseLeave: () => {},
