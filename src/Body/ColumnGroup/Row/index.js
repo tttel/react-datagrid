@@ -9,7 +9,9 @@ import shallowequal from 'shallowequal'
 import Cell from '../../../Cell'
 import getColumnsWidth from '../../../utils/getColumnsWidth'
 
-const Placeholder = <div className="react-datagrid__row__placeholder" />
+const Placeholder = () => {
+  return <div style={{width: Math.random() * (200 - 120) + 120}} className="react-datagrid__row__placeholder" />
+}
 
 export default class Row extends Component {
 
@@ -98,7 +100,7 @@ export default class Row extends Component {
 
     // Placeholder
     if (rowPlaceholder) {
-      rowProps.children = Placeholder
+      rowProps.children = <Placeholder />
     } else {
       rowProps.children = this.renderRow(data, columns)
     }
