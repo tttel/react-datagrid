@@ -326,7 +326,8 @@ DataGrid.defaultProps = {
   rowProps: {},
   defaultSelected: undefined,
   defaultActiveIndex: -1,
-  scrollbarWidth: 20
+  scrollbarWidth: 20,
+  rowPlaceholder: false,
 }
 
 DataGrid.propTypes = {
@@ -377,6 +378,9 @@ DataGrid.propTypes = {
   onRowMouseLeave: PropTypes.func,
   onScrollBottom: PropTypes.func,
 
+  rowPlaceholder: PropTypes.bool,
+  renderRowPlaceholder: PropTypes.func,
+
   selected: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string,
@@ -395,7 +399,8 @@ DataGrid.propTypes = {
 
   scrollToIndex: PropTypes.func,
   scrollToId: PropTypes.func,
-  scrollbarWidth: PropTypes.number
+  scrollbarWidth: PropTypes.number,
+  
 }
 
 

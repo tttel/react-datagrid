@@ -12,6 +12,7 @@ import getColumnsWidth from '../../../../utils/getColumnsWidth'
 const Placeholder = ({width}) => {
   return <div style={{width: width}} className="react-datagrid__row__placeholder" />
 }
+
 export default class Row extends Component {
 
   shouldComponentUpdate(nextProps){
@@ -45,7 +46,7 @@ export default class Row extends Component {
       selected,
       passedProps,
       isScrolling,
-      rowPlaceholder,
+      isPlaceholderActive,
       realIndex,
       bufferValid
     } = props
@@ -104,7 +105,7 @@ export default class Row extends Component {
 
     // to improve performance when rows are heavy in content
     // using prop placeholder={true} will render a placeholder insted of row's content
-    if (rowPlaceholder && !bufferValid) {
+    if (isPlaceholderActive && !bufferValid) {
       rowProps.children = realIndex % 2 === 0? <Placeholder width={140} /> : <Placeholder width={120} /> 
     } else {
       rowProps.children = this.renderRow(data, columns)

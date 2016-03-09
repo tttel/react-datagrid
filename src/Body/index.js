@@ -24,7 +24,7 @@ class Body extends Component {
       overRowId: null,
       maxScrollTop: props.defaultScrollTop,
       isScrolling: false,
-      rowPlaceholder: false,
+      isPlaceholderActive: false,
     }
   }
   
@@ -139,7 +139,7 @@ class Body extends Component {
       scrollTop,
       children,
       buffer,
-      zebraRows
+      zebraRows,
     } = preparedProps
 
     const bodyHeight = this.p.bodyHeight
@@ -177,7 +177,7 @@ class Body extends Component {
       innerWrapperOffset,
       zebraRows,
       bufferValid,
-      rowPlaceholder: this.state.rowPlaceholder,
+      isPlaceholderActive: this.state.isPlaceholderActive,
       isScrolling: this.state.isScrolling,
       viewportHeight: bodyHeight,
       globalProps: this.props,
@@ -257,13 +257,15 @@ class Body extends Component {
 
       // if it scrolling after 600ms
       // add trigger placeholder
-      setTimeout(() => {
-        if (this.state.isScrolling) {
-          this.setState({
-            rowPlaceholder: true
-          })
-        }
-      }, 600)     
+      if (this.props.rowPlaceholder) {
+        setTimeout(() => {
+          if (this.state.isScrolling) {
+            this.setState({
+              isPlaceholderActive: true
+            })
+          }
+        }, 600)
+      }
     }
   }
 
@@ -296,10 +298,15 @@ class Body extends Component {
     }
     this.disableIsScrollingTimeoutId = setTimeout(() => {
       delete this.disableIsScrollingTimeoutId
-      this.setState({
-        isScrolling: false,
-        rowPlaceholder: false
-      })
+      let newState = {
+          isScrolling: false,
+        }
+
+      if (this.props.rowPlaceholder){
+        newState.isPlaceholderActive = false
+      }
+
+      this.setState(newState)
     }, 150)
   }
 

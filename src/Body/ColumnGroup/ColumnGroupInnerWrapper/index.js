@@ -34,7 +34,7 @@ export default class ColumnGroupInnerWrapper extends Component {
        zebraRows,
        bufferValid,
        isScrolling,
-       rowPlaceholder,
+       isPlaceholderActive,
        columns,
        minWidth
      } = props
@@ -69,7 +69,7 @@ export default class ColumnGroupInnerWrapper extends Component {
          passedProps,
          bufferValid,
          isScrolling,
-         rowPlaceholder,
+         isPlaceholderActive,
          selected: isSelected, // row uses selected as a bool, a state 
          data: rowData, 
          onMouseEnter: onRowMouseEnter,
