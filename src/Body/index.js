@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
-import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
+import { findDOMNode } from 'react-dom'
 import { Item } from 'react-flex'
 import getDataRangeToRender from './getDataRangeToRender'
 import assign from 'object-assign'
@@ -9,10 +9,27 @@ import raf from 'raf'
 import getIndexBy from '../utils/getIndexBy'
 
 import EmptyText from './EmptyText'
-
 import Scroller from './Scroller'
 import ColumnGroup from './ColumnGroup'
 
+/**
+ *   Body is a statefull components, it keeps track of:
+ *
+ * - bodyHeight: it is the height of the this component, it is used
+ *               to set the scroller height, and to calculate how many rows
+ *               to be rendered, it is also used to determine when we hit scrollBottom
+ *               to update we use `react-notify-resize`, to listen to size changes
+ * - scrollTop
+ * - overRowId: id of the row that has :hover
+ * - maxScrollTop: is calculated based on contentHeight 
+ *                 (height if all rows would be rendered) + visible area height
+ *                 this is updated when data is changed (no of rows changes) or
+ *                 bodyHeight changes
+ * - isScrolling
+ * - isPlaceholderActive: - flag if row placeholder should be rendered
+ *                        - it is set after 300ms(by default, controlled with `rowPlaceholderDelay` prop)
+ *                          if the `isScrolling` flag is still true  
+ */
 class Body extends Component {
 
   constructor(props){
@@ -39,12 +56,10 @@ class Body extends Component {
       })
     }
 
-    if (nextProps.contentHeight !== this.props.contentHeight) {
-      this.setState({
-        maxScrollTop: (
-            nextProps.contentHeight - this.state.bodyHeight
-          )
-      })
+    if (
+        nextProps.contentHeight !== this.props.contentHeight
+      ) {
+      this.setMaxScrollTop(nextProps.contentHeight)
     }
   }
 
@@ -106,9 +121,7 @@ class Body extends Component {
       ref="scroller"
       contentHeight={this.props.contentHeight}
       onScroll={this.onScroll}
-      onKeyPress={this.onScrollerKeyPress}
       scrollTop={this.p.scrollTop}
-      maxScrollTop={this.p.maxScrollTop}
       height={this.state.bodyHeight}
       scrollbarWidth={this.props.scrollbarWidth}
       toggleIsScrolling={this.toggleIsScrolling}
@@ -198,7 +211,6 @@ class Body extends Component {
         {...columnGroupProps} 
         columns={columns} 
         width={'100%'}
-        ref="colunGroup-1"
       />  
     } else {
     /**
@@ -210,8 +222,7 @@ class Body extends Component {
             assign(
               {}, 
               columnGroupProps,
-              child.props,
-              { key: index, ref: `columnGroup-${index}` }
+              child.props // let columngroup props overwrite those passed
             )
           )
       })
@@ -238,7 +249,6 @@ class Body extends Component {
   }
 
   onScroll(scrollTop, event){
-
     this.scrollAt(scrollTop)
     
     // There is an error of one pixel in chrome, add -2 to be safe
@@ -253,12 +263,15 @@ class Body extends Component {
     this.toggleIsScrolling()
 
     if (!this.state.isScrolling) {
+      // at this ponint scrolling starts
       this.setState({
         isScrolling: true
       })
 
-      // if it scrolling after 600ms
-      // add trigger placeholder
+      
+      // if it is still scrolling after `rowPlaceholderDelay`ms (defaults to 300ms)
+      // set `isPlaceholderActive` to true, to announce that row placeholder can be
+      // rendered
       if (this.props.rowPlaceholder) {
         setTimeout(() => {
           if (this.state.isScrolling) {
@@ -273,10 +286,7 @@ class Body extends Component {
 
   onResize(){
     this.setBodyHeight()
-  }
-
-  onScrollerKeyPress(event){
-    // console.log(event)
+    this.setMaxScrollTop()
   }
 
   setBodyHeight(){
@@ -294,6 +304,18 @@ class Body extends Component {
     })
   }
 
+  setMaxScrollTop(contentHeight){
+    this.setState({
+      maxScrollTop: (
+          (contentHeight || thuis.props.contentHeight) - this.state.bodyHeight
+        )
+    })
+  }
+
+  /**
+   * Sets isScrolling to false if there is no onScroll
+   * registered for 150ms
+   */
   toggleIsScrolling(){
     if (this.disableIsScrollingTimeoutId) {
       clearTimeout(this.disableIsScrollingTimeoutId)

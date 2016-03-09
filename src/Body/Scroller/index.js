@@ -102,8 +102,7 @@ class Scroller extends Component {
     const props = this.props
     const {
       scrollStep,
-      scrollTop,
-      maxScrollTop
+      scrollTop
     } = props
    
     const { deltaY, deltaX } = event
@@ -121,6 +120,7 @@ class Scroller extends Component {
       newScrollTop += deltaY * scrollStep
     }
    
+
     this.onScroll(newScrollTop)
   }
 
