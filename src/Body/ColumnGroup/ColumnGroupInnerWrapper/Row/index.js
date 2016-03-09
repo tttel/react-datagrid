@@ -12,7 +12,6 @@ import getColumnsWidth from '../../../../utils/getColumnsWidth'
 const Placeholder = ({width}) => {
   return <div style={{width: width}} className="react-datagrid__row__placeholder" />
 }
-
 export default class Row extends Component {
 
   shouldComponentUpdate(nextProps){
@@ -20,6 +19,9 @@ export default class Row extends Component {
       return nextProps.shouldComponentUpdate(nextProps, this.props)
     }
 
+    // if it is scrolling and buffer (extra rows)
+    // and is valid (it didn't scroll past the buffer)
+    // no need for reerender
     if (nextProps.bufferValid && nextProps.isScrolling) {
       return false
     }
