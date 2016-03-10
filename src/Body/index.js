@@ -308,7 +308,7 @@ class Body extends Component {
   setMaxScrollTop(contentHeight){
     this.setState({
       maxScrollTop: (
-          (contentHeight || thuis.props.contentHeight) - this.state.bodyHeight
+          (contentHeight || this.props.contentHeight) - this.state.bodyHeight
         )
     })
   }
