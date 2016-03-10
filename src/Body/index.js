@@ -125,6 +125,7 @@ class Body extends Component {
       height={this.state.bodyHeight}
       scrollbarWidth={this.props.scrollbarWidth}
       toggleIsScrolling={this.toggleIsScrolling}
+      maxScrollTop={this.p.maxScrollTop}
     >
       {this.renderColumnGroups()}
     </Scroller>
