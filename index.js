@@ -118,6 +118,7 @@ class App extends Component {
         // renderRowPlaceholder={() => <div> asdasd</div>}
         rowPlaceholderDelay={300}
         rowRef='renderIndex'
+        onScrollBottom={() => {console.log('scrolled to bottom')}}
       >
         <ColumnGroup width={900} fixed columns={columns} />
         <ColumnGroup renderRowPlaceholder={() => <div> aaa</div>} className="myColumnGroup" columns={columns2} />

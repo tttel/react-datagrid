@@ -21,17 +21,21 @@
 `activeIndex` | Number | - | index of active row, used for rows navigation
 `defaultActiveIndex` | Number | -1 | uncontrolled version of `activeIndex`
 `onActiveIndexChange(index)` | Function | - | called when activeIndex changes
-`scrollToIndex(index, config)`| Function | - | method to scroll to a specific row by `index`, config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
-`scrollToId(id, config)`| Function | - | method to scroll to a specific row by `id`, the id is the one specified in `idProperty`. Config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
 `scrollbarWidth` | Number | 20 | specify the size rezerved for the vertical and horizontal scrollbars
 `scrollTop` | Number | - | controls vertical scrollTop position, controlled version of `defaultScrollTop`
 `defaultScrollTop` | Number | - | se default vertical scrollTop position
-`scrollAt(scrollTop)` | Function | you can set scrollTop by calling this method
 `zebraRows` | Bool | true | controll `react-datagrid__row---odd` and `eact-datagrid__row---even` classNames on rows.
 `rowPlaceholder` | Bool | false | if true while scrolling and buffered items are consumed (we scroll at the end the extra rows rendered) a placeholder is rendered it's columns. It can be set on datagrid or directly on ColumnGroup.
 `renderRowPlaceholder` | Function | - | custom render function for placeholder, to take efect `rowPlaceholder` must be `true`
 `rowPlaceholderDelay` | Number | 300 | time in ms, that has to pass from you start scrolling to activate rowPlaceholder
 `rowRef` | String | realIndex | controls what index to be used as a ref for row, `realIndex` uses index of the piece of data that is used for the row from array of data, `renderIndex` uses the nth position of rendered rows (we render only the visible rows + extraRows). The difference is in the way react treats rows, in `renderIndex` the rows will not change, their contents will change on each render. In `realIndex` when rows are moved out of view, some will get unmounted and some mounted, and the rows will move from top to bottom or from bottom to top. If you use ColumnGropups you can overwrite the global seting directly on the ColumnGroup.
+
+
+#### Methods
+* `getActiveIndex()`
+* `scrollAt(scrollTop)` - you can set scrollTop by calling this method
+* `scrollToIndex(index, config)`- method to scroll to a specific row by `index`, config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
+* `scrollToId(id, config)`| method to scroll to a specific row by `id`, the id is the one specified in `idProperty`. Config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
 
 ### Rows
 * `renderRow(rowProps): Function`

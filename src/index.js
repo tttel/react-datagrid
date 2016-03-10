@@ -230,6 +230,10 @@ class DataGrid extends Component {
            this.state.selected  
   }
 
+  getActiveIndex(){
+    return this.p.activeIndex
+  }
+
   isSelectionControlled(){
     return this.props.selected !== undefined
   }
