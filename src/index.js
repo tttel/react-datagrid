@@ -66,7 +66,7 @@ class DataGrid extends Component {
       alignItems="stretch" 
       wrap={false}
     >
-      {false && loading && this.renderLoadMask()}
+      {loading && this.renderLoadMask()}
       { 
         !hideHeader 
         && 
