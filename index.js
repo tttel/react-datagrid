@@ -114,9 +114,10 @@ class App extends Component {
         xscrollTop={400}
         ref={(c) => window.c = c}
         azebraRows={false}
-        rowPlaceholder={true}
+        //rowPlaceholder={true}
         // renderRowPlaceholder={() => <div> asdasd</div>}
         rowPlaceholderDelay={300}
+        rowRef='renderIndex'
       >
         <ColumnGroup width={900} fixed columns={columns} />
         <ColumnGroup renderRowPlaceholder={() => <div> aaa</div>} className="myColumnGroup" columns={columns2} />

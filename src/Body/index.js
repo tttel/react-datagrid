@@ -154,7 +154,8 @@ class Body extends Component {
       children,
       buffer,
       zebraRows,
-      renderRowPlaceholder
+      renderRowPlaceholder,
+      rowRef
     } = preparedProps
 
     const bodyHeight = this.p.bodyHeight
@@ -193,6 +194,7 @@ class Body extends Component {
       zebraRows,
       bufferValid,
       renderRowPlaceholder,
+      rowRef,
       isPlaceholderActive: this.state.isPlaceholderActive,
       isScrolling: this.state.isScrolling,
       viewportHeight: bodyHeight,

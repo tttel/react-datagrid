@@ -37,16 +37,19 @@ export default class ColumnGroupInnerWrapper extends Component {
        isPlaceholderActive,
        renderRowPlaceholder,
        columns,
-       minWidth
+       minWidth,
+       rowRef
      } = props
 
     const rows = data.slice(from, to).map((rowData, index, dataSlice) => {
        const id = rowData[globalProps.idProperty]
        const over = overRowId === id
        const realIndex = index + from
-       const key = `row-${realIndex}`
        const even = !!(realIndex % 2)
        const active = activeIndex === realIndex
+
+       const keyIndex = rowRef === 'realIndex'? realIndex : index
+       const key = `row-${keyIndex}`
 
        const isSelected = hasSelection && 
                          (
@@ -104,4 +107,12 @@ export default class ColumnGroupInnerWrapper extends Component {
 
       return <div>{rows}</div>
    }
+}
+
+ColumnGroupInnerWrapper.defaultProps = {
+  rowRef: 'realIndex'
+}
+
+ColumnGroupInnerWrapper.propTypes = {
+  rowRef: PropTypes.oneOf(['realIndex', 'renderIndex'])
 }

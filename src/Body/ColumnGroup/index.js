@@ -106,6 +106,10 @@ export default class ColumnGroup extends Component {
   }
 }
 
+ColumnGroup.defaultProps = {
+  isColumnGroup: true
+}
+
 ColumnGroup.propTypes = {
   children: (props, propName) => {
     const children = props[propName]
@@ -117,9 +121,6 @@ ColumnGroup.propTypes = {
     })
   },
   onRowMouseEnter: PropTypes.func,
-  onRowMouseLeave: PropTypes.func
+  onRowMouseLeave: PropTypes.func,
 }
 
-ColumnGroup.defaultProps = {
-  isColumnGroup: true
-}
