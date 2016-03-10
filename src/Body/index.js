@@ -13,7 +13,7 @@ import Scroller from './Scroller'
 import ColumnGroup from './ColumnGroup'
 
 /**
- *   Body is a statefull components, it keeps track of:
+ *   Body is a statefull component, it keeps track of:
  *
  * - bodyHeight: it is the height of the this component, it is used
  *               to set the scroller height, and to calculate how many rows
