@@ -253,11 +253,6 @@ class Body extends Component {
 
   onScroll(scrollTop, event){
     this.scrollAt(scrollTop)
-    
-    // There is an error of one pixel in chrome, add -2 to be safe
-    if (this.p.contentHeight - 2 <= scrollTop + this.p.bodyHeight) {
-      this.p.onScrollBottom()
-    }
 
     if (this.p.onScroll) {
       this.p.onScroll(scrollTop, event)
@@ -367,6 +362,11 @@ class Body extends Component {
         scrollTop
       })     
     })
+
+    // trigger scrollbottom
+    if (this.p.contentHeight - (this.p.scrollbarWidth + 5) <= scrollTop + this.p.bodyHeight) {
+      this.p.onScrollBottom()
+    }
 
     return scrollTop
   }
