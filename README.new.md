@@ -8,6 +8,7 @@
   npm install --save react-datagrid
 ```
 
+
 # Contributing
 
 ```
@@ -35,9 +36,11 @@ $ npm run dev
 
 # Documentation
 
-## Props
+### General 
+Some statement about datagrid
 
-### General Props
+
+#### Props
 |Prop|Type|Default|Description
 --- | --- | --- | ---
 `idProperty`| String | - |*(required)* the name of the property where the id is found for each object in the data array
@@ -47,7 +50,10 @@ $ npm run dev
 `emptyText`| String\|JSX | - | text that apears when dataSource provides an empty dataset
 `hideHeader` | Booleon | false | Set header visibility.
 
-### Selection Props
+### Selection
+You can select stuff.
+
+#### Props
 |Prop|Type|Default|Description
 --- | --- | --- | ---
 `selected` | Object\|String\|Number| - | control what items are selected, for multiselect specify an object with it's keys the id's to be selected, an emptry object for no rows selected. For single selection specify a string/number representing the id of the row to be selected.
@@ -55,7 +61,10 @@ $ npm run dev
 `onSelectionChange(selected)` | Function | - | event handler called when selection changes, `selected` parameter  for multiselect is an object of the shape `{ id-1: { rowData }, id-2 .. }` and for single select the id, ex `id-`. ID in this case is `rowData[idProperty]`
 
 
-### Navigation props
+### Navigation
+You can navigate using arrows.
+
+#### Props
 |Prop|Type|Default|Description
 --- | --- | --- | ---
 `activeIndex` | Number | - | index of active row, used for rows navigation
@@ -63,16 +72,30 @@ $ npm run dev
 `onActiveIndexChange(index)` | Function | - | called when activeIndex changes
 `defaultScrollTop` | Number | - | se default vertical scrollTop position
 
+#### Methods
+* `getActiveIndex()`
 
-### Scroll Props
+
+### Scroll
+Statement about scrolling.
+
+#### Props
 |Prop|Type|Default|Description
 --- | --- | --- | ---
 `onScrollBottom` | Function | - | event handler for when the datagrid is scrolled at the bottom, it can be used as a trigger for infinite loader
 `scrollTop` | Number | - | controls vertical scrollTop position, controlled version of `defaultScrollTop`
 `scrollbarWidth` | Number | 20 | specify the size rezerved for the vertical and horizontal scrollbars
 
+#### Methods
+* `scrollAt(scrollTop)` - you can set scrollTop by calling this method
+* `scrollToIndex(index, config)`- method to scroll to a specific row by `index`, config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
+* `scrollToId(id, config)`| method to scroll to a specific row by `id`, the id is the one specified in `idProperty`. Config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
 
-### Row Props
+
+### Row 
+Rows
+
+#### Props
 |Prop|Type|Default|Description
 --- | --- | --- | ---
 `rowStyle` | Object/Function | - | You can specify either a style object to be applied to all rows, or a function.    The function is called with (data, props) (so you have access to props.index for example) and is expected to return a style object.
@@ -86,32 +109,45 @@ $ npm run dev
 `rowProps` | Object | - | Object of props to be merged to row component
 `renderRow(rowProps)| Function | - | you can use this function to customize render logic of rows, see more [here](#render-row) 
 
-#### Render Row
+#### Render
 * `renderRow(rowProps): Function`
   * `rowProps` : Object - an object with props for the current row - has the following properties:
      * `className`: String - a className for the cell.
      * `children`: JSX - row cells.
      * `style` : object - style for the row.
 
-
 #### rowProps
 * `rowProps.overClassName` - a css class name to be applied when mouse is over the row
 * `rowProps.selectedClassName`
 * `rowProps.className`
 
+### Sort
+Datagrid uses [`sorty`](https://www.npmjs.com/package/sorty) utility for sorting.
+For a column to be sortable must fit one of the folowing requirements:
+- must have a `name` prop, so we can use data asociated with it
+- specify a `sort` on column, see [here](sorting-function)
 
-### Sort Props
+
+#### Props
 |Prop|Type|Default|Description
 --- | --- | --- | ---
 sortable | Bool | false | make all columns sortable, individual column can be overwritten using columns config
+defaultSortInfo | Object/Array | - | set the initial sort configuration, it can be an object configuration or an array of object configurations, it is the uncontrolled version of sortInfo
+sortInfo | Object/Array | - | controll sort configuration, it can be an object configuration or an array of object configurations
+onSortInfoChange(newSortInfo) | Function | - | called each time sortInfo changes
 
+#### Example
 
-#### Methods
-* `getActiveIndex()`
-* `scrollAt(scrollTop)` - you can set scrollTop by calling this method
-* `scrollToIndex(index, config)`- method to scroll to a specific row by `index`, config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
-* `scrollToId(id, config)`| method to scroll to a specific row by `id`, the id is the one specified in `idProperty`. Config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
+```js
+var sortInfo =  [
+  {name: 'country', dir: 'asc'},
+  {name: 'name', dir: 'asc'}
+]
 
+<DataGrid
+  sortInfo={sortInfo}
+/>
+```
 
 
 ### Columns
@@ -120,6 +156,7 @@ Columns can be defined as:
 - an array of objects describing each column.
 - using `<Column />` component, as children of `DataGrid` or `ColumnGroup` 
 
+#### Props
 |Prop|Type|Default|Description
 --- | --- | --- | ---
 `name`| String | - | specifies what piece of data to be rendered in that column
@@ -131,6 +168,55 @@ Columns can be defined as:
  `textAlign`| String |-| one of 'left', 'right', 'center'. It will add one of the folowing classes: <br> `react-datagrid__cell--align-right`, <br> `react-datagrid__cell--align-left`, <br>`react-datagrid__cell--align-center`
  `render` | Function| - |if you want custom rendering, specify this property. Parameters taken: `render(value, data, cellProps)`. For more information read [Column.render](#columnrender) section.
  `sortable` | Bool | - | controll if a column is sortable or not, see [more](#sort-props)
+
+
+#### Column.render
+Render takes three parameters: `value`, `data` and `cellProps`.
+
+* `data`: Object - The corresponding data object for the current row.
+* `cellProps`: Object - An object with props for the current cell - has the following properties:
+  *  `value`: String - the default value to be rendered (equals to data[column.name]).
+  *  `className`: String - a className for the cell.
+  *  `children`: String, JSX - defaults to `value`, reprezents content of the cell.
+  *  `style`: Object - style for the cell.
+  *  `headerCell`: Bool - if it is  acolumn (cell in header)
+
+**Example:**
+
+```jsx
+var data = [...]
+var columns = [
+  {
+    name: 'firstName',
+    className: 'first-column',
+    textAlign: 'center',
+    style: { fontWeight: 'bold' }
+  },
+  {
+    name: 'lastName',
+    render: function(value){
+      return <span>
+        <b>Last name:</b> value
+      </span>
+    }
+]
+<DataGrid idProperty="id" dataSource={data} columns={columns} />
+```
+
+#### Sorting Function
+```js
+var columns = [
+  {
+    name: 'index', 
+    render: function(v){return 'Index ' + v},
+    sort: function(rowProps, nextRowProps){
+      return rowProps - nextRowProps
+    }
+  },
+  {name: 'firstName'},
+  {name: 'lastName'}
+]
+```
 
 
 #### Example
@@ -164,39 +250,7 @@ Each column should have a `name` property, and optionally a `title` property.
 The `name` property can be omitted if a render function is specified.
 If no **`title`** property is specified, a humanized version of the column **`name`** will be used.
 
-     
-#### Column.render
-Render takes three parameters: `value`, `data` and `cellProps`.
-
-* `data`: Object - The corresponding data object for the current row.
-* `cellProps`: Object - An object with props for the current cell - has the following properties:
-  *  `value`: String - the default value to be rendered (equals to data[column.name]).
-  *  `className`: String - a className for the cell.
-  *  `children`: String, JSX - defaults to `value`, reprezents content of the cell.
-  *  `style`: Object - style for the cell.
-  *  `headerCell`: Bool - if it is  acolumn (cell in header)
-
-**Example:**
-
-```jsx
-var data = [...]
-var columns = [
-  {
-    name: 'firstName',
-    className: 'first-column',
-    textAlign: 'center',
-    style: { fontWeight: 'bold' }
-  },
-  {
-    name: 'lastName',
-    render: function(value){
-      return <span>
-        <b>Last name:</b> value
-      </span>
-    }
-]
-<DataGrid idProperty="id" dataSource={data} columns={columns} />
-```
+    
 
 ## Column Group Props
 
