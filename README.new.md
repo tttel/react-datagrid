@@ -3,32 +3,71 @@
 ## Props
 
 ### General Props
-
 |Prop|Type|Default|Description
 --- | --- | --- | ---
-`dataSource` | Array\|Promise| - | an array of data objects or a promise that when resolved returns an array of data objects.
 `idProperty`| String | - |*(required)* the name of the property where the id is found for each object in the data array
-`onDataSourceResponse`| Function(data) | - | it is called if `dataSource` is a primise <br>`dataSource.then(onDataSourceResponse, onDataSourceResponse)`
-`emptyText`| String\|JSX | - | text that apears when dataSource provides an empty dataset
+`dataSource` | Array\|Promise| - | an array of data objects or a promise that when resolved returns an array of data objects.
+`onDataSourceResponse(data)`| Function | - | it is called if `dataSource` is a primise <br>`dataSource.then(onDataSourceResponse, onDataSourceResponse)`
 `columns`| Array | - | an array of columns that are going to be rendered in the grid. Read more on how to configure [columns](#columns).
+`emptyText`| String\|JSX | - | text that apears when dataSource provides an empty dataset
 `hideHeader` | Booleon | false | Set header visibility.
-`onRowMouseLeave(event, rowProps)` | Function | - | row event handler onMouseEnter, event parameter is react event 
-`onRowMouseEnter(event, rowProps)` | Function | - | row event handler onMouseEnter, event parameter is react event 
-`onScrollBottom` | Function | - | event handler for when the datagrid is scrolled at the bottom, it can be used as a trigger for infinite loader
+
+### Selection Props
+|Prop|Type|Default|Description
+--- | --- | --- | ---
 `selected` | Object\|String\|Number| - | control what items are selected, for multiselect specify an object with it's keys the id's to be selected, an emptry object for no rows selected. For single selection specify a string/number representing the id of the row to be selected.
 `defaultSelected` | Object\|String\|Number| - | uncontrolled version of `selected`, for multiselect specify an object with it's keys the id's to be selected, an emptry object for no rows selected. For single selection specify a string/number representing the id of the row to be selected.
 `onSelectionChange(selected)` | Function | - | event handler called when selection changes, `selected` parameter  for multiselect is an object of the shape `{ id-1: { rowData }, id-2 .. }` and for single select the id, ex `id-`. ID in this case is `rowData[idProperty]`
+
+
+### Navigation props
+|Prop|Type|Default|Description
+--- | --- | --- | ---
 `activeIndex` | Number | - | index of active row, used for rows navigation
 `defaultActiveIndex` | Number | -1 | uncontrolled version of `activeIndex`
 `onActiveIndexChange(index)` | Function | - | called when activeIndex changes
-`scrollbarWidth` | Number | 20 | specify the size rezerved for the vertical and horizontal scrollbars
-`scrollTop` | Number | - | controls vertical scrollTop position, controlled version of `defaultScrollTop`
 `defaultScrollTop` | Number | - | se default vertical scrollTop position
-`zebraRows` | Bool | true | controll `react-datagrid__row---odd` and `eact-datagrid__row---even` classNames on rows.
+
+
+### Scroll Props
+|Prop|Type|Default|Description
+--- | --- | --- | ---
+`onScrollBottom` | Function | - | event handler for when the datagrid is scrolled at the bottom, it can be used as a trigger for infinite loader
+`scrollTop` | Number | - | controls vertical scrollTop position, controlled version of `defaultScrollTop`
+`scrollbarWidth` | Number | 20 | specify the size rezerved for the vertical and horizontal scrollbars
+
+
+### Row Props
+|Prop|Type|Default|Description
+--- | --- | --- | ---
+`rowStyle` | Object/Function | - | You can specify either a style object to be applied to all rows, or a function.    The function is called with (data, props) (so you have access to props.index for example) and is expected to return a style object.
 `rowPlaceholder` | Bool | false | if true while scrolling and buffered items are consumed (we scroll at the end the extra rows rendered) a placeholder is rendered it's columns. It can be set on datagrid or directly on ColumnGroup.
 `renderRowPlaceholder` | Function | - | custom render function for placeholder, to take efect `rowPlaceholder` must be `true`
 `rowPlaceholderDelay` | Number | 300 | time in ms, that has to pass from you start scrolling to activate rowPlaceholder
 `rowRef` | String | realIndex | controls what index to be used as a ref for row, `realIndex` uses index of the piece of data that is used for the row from array of data, `renderIndex` uses the nth position of rendered rows (we render only the visible rows + extraRows). The difference is in the way react treats rows, in `renderIndex` the rows will not change, their contents will change on each render. In `realIndex` when rows are moved out of view, some will get unmounted and some mounted, and the rows will move from top to bottom or from bottom to top. If you use ColumnGropups you can overwrite the global seting directly on the ColumnGroup.
+`onRowMouseLeave(event, rowProps)` | Function | - | row event handler onMouseEnter, event parameter is react event 
+`onRowMouseEnter(event, rowProps)` | Function | - | row event handler onMouseEnter, event parameter is react event 
+`zebraRows` | Bool | true | controll `react-datagrid__row---odd` and `eact-datagrid__row---even` classNames on rows.
+`rowProps` | Object | - | Object of props to be merged to row component
+`renderRow(rowProps)| Function | - | you can use this function to customize render logic of rows, see more [here](#render-row) 
+
+#### Render Row
+* `renderRow(rowProps): Function`
+  * `rowProps` : Object - an object with props for the current row - has the following properties:
+     * `className`: String - a className for the cell.
+     * `children`: JSX - row cells.
+     * `style` : object - style for the row.
+
+
+#### rowProps
+* `rowProps.overClassName` - a css class name to be applied when mouse is over the row
+* `rowProps.selectedClassName`
+* `rowProps.className`
+
+
+### Sort Props
+|Prop|Type|Default|Description
+--- | --- | --- | ---
 
 
 #### Methods
@@ -37,26 +76,30 @@
 * `scrollToIndex(index, config)`- method to scroll to a specific row by `index`, config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
 * `scrollToId(id, config)`| method to scroll to a specific row by `id`, the id is the one specified in `idProperty`. Config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
 
-### Rows
-* `renderRow(rowProps): Function`
-  * `rowProps` : Object - an object with props for the current row - has the following properties:
-     * `className`: String - a className for the cell.
-     * `children`: JSX - row cells.
-     * `style` : object - style for the row.
-* `rowStyle(data, rowProps)`: Object/Function -    You can specify either a style object to be applied to all rows, or a function.    The function is called with (data, props) (so you have access to props.index for example) and is expected to return a style object.
- * `rowProps`: Object - props to be passed to all rows
-    * `rowProps.overClassName` - a css class name to be applied when mouse is over the row
-    * `rowProps.selectedClassName`
-    * `rowProps.className`
+
+
 
 ### Columns
 
-Columns can be defined as: -
+Columns can be defined as:
 - an array of objects describing each column.
 - using `<Column />` component, as children of `DataGrid` or `ColumnGroup` 
 
+|Prop|Type|Default|Description
+--- | --- | --- | ---
+`name`| String | - | specifies what piece of data to be rendered in that column
+`value`| String | `name`| the default value to be rendered (equals to data[column.name]).
+`title`| String\|ReactElement| `name` | a title to show in the header. If not specified, a humanized version of `name` will be used. Can be a string or anything that React can render, so you can customize it as you please.
+`width`| Int\|String| - |specify the width of the column.
+`onScroll(scrollTop, event)`| Function | - | On scroll event handler.
+`style`| Object | - |if you want cells in this column to be have a custom style.
+ `textAlign`| String |-| one of 'left', 'right', 'center'. It will add one of the folowing classes: <br> `react-datagrid__cell--align-right`, <br> `react-datagrid__cell--align-left`, <br>`react-datagrid__cell--align-center`
+ `render` | Function| - |if you want custom rendering, specify this property. Parameters taken: `render(value, data, cellProps)`. For more information read [Column.render](#columnrender) section.
 
-```
+
+#### Example
+
+```js
 var dataSource = [
   {id: 1, name: 'Foo', lastName: 'Bar'},
   {id: 2, name: 'Bar', lastName: 'Foo'}    
@@ -85,17 +128,6 @@ Each column should have a `name` property, and optionally a `title` property.
 The `name` property can be omitted if a render function is specified.
 If no **`title`** property is specified, a humanized version of the column **`name`** will be used.
 
-
-|Prop|Type|Default|Description
---- | --- | --- | ---
-`name`| String | - | specifies what piece of data to be rendered in that column
-`value`| String | `name`| the default value to be rendered (equals to data[column.name]).
-`title`| String\|ReactElement| `name` | a title to show in the header. If not specified, a humanized version of `name` will be used. Can be a string or anything that React can render, so you can customize it as you please.
-`width`| Int\|String| - |specify the width of the column.
-`onScroll(scrollTop, event)`| Function | - | On scroll event handler.
-`style`| Object | - |if you want cells in this column to be have a custom style.
- `textAlign`| String |-| one of 'left', 'right', 'center'. It will add one of the folowing classes: <br> `react-datagrid__cell--align-right`, <br> `react-datagrid__cell--align-left`, <br>`react-datagrid__cell--align-center`
- `render` | Function| - |if you want custom rendering, specify this property. Parameters taken: `render(value, data, cellProps)`. For more information read [Column.render](#columnrender) section. 
      
 #### Column.render
 Render takes three parameters: `value`, `data` and `cellProps`.
