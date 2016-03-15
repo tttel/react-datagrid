@@ -417,7 +417,6 @@ DataGrid.propTypes = {
     })
   },
 
-
   // data
   dataSource: (props, propName) => {
     const dataSource = props[propName]
