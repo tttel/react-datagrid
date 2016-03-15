@@ -1,5 +1,40 @@
 # react-datagrid
 
+> A carefully crafted DataGrid for React
+
+# Getting started
+
+```js
+  npm install --save react-datagrid
+```
+
+# Contributing
+
+```
+$ git clone https://github.com/zippyui/react-datagrid
+$ cd react-datagrid
+$ npm install
+$ npm run dev
+```
+
+
+# Features
+
+- renders huge amounts of data
+- resizable columns
+- reorderable columns
+- remote data support
+- custom row/cell/column rendering
+- multiple/single selection
+- sorting
+- filtering
+- pagination
+- hideable columns
+- works on mobile
+
+
+# Documentation
+
 ## Props
 
 ### General Props
@@ -68,6 +103,7 @@
 ### Sort Props
 |Prop|Type|Default|Description
 --- | --- | --- | ---
+sortable | Bool | false | make all columns sortable, individual column can be overwritten using columns config
 
 
 #### Methods
@@ -75,7 +111,6 @@
 * `scrollAt(scrollTop)` - you can set scrollTop by calling this method
 * `scrollToIndex(index, config)`- method to scroll to a specific row by `index`, config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
 * `scrollToId(id, config)`| method to scroll to a specific row by `id`, the id is the one specified in `idProperty`. Config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
-
 
 
 
@@ -95,6 +130,7 @@ Columns can be defined as:
 `style`| Object | - |if you want cells in this column to be have a custom style.
  `textAlign`| String |-| one of 'left', 'right', 'center'. It will add one of the folowing classes: <br> `react-datagrid__cell--align-right`, <br> `react-datagrid__cell--align-left`, <br>`react-datagrid__cell--align-center`
  `render` | Function| - |if you want custom rendering, specify this property. Parameters taken: `render(value, data, cellProps)`. For more information read [Column.render](#columnrender) section.
+ `sortable` | Bool | - | controll if a column is sortable or not, see [more](#sort-props)
 
 
 #### Example
