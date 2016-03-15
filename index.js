@@ -100,6 +100,16 @@ class App extends Component {
         >
           Add Height
         </button>
+        <button 
+          style={{
+            marginBottom: 10
+          }}
+          onClick={() => this.setState({
+            height: this.state.height - 10
+          })}
+        >
+          Remove Height
+        </button>
       </div>
 
       <DataGrid

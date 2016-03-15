@@ -16,11 +16,6 @@
   }
 }
 
-/*----------  Header  ----------*/
-.react-datagrid__header {
-  overflow: hidden;
-}
-
 /*----------  Body  ----------*/
 .react-datagrid__body {
   display: flex;
@@ -43,6 +38,19 @@
 
 .react-datagrid__header__colum-group {
   overflow: hidden;
+}
+
+
+.react-datagrid__colum-group__header {
+  overflow: hidden;
+  background: #fff;
+}
+
+.react-datagrid__colum-group__body {}
+
+.react-datagrid__colum-group__body__innerWrapper {
+  z-index: -1;
+  position: relative;
 }
 
 /*----------  Scroller  ----------*/

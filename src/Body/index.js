@@ -155,7 +155,8 @@ class Body extends Component {
       buffer,
       zebraRows,
       renderRowPlaceholder,
-      rowRef
+      rowRef,
+      hideHeader,
     } = preparedProps
 
     const bodyHeight = this.p.bodyHeight
@@ -176,6 +177,7 @@ class Body extends Component {
     const offsetTop = from * rowHeight
     const innerWrapperOffset = offsetTop - scrollTop
 
+    // only send to columngroup the prop that it needs to know about
     const columnGroupProps = {
       data,
       rowHeight,
@@ -195,6 +197,7 @@ class Body extends Component {
       bufferValid,
       renderRowPlaceholder,
       rowRef,
+      hideHeader,
       isPlaceholderActive: this.state.isPlaceholderActive,
       isScrolling: this.state.isScrolling,
       viewportHeight: bodyHeight,

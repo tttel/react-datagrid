@@ -3,11 +3,14 @@ import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
 import assign from 'object-assign'
 import join from '../../utils/join'
-import shallowequal from 'shallowequal'
 
-import ColumnGroupInnerWrapper from './ColumnGroupInnerWrapper'
-import Column from '../../Column'
+import shallowequal from 'shallowequal'
 import getColumnsWidth from '../../utils/getColumnsWidth'
+
+import InnerWrapper from './InnerWrapper'
+import Column from '../../Column'
+import Header from './Header'
+
 
 export default class ColumnGroup extends Component {
   constructor(props){
@@ -36,7 +39,8 @@ export default class ColumnGroup extends Component {
       width,
       chilren,
       fixed,
-      innerWrapperOffset
+      innerWrapperOffset,
+      hideHeader
     } = props
     
     const style = assign({}, props.style, {
@@ -73,8 +77,18 @@ export default class ColumnGroup extends Component {
       data={null}
       onScroll={this.onScroll}
     > 
-      <div style={innerWrapperStyle}>
-        <ColumnGroupInnerWrapper {...props} columns={columns} minWidth={minWidth} innerWrapperOffset={null} />
+      {
+        !hideHeader
+        &&
+        <Header columns={this.state.columns} minWidth={minWidth} />
+      }
+      <div className="react-datagrid__colum-group__body">
+        <div 
+          className="react-datagrid__colum-group__body__innerWrapper"
+          style={innerWrapperStyle}
+        >
+          <InnerWrapper {...props} columns={columns} minWidth={minWidth} innerWrapperOffset={null} />
+        </div>
       </div>
     </div>
   }

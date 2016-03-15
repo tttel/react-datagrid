@@ -7,7 +7,6 @@ import join from './utils/join'
 import LoadMask from 'react-load-mask'
 import hasown from 'hasown'
 
-import Header from './Header'
 import Body from './Body'
 import ColumnGroup from './Body/ColumnGroup'
 import NavigationHelper from './NavigationHelper'
@@ -66,15 +65,7 @@ class DataGrid extends Component {
       alignItems="stretch" 
       wrap={false}
     >
-      {loading && this.renderLoadMask()}
-      { 
-        !hideHeader 
-        && 
-        <Header 
-          columns={columns} 
-          columnGroups={children}
-        />
-      }
+      {false && this.renderLoadMask()}
       <Body
         {...preparedProps}
         ref="body"

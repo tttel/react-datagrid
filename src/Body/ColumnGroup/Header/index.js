@@ -1,27 +1,24 @@
 import React, { PropTypes } from 'react'
-import {findDOMNode} from 'react-dom'
 import Component from 'react-class'
-import assign from 'object-assign'
-import join from '../../utils/join'
-import humanize from '../../utils/humanize'
 import { Flex } from 'react-flex'
 
-import Cell from '../../Cell'
-import getColumnsWidth from '../../utils/getColumnsWidth'
+import assign from 'object-assign'
+import join from '../../../utils/join'
+import humanize from '../../../utils/humanize'
+import Cell from '../../../Cell'
 
-
-export default class ColumnGroupHeader extends Component {
+export default class Header extends Component {
   render(){
     const props = this.props
     const {
       width,
-      columns
+      columns,
+      minWidth
     } = props
-    
-    const className = join('react-datagrid__header__colum-group', props.className)
+    const className = join('react-datagrid__colum-group__header', props.className)
     const style = assign({}, props.style)
 
-    let minWidth = getColumnsWidth(columns)
+
 
     if (width) {
       style.width = Math.max(width, minWidth)
@@ -44,12 +41,11 @@ export default class ColumnGroupHeader extends Component {
 
   renderColumns(columns){
     return columns.map((column, index) => {
-      const columnProps = column.props
       const {
         name,
         title,
-      } = columnProps
-
+      } = column
+      
       let value
       
       if (title) {
@@ -60,12 +56,7 @@ export default class ColumnGroupHeader extends Component {
         value = humanize(name)
       }
 
-      return <Cell headerCell key={index} {...columnProps} value={value} />
+      return <Cell headerCell key={index} {...column} value={value} />
     })
   }
-}
-
-
-ColumnGroupHeader.defaultProps = {
-  isColumnGroup: true
 }
