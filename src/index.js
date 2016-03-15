@@ -379,6 +379,18 @@ DataGrid.propTypes = {
   onSelectionChange: PropTypes.func,
 
 
+  // sort
+  sortable: PropTypes.bool,
+  defaultSortInfo: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.object),
+      PropTypes.object
+    ]),
+  sortInfo: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.object),
+      PropTypes.object
+    ]),
+  onSortInfoChange: PropTypes.func,
+
   // navigation
   activeIndex: PropTypes.number,
   defaultActiveIndex: PropTypes.number,  
