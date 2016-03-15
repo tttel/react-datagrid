@@ -36,7 +36,7 @@ $ npm run dev
 
 # Documentation
 
-### General 
+## General 
 Some statement about datagrid
 
 
@@ -50,7 +50,7 @@ Some statement about datagrid
 `emptyText`| String\|JSX | - | text that apears when dataSource provides an empty dataset
 `hideHeader` | Booleon | false | Set header visibility.
 
-### Selection
+## Selection
 You can select stuff.
 
 #### Props
@@ -61,7 +61,7 @@ You can select stuff.
 `onSelectionChange(selected)` | Function | - | event handler called when selection changes, `selected` parameter  for multiselect is an object of the shape `{ id-1: { rowData }, id-2 .. }` and for single select the id, ex `id-`. ID in this case is `rowData[idProperty]`
 
 
-### Navigation
+## Navigation
 You can navigate using arrows.
 
 #### Props
@@ -76,7 +76,7 @@ You can navigate using arrows.
 * `getActiveIndex()`
 
 
-### Scroll
+## Scroll
 Statement about scrolling.
 
 #### Props
@@ -91,8 +91,35 @@ Statement about scrolling.
 * `scrollToIndex(index, config)`- method to scroll to a specific row by `index`, config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
 * `scrollToId(id, config)`| method to scroll to a specific row by `id`, the id is the one specified in `idProperty`. Config is used to specify where where the row should be scrolled into view, at the top or the bottom of the scrolling area.
 
+## Sort
+Datagrid uses [`sorty`](https://www.npmjs.com/package/sorty) utility for sorting.
+For a column to be sortable must fit one of the folowing requirements:
+- must have a `name` prop, so we can use data asociated with it
+- specify a `sort` on column, see [here](sorting-function)
 
-### Row 
+#### Props
+|Prop|Type|Default|Description
+--- | --- | --- | ---
+sortable | Bool | false | make all columns sortable, individual column can be overwritten using columns config
+defaultSortInfo | Object/Array | - | set the initial sort configuration, it can be an object configuration or an array of object configurations, it is the uncontrolled version of sortInfo
+sortInfo | Object/Array | - | controll sort configuration, it can be an object configuration or an array of object configurations
+onSortInfoChange(newSortInfo) | Function | - | called each time sortInfo changes
+
+#### Example
+
+```js
+var sortInfo =  [
+  {name: 'country', dir: 'asc'},
+  {name: 'name', dir: 'asc'}
+]
+
+<DataGrid
+  sortInfo={sortInfo}
+/>
+```
+
+
+## Row 
 Rows
 
 #### Props
@@ -121,36 +148,7 @@ Rows
 * `rowProps.selectedClassName`
 * `rowProps.className`
 
-### Sort
-Datagrid uses [`sorty`](https://www.npmjs.com/package/sorty) utility for sorting.
-For a column to be sortable must fit one of the folowing requirements:
-- must have a `name` prop, so we can use data asociated with it
-- specify a `sort` on column, see [here](sorting-function)
-
-
-#### Props
-|Prop|Type|Default|Description
---- | --- | --- | ---
-sortable | Bool | false | make all columns sortable, individual column can be overwritten using columns config
-defaultSortInfo | Object/Array | - | set the initial sort configuration, it can be an object configuration or an array of object configurations, it is the uncontrolled version of sortInfo
-sortInfo | Object/Array | - | controll sort configuration, it can be an object configuration or an array of object configurations
-onSortInfoChange(newSortInfo) | Function | - | called each time sortInfo changes
-
-#### Example
-
-```js
-var sortInfo =  [
-  {name: 'country', dir: 'asc'},
-  {name: 'name', dir: 'asc'}
-]
-
-<DataGrid
-  sortInfo={sortInfo}
-/>
-```
-
-
-### Columns
+## Columns
 
 Columns can be defined as:
 - an array of objects describing each column.
@@ -170,7 +168,7 @@ Columns can be defined as:
  `sortable` | Bool | - | controll if a column is sortable or not, see [more](#sort-props)
 
 
-#### Column.render
+### Column.render
 Render takes three parameters: `value`, `data` and `cellProps`.
 
 * `data`: Object - The corresponding data object for the current row.
