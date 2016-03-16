@@ -8,11 +8,13 @@ import shallowequal from 'shallowequal'
 import getColumnsWidth from '../../utils/getColumnsWidth'
 
 import InnerWrapper from './InnerWrapper'
-
 import Header from './Header'
 
-
 export default class ColumnGroup extends Component {
+
+  shouldComponentUpdate(nextProps){
+    return !shallowequal(nextProps, this.props)
+  }
 
   render(){
     const props = this.props

@@ -7,6 +7,7 @@ import assign from 'object-assign'
 import join from '../utils/join'
 import raf from 'raf'
 import getIndexBy from '../utils/getIndexBy'
+import shallowequal from 'shallowequal'
 
 import Column from '../Column'
 import EmptyText from './EmptyText'
@@ -67,7 +68,8 @@ class Body extends Component {
     // we have to determine if any of the folowig has changed
     // - columns
     // - columngrups has changed children or column prop
-    if (this.hasColumnsChanged(this.props, nextProps)) {
+    const newColumns = this.getNewColumns(nextProps)
+    if (shallowequal(newColumns, this.state.columns)) {
       this.setState({
         columns: this.getNewColumns(nextProps)
       })
@@ -284,7 +286,6 @@ class Body extends Component {
       this.setState({
         isScrolling: true
       })
-
       
       // if it is still scrolling after `rowPlaceholderDelay`ms (defaults to 300ms)
       // set `isPlaceholderActive` to true, to announce that row placeholder can be
@@ -437,25 +438,6 @@ class Body extends Component {
       .map(c => c.props)
   }
 
-  hasColumnsChanged(props, nextProps){
-    return true
-    // TODO: think of a way to see if children have changed
-
-    // if we have columngroups
-    if (nextProps.children || props.children) {
-      const columnGroups =  props.children
-      const nextColumnGrups = next.children
-      // first we have to check if columngroup have children
-      if (
-          (columnGroups.children || nextColumnGrups.children) &&
-          // and they have changed
-          columnGroups.children !== nextColumnGrups.children
-        ) {
-
-      }
-    }
-  }
-
   prepareProps(props){
     const isScrollControlled = props.scrollTop != null 
     const scrollTop = isScrollControlled?
@@ -483,6 +465,10 @@ class Body extends Component {
 
   getBodyHeight(){
     return this.state.bodyHeight
+  }
+
+  getAllColumns(){
+    return this.state.columns
   }
 }
 
