@@ -427,8 +427,7 @@ class Body extends Component {
       let startIndex = 0
       columns = columnGroups.map((columnGroup, index) => {
         const normalizedColumns = this.normalizeColumns(columnGroup.props, startIndex)
-        startIndex += normalizedColumns.length + 1 // to compensate for 0 index
-
+        startIndex += normalizedColumns.length
         return normalizedColumns
       })
     } else {

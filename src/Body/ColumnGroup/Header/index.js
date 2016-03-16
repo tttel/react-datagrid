@@ -48,11 +48,12 @@ export default class Header extends Component {
       isMultiSort,
     } = props
 
-    return columns.map((column, index) => {
+    return columns.map((column) => {
       const {
         name,
         title,
         sort,
+        index,
       } = column
       
       let cellSortInfo = null
@@ -62,7 +63,7 @@ export default class Header extends Component {
           const sortInfoIndex = getIndexBy(sortInfo, 'name', name)
           cellSortInfo = sortInfoIndex !== -1? sortInfo[sortInfoIndex] : null
         } else {
-          cellSortInfo = sortInfo.name === name ? sortInfo : null
+          cellSortInfo = sortInfo.index === index? sortInfo : null
         }
       }
   
