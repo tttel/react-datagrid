@@ -7,6 +7,7 @@ import join from './utils/join'
 import LoadMask from 'react-load-mask'
 import hasown from 'hasown'
 import getIndexBy from './utils/getIndexBy'
+import sorty from 'sorty'
 
 import Body from './Body'
 import ColumnGroup from './Body/ColumnGroup'
@@ -193,7 +194,7 @@ class DataGrid extends Component {
       sortInfo: newSortInfo
     })
 
-    console.log(newSortInfo)
+
   }
 
   handleMultipleSort(columns){
@@ -258,6 +259,12 @@ class DataGrid extends Component {
 
         this.setData(data)
       })
+    }
+  }
+
+  sortData(sortInfo){
+    if (sortInfo) {
+      return sorty(sortInfo, this.p.data)
     }
   }
 
@@ -364,6 +371,8 @@ class DataGrid extends Component {
     const sortInfo = props.sortInfo? props.sortInfo : this.state.sortInfo
     const isMultiSort = Array.isArray(sortInfo)
 
+    const data = sortInfo? this.sortData(sortInfo) : state.data
+
     return assign({}, props, {
       loading,
       selected,
@@ -371,7 +380,7 @@ class DataGrid extends Component {
       contentHeight,
       isMultiselect,
       className,
-      data: state.data,
+      data,
       activeIndex,
       sortInfo,
       isMultiSort,
