@@ -8,6 +8,7 @@ import join from '../utils/join'
 import raf from 'raf'
 import getIndexBy from '../utils/getIndexBy'
 
+import Column from '../Column'
 import EmptyText from './EmptyText'
 import Scroller from './Scroller'
 import ColumnGroup from './ColumnGroup'
@@ -42,6 +43,7 @@ class Body extends Component {
       maxScrollTop: props.defaultScrollTop,
       isScrolling: false,
       isPlaceholderActive: false,
+      columns: this.getNewColumns(props) // are defined on render at this time
     }
   }
   
@@ -60,6 +62,15 @@ class Body extends Component {
         nextProps.contentHeight !== this.props.contentHeight
       ) {
       this.setMaxScrollTop(nextProps.contentHeight)
+    }
+
+    // we have to determine if any of the folowig has changed
+    // - columns
+    // - columngrups has changed children or column prop
+    if (this.hasColumnsChanged(this.props, nextProps)) {
+      this.setState({
+        columns: this.getNewColumns(nextProps)
+      })
     }
   }
 
@@ -211,6 +222,8 @@ class Body extends Component {
       onScroll: onColumnGroupScroll,
     }
 
+
+
     /**
      * If no coumnGroup is specified, create a ColumGroup with all passed columns
      */
@@ -230,6 +243,7 @@ class Body extends Component {
             assign(
               {}, 
               columnGroupProps,
+              {columns: columns[index]},
               child.props // let columngroup props overwrite those passed
             )
           )
@@ -384,6 +398,64 @@ class Body extends Component {
     return this.scrollToIndex(index, config)
   }
 
+
+  // set columns depending 
+  // - there are ColumnGrups with jsx
+  // - Columgroups have a prop columns
+  // - Columgroups have children
+  getNewColumns(props){
+    props = props || this.props
+    const columnGroups = props.children
+    let columns
+
+    // we have children (ColumnGroups)
+    if (columnGroups) {
+      columns = columnGroups.map(columnGroup => this.normalizeColumns(columnGroup.props))
+    } else {
+      columns = this.normalizeColumns({columns: props.columns})
+    }
+
+    return columns
+  }
+
+  normalizeColumns({children, columns}){
+
+    // We want to allow users to use columns configuration as jsx
+    // or as an array of config objects
+    let normalizedColumns
+    if (children) {
+      // if we have children, we want to take only valid children
+      normalizedColumns = React.Children
+        .toArray(children)
+        .filter(child => child && child.props && child.props.isColumn)
+    } else {
+      // used to add default props
+      normalizedColumns = columns.map(column => <Column {...column} />)
+    }
+    
+    return normalizedColumns
+      .map(c => c.props)
+  }
+
+  hasColumnsChanged(props, nextProps){
+    return true
+    // TODO: think of a way to see if children have changed
+
+    // if we have columngroups
+    if (nextProps.children || props.children) {
+      const columnGroups =  props.children
+      const nextColumnGrups = next.children
+      // first we have to check if columngroup have children
+      if (
+          (columnGroups.children || nextColumnGrups.children) &&
+          // and they have changed
+          columnGroups.children !== nextColumnGrups.children
+        ) {
+
+      }
+    }
+  }
+
   prepareProps(props){
     const isScrollControlled = props.scrollTop != null 
     const scrollTop = isScrollControlled?
@@ -392,16 +464,19 @@ class Body extends Component {
 
     // buffer is half of extrarows height
     const buffer = (props.extraRows / 2) * props.rowHeight
+    const columns = this.state.columns
     
     return assign({}, props, {
       scrollTop,
       buffer,
       isScrollControlled,
+      columns,
       bodyHeight: this.state.bodyHeight,
       maxScrollTop: this.state.maxScrollTop,
     })
   }
 
+  // exposed methods
   getScrollTop(){
     return this.state.scrollTop
   }

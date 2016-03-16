@@ -8,29 +8,11 @@ import shallowequal from 'shallowequal'
 import getColumnsWidth from '../../utils/getColumnsWidth'
 
 import InnerWrapper from './InnerWrapper'
-import Column from '../../Column'
+
 import Header from './Header'
 
 
 export default class ColumnGroup extends Component {
-  constructor(props){
-    super(props)
-
-    this.state = {
-      columns: this.getColumns(props)
-    }
-  }
-
-  componentWillReceiveProps(nextProps){
-    if (
-        nextProps.columns !== this.props.columns ||
-        nextProps.children !== this.props.children
-      ) {
-      this.setState({
-        columns: this.getColumns(nextProps)
-      })
-    }
-  }
 
   render(){
     const props = this.props
@@ -40,15 +22,14 @@ export default class ColumnGroup extends Component {
       chilren,
       fixed,
       innerWrapperOffset,
-      hideHeader
+      hideHeader,
+      columns
     } = props
     
     const style = assign({}, props.style, {
        height: viewportHeight,
       }
     )
-
-    const columns = this.state.columns
 
     if (width !== undefined) {
       style.width = width
@@ -81,7 +62,7 @@ export default class ColumnGroup extends Component {
         !hideHeader
         &&
         <Header 
-          columns={this.state.columns} 
+          columns={columns} 
           minWidth={minWidth} 
           onHeaderCellClick={props.onHeaderCellClick}
         />
@@ -100,27 +81,6 @@ export default class ColumnGroup extends Component {
   onScroll(ev){
     ev.stopPropagation()
     this.props.onScroll(ev)
-  }
-
-  getColumns(props){
-    props = props || this.props
-    const children = props.children
-
-    // We want to allow users to use columns configuration as jsx
-    // or as an array of config objects
-    let columns
-    if (children) {
-      // if we have children, we want to take only valid children
-      columns = React.Children
-        .toArray(children)
-        .filter(child => child && child.props && child.props.isColumn)
-    } else {
-      // used to add default props
-      columns = props.columns.map(column => <Column {...column} />)
-    }
-    
-    return columns
-      .map(c => c.props)
   }
 }
 
