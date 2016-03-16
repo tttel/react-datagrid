@@ -42,7 +42,8 @@ const columns = [
 const columns2 = [
   {
     name: 'firstName',
-    textAlign: 'center'
+    textAlign: 'center',
+    width: 200
   }, {
     title: 'bau',
     width: 300,

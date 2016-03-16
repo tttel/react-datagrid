@@ -180,6 +180,9 @@ class Body extends Component {
       rowRef,
       hideHeader,
       onHeaderCellClick,
+      isMultiSort,
+      sortable,
+      sortInfo,
     } = preparedProps
 
     const bodyHeight = this.p.bodyHeight
@@ -222,6 +225,9 @@ class Body extends Component {
       rowRef,
       hideHeader,
       onHeaderCellClick,
+      isMultiSort,
+      sortable,
+      sortInfo,
       isPlaceholderActive: this.state.isPlaceholderActive,
       isScrolling: this.state.isScrolling,
       viewportHeight: bodyHeight,
@@ -232,8 +238,6 @@ class Body extends Component {
       overRowId: this.state.overRowId,
       onScroll: onColumnGroupScroll,
     }
-
-
 
     /**
      * If no coumnGroup is specified, create a ColumGroup with all passed columns
@@ -254,8 +258,8 @@ class Body extends Component {
             assign(
               {}, 
               columnGroupProps,
-              {columns: columns[index]},
-              child.props // let columngroup props overwrite those passed
+              child.props, // let columngroup props overwrite those passed
+              {columns: columns[index]}
             )
           )
       })
@@ -420,7 +424,13 @@ class Body extends Component {
 
     // we have children (ColumnGroups)
     if (columnGroups) {
-      columns = columnGroups.map(columnGroup => this.normalizeColumns(columnGroup.props))
+      let startIndex = 0
+      columns = columnGroups.map((columnGroup, index) => {
+        const normalizedColumns = this.normalizeColumns(columnGroup.props, startIndex)
+        startIndex += normalizedColumns.length + 1 // to compensate for 0 index
+
+        return normalizedColumns
+      })
     } else {
       columns = this.normalizeColumns({columns: props.columns})
     }
@@ -428,8 +438,7 @@ class Body extends Component {
     return columns
   }
 
-  normalizeColumns({children, columns}){
-
+  normalizeColumns({children, columns}, startIndex = 0){
     // We want to allow users to use columns configuration as jsx
     // or as an array of config objects
     let normalizedColumns
@@ -444,7 +453,7 @@ class Body extends Component {
     }
     
     return normalizedColumns
-      .map(c => c.props)
+      .map((c, index) => assign({}, c.props, {index: index + startIndex}))
   }
 
   prepareProps(props){

@@ -26,9 +26,8 @@ export default class Cell extends Component {
       headerCell,
       cellDefaultClassName,
       headerCellDefaultClassName,
-      value
+      value,
     } = props
-
 
     const style = assign({}, props.style)
 
@@ -87,8 +86,13 @@ export default class Cell extends Component {
   }
 
   getHeaderCellProps(cellProps){
-    const sortTools = this.getScortTools(1)
-    const children = React.Children.toArray(cellProps.children).concat(sortTools)
+    let children = React.Children.toArray(cellProps.children)
+    let sortTools
+
+    if (cellProps.sortInfo) {
+      sortTools = this.getScortTools(cellProps.sortInfo.dir)
+      children = children.concat(sortTools)
+    }
 
     return assign({}, cellProps, {
       children
@@ -103,7 +107,7 @@ export default class Cell extends Component {
 
   // direction can be 1, -1 or null
   getScortTools(direction = null){
-    if (direction === null) {
+    if (direction === 0) {
       return
     }
 

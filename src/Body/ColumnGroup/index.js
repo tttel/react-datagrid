@@ -25,7 +25,10 @@ export default class ColumnGroup extends Component {
       fixed,
       innerWrapperOffset,
       hideHeader,
-      columns
+      columns,
+      isMultiSort,
+      sortable,
+      sortInfo
     } = props
     
     const style = assign({}, props.style, {
@@ -67,6 +70,9 @@ export default class ColumnGroup extends Component {
           columns={columns} 
           minWidth={minWidth} 
           onHeaderCellClick={props.onHeaderCellClick}
+          isMultiSort={isMultiSort}
+          sortable={sortable}
+          sortInfo={sortInfo}
         />
       }
       <div className="react-datagrid__colum-group__body">

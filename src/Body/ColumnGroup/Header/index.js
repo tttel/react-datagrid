@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import Component from 'react-class'
 import { Flex } from 'react-flex'
+import getIndexBy from '../../../utils/getIndexBy'
 
 import assign from 'object-assign'
 import join from '../../../utils/join'
@@ -40,28 +41,46 @@ export default class Header extends Component {
   }
 
   renderColumns(columns){
+    const props = this.props
+    const {
+      sortable,
+      sortInfo,
+    } = props
+
     return columns.map((column, index) => {
       const {
         name,
         title,
+        sort,
       } = column
       
+      let cellSortInfo = null
+
+      if (sortable && sortInfo) {
+        if (Array.isArray(sortInfo)) {
+          const sortInfoIndex = getIndexBy(sortInfo, 'name', name)
+          cellSortInfo = sortInfoIndex !== -1? sortInfo[sortInfoIndex] : null
+        } else {
+          cellSortInfo = sortInfo.name === name ? sortInfo : null
+        }
+      }
+  
+      console.log(cellSortInfo)
+
       let value
-      
       if (title) {
         value = title
-      }
-
-      if (name){
+      } else if (name){
         value = humanize(name)
       }
 
-      return <Cell 
+      return <Cell
         {...column} 
         key={index} 
         headerCell 
         value={value}
-        onClick={this.props.onHeaderCellClick} 
+        onClick={this.props.onHeaderCellClick}
+        sortInfo={cellSortInfo}
       />
     })
   }

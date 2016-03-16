@@ -6,6 +6,7 @@ import assign from 'object-assign'
 import join from './utils/join'
 import LoadMask from 'react-load-mask'
 import hasown from 'hasown'
+import getIndexBy from './utils/getIndexBy'
 
 import Body from './Body'
 import ColumnGroup from './Body/ColumnGroup'
@@ -63,8 +64,8 @@ class DataGrid extends Component {
       className={className}
       column
       flex
-      alignItems="stretch" 
-      wrap={false}
+      alignItems="stretch"
+       wrap={false}
     >
       {false && this.renderLoadMask()}
       <Body
@@ -131,38 +132,61 @@ class DataGrid extends Component {
   }
 
   onHeaderCellClick(event, props){
+    const preparedProps = this.p
 
     // if it is sortable, then do magic
-    if (this.props.sortable) {
+    if (preparedProps.sortable) {
       let newSortInfo
-      const preparedProps = this.p
-      const column = this.getColumn(props.name)
 
-      // if no sort info is specified
-      if (!preparedProps.sortInfo) {
-        newSortInfo = {
-        }
+      const column = this.getColumn(props.index)
+
+      if (preparedProps.isMultiSort) {
+        this.handleMultipleSort(column)
+      } else {
+        this.handleSingleSort(column)
       }
-
-      /**
-       *  if we the sort is new then just append to the list of sort info
-       *  if is an object create an array 
-       */
-      if (true) {
-
-      }
-
-      /**
-       * if is the same, then we have one of:
-       * - if none, then 1 (asc)
-       * - if 1, then -1 (desc)
-       * - if -1, then 0 (none)
-       * - we have a function, add the function
-       */
-      
-
     }
   }
+
+  /**
+   * Sorting
+   *   order of sort change
+   * - if none, then 1 (asc)
+   * - if 1, then -1 (desc)
+   * - if -1, then 0 (none)
+   */
+  handleSingleSort(column){
+    let newSortInfo
+    const sortInfo = this.state.sortInfo
+    const name = column.name
+    let dir
+
+    if (!sortInfo || sortInfo.dir === 0) {
+      dir = 1
+    } else if (sortInfo.dir === 1) {
+      dir = -1
+    } else if (sortInfo.dir === -1) {
+      dir = 0
+    }
+
+    this.setState({
+      sortInfo: {
+        name,
+        dir
+      }
+    })
+  }
+
+  handleMultipleSort(columns){
+
+  }
+
+  getColumn(index){
+    const columns = this.refs.body.component.getFlattColumns()
+
+    return columns[index]
+  }
+
 
   changeActiveIndex(newIndex){
     const scrollTop = this.getScrollTop()
@@ -319,6 +343,7 @@ class DataGrid extends Component {
     // sortInfo
     // if is controleld use props, if not sortinfo
     const sortInfo = props.sortInfo? props.sortInfo : this.state.sortInfo
+    const isMultiSort = Array.isArray(sortInfo)
 
     return assign({}, props, {
       loading,
@@ -330,9 +355,9 @@ class DataGrid extends Component {
       data: state.data,
       activeIndex,
       sortInfo,
+      isMultiSort
     })
   }
-
 
   // exposed methods on body component
   scrollAt(scrollTop){
