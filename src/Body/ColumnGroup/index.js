@@ -28,7 +28,7 @@ export default class ColumnGroup extends Component {
       columns,
       isMultiSort,
       sortable,
-      sortInfo
+      sortInfo,
     } = props
     
     const style = assign({}, props.style, {

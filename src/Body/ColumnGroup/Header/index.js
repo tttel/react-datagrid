@@ -45,6 +45,7 @@ export default class Header extends Component {
     const {
       sortable,
       sortInfo,
+      isMultiSort,
     } = props
 
     return columns.map((column, index) => {
@@ -57,7 +58,7 @@ export default class Header extends Component {
       let cellSortInfo = null
 
       if (sortable && sortInfo) {
-        if (Array.isArray(sortInfo)) {
+        if (isMultiSort) {
           const sortInfoIndex = getIndexBy(sortInfo, 'name', name)
           cellSortInfo = sortInfoIndex !== -1? sortInfo[sortInfoIndex] : null
         } else {

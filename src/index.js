@@ -355,7 +355,7 @@ class DataGrid extends Component {
       data: state.data,
       activeIndex,
       sortInfo,
-      isMultiSort
+      isMultiSort,
     })
   }
 
