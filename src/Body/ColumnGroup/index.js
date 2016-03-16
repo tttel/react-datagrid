@@ -84,7 +84,7 @@ export default class ColumnGroup extends Component {
       }
       <div className="react-datagrid__colum-group__body">
         <div 
-          className="react-datagrid__colum-group__body__innerWrapper"
+          className="react-datagrid__colum-group__body__inner-wrapper"
           style={innerWrapperStyle}
         >
           <InnerWrapper {...props} columns={columns} minWidth={minWidth} innerWrapperOffset={null} />

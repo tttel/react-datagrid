@@ -42,14 +42,15 @@
 
 
 .react-datagrid__colum-group__header {
+  position: relative;
+  z-index: 1;
   overflow: hidden;
   background: #fff;
 }
 
 .react-datagrid__colum-group__body {}
 
-.react-datagrid__colum-group__body__innerWrapper {
-  z-index: -1;
+.react-datagrid__colum-group__body__inner-wrapper {
   position: relative;
 }
 
