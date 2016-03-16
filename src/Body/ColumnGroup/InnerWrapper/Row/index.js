@@ -6,7 +6,7 @@ import assign from 'object-assign'
 import join from '../../../../utils/join'
 import shallowequal from 'shallowequal'
 
-import Cell from '../../../../Cell'
+import Cell from '../../Cell'
 import getColumnsWidth from '../../../../utils/getColumnsWidth'
 
 export default class Row extends Component {

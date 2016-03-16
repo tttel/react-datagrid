@@ -80,7 +80,11 @@ export default class ColumnGroup extends Component {
       {
         !hideHeader
         &&
-        <Header columns={this.state.columns} minWidth={minWidth} />
+        <Header 
+          columns={this.state.columns} 
+          minWidth={minWidth} 
+          onHeaderCellClick={props.onHeaderCellClick}
+        />
       }
       <div className="react-datagrid__colum-group__body">
         <div 

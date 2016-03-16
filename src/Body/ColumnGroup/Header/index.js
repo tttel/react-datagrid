@@ -5,7 +5,7 @@ import { Flex } from 'react-flex'
 import assign from 'object-assign'
 import join from '../../../utils/join'
 import humanize from '../../../utils/humanize'
-import Cell from '../../../Cell'
+import Cell from '../Cell'
 
 export default class Header extends Component {
   render(){
@@ -56,7 +56,17 @@ export default class Header extends Component {
         value = humanize(name)
       }
 
-      return <Cell headerCell key={index} {...column} value={value} />
+      return <Cell 
+        {...column} 
+        key={index} 
+        headerCell 
+        value={value}
+        onClick={this.props.onHeaderCellClick} 
+      />
     })
   }
+}
+
+Header.propTypes = {
+  onHeaderCellClick: PropTypes.func
 }
