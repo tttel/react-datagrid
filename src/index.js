@@ -132,6 +132,36 @@ class DataGrid extends Component {
 
   onHeaderCellClick(event, props){
 
+    // if it is sortable, then do magic
+    if (this.props.sortable) {
+      let newSortInfo
+      const preparedProps = this.p
+      const column = this.getColumn(props.name)
+
+      // if no sort info is specified
+      if (!preparedProps.sortInfo) {
+        newSortInfo = {
+        }
+      }
+
+      /**
+       *  if we the sort is new then just append to the list of sort info
+       *  if is an object create an array 
+       */
+      if (true) {
+
+      }
+
+      /**
+       * if is the same, then we have one of:
+       * - if none, then 1 (asc)
+       * - if 1, then -1 (desc)
+       * - if -1, then 0 (none)
+       * - we have a function, add the function
+       */
+      
+
+    }
   }
 
   changeActiveIndex(newIndex){
