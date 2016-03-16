@@ -8,6 +8,7 @@ import join from '../utils/join'
 import raf from 'raf'
 import getIndexBy from '../utils/getIndexBy'
 import shallowequal from 'shallowequal'
+import flatten from 'lodash.flatten'
 
 import Column from '../Column'
 import EmptyText from './EmptyText'
@@ -37,14 +38,18 @@ class Body extends Component {
   constructor(props){
     super(props)
 
+    const columns = this.getNewColumns(props)
+    const flatColumns = flatten(columns)
+
     this.state = {
+      columns,
+      flatColumns,
       bodyHeight: 0,
       scrollTop: props.defaultScrollTop,
       overRowId: null,
       maxScrollTop: props.defaultScrollTop,
       isScrolling: false,
       isPlaceholderActive: false,
-      columns: this.getNewColumns(props) // are defined on render at this time
     }
   }
   
@@ -70,8 +75,12 @@ class Body extends Component {
     // - columngrups has changed children or column prop
     const newColumns = this.getNewColumns(nextProps)
     if (shallowequal(newColumns, this.state.columns)) {
+      const columns = this.getNewColumns(props)
+      const flatColumns = flatten(columns)
+
       this.setState({
-        columns: this.getNewColumns(nextProps)
+        columns,
+        flatColumns
       })
     }
   }
@@ -469,6 +478,10 @@ class Body extends Component {
 
   getAllColumns(){
     return this.state.columns
+  }
+
+  getFlattColumns(){
+    return this.state.flatColumns
   }
 }
 
