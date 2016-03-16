@@ -66,8 +66,6 @@ export default class Header extends Component {
         }
       }
   
-      console.log(cellSortInfo)
-
       let value
       if (title) {
         value = title
