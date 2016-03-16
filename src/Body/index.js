@@ -157,6 +157,7 @@ class Body extends Component {
       renderRowPlaceholder,
       rowRef,
       hideHeader,
+      onHeaderCellClick,
     } = preparedProps
 
     const bodyHeight = this.p.bodyHeight
@@ -198,6 +199,7 @@ class Body extends Component {
       renderRowPlaceholder,
       rowRef,
       hideHeader,
+      onHeaderCellClick,
       isPlaceholderActive: this.state.isPlaceholderActive,
       isScrolling: this.state.isScrolling,
       viewportHeight: bodyHeight,

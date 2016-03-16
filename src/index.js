@@ -25,7 +25,8 @@ class DataGrid extends Component {
       loading: isLoading,
       data: false,
       selected: props.defaultSelected,
-      activeIndex: props.defaultActiveIndex
+      activeIndex: props.defaultActiveIndex,
+      sortinfo: props.defaultSortInfo
     }
   }
 
@@ -71,6 +72,7 @@ class DataGrid extends Component {
         ref="body"
         onRowClick={this.onRowClick}
         onRowFocus={this.onRowFocus}
+        onHeaderCellClick={this.onHeaderCellClick}
       />
       <NavigationHelper 
         ref="NavigationHelper"
@@ -126,6 +128,10 @@ class DataGrid extends Component {
         this.changeActiveIndex(newIndex, rowProps) 
       }
     }
+  }
+
+  onHeaderCellClick(event, props){
+
   }
 
   changeActiveIndex(newIndex){
@@ -280,6 +286,10 @@ class DataGrid extends Component {
     const activeIndex = props.activeIndex !== undefined? props.activeIndex: this.state.activeIndex
     const isActiveIndexControlled = this.props.activeIndex !== undefined
 
+    // sortInfo
+    // if is controleld use props, if not sortinfo
+    const sortInfo = props.sortInfo? props.sortInfo : this.state.sortInfo
+
     return assign({}, props, {
       loading,
       selected,
@@ -288,7 +298,8 @@ class DataGrid extends Component {
       isMultiselect,
       className,
       data: state.data,
-      activeIndex
+      activeIndex,
+      sortInfo,
     })
   }
 
@@ -327,6 +338,8 @@ DataGrid.defaultProps = {
   defaultActiveIndex: -1,
   scrollbarWidth: 20,
   rowPlaceholder: false,
+  defaultSortInfo: null,
+  sortable: false,
 }
 
 DataGrid.propTypes = {
