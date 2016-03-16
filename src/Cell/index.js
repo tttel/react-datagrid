@@ -16,7 +16,6 @@ export default class Cell extends Component {
     return !shallowequal(nextProps, this.props)
   }
 
-
   render(){
     const props = this.props
 
@@ -61,13 +60,19 @@ export default class Cell extends Component {
       style.minWidth = style.maxWidth = width
     }
 
-
-    const cellProps = assign({}, props, {
+    let cellProps = assign({}, props, {
       value,
       className,
       children: value,
-      style
+      style,
+      onClick: this.onClick
     })
+
+    if (headerCell) {
+      // I want to add onClick event handler so I can
+      // use it for sort
+      cellProps = this.getHeaderCellProps(cellProps)
+    }
 
     let result
     if (renderCell) {
@@ -79,6 +84,32 @@ export default class Cell extends Component {
     }
 
     return result
+  }
+
+  getHeaderCellProps(cellProps){
+    const sortTools = this.getScortTools(1)
+    const children = React.Children.toArray(cellProps.children).concat(sortTools)
+
+    return assign({}, cellProps, {
+      children
+    })
+  }
+
+  onClick(event){
+    if (this.props.onClick) {
+      this.props.onClick(event, this.props)
+    }
+  }
+
+  // direction can be 1, -1 or null
+  getScortTools(direction = null){
+    if (direction === null) {
+      return
+    }
+
+    return direction === -1?
+      <i className="react-datagrid__icon-sort-desc" /> :
+      <i className="react-datagrid__icon-sort-asc" />
   }
 }
 
@@ -104,5 +135,6 @@ Cell.propTypes = {
       return new Error(`Column flex prop expected to be between 1 and 24, got ${flex}`)
     }
   },
-  cellDefaultClassName: PropTypes.string
+  cellDefaultClassName: PropTypes.string,
+  onClick: PropTypes.func,
 }

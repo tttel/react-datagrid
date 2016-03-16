@@ -70,6 +70,7 @@
     "react-flex": "1.2.3",
     "react-load-mask": "1.0.1",
     "react-notify-resize": "0.1.8",
-    "shallowequal": "0.2.2"
+    "shallowequal": "0.2.2",
+    "sorty": "^1.2.0"
   }
 }
