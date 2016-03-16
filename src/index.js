@@ -157,19 +157,28 @@ class DataGrid extends Component {
    * - if -1, then 0 (none)
    */
   handleSingleSort(column){
-    let newSortInfo = {}
-    let dir
-    const sortInfo = this.state.sortInfo
+    this.setState({
+      sortInfo: this.getNewSortInfoDescription(column, this.state.sortInfo && this.state.sortInfo.dir)
+    })
+  }
 
-    if (!sortInfo || sortInfo.dir === 0) {
-      dir = 1
-    } else if (sortInfo.dir === 1) {
-      dir = -1
-    } else if (sortInfo.dir === -1) {
-      dir = 0
+  handleMultipleSort(columns){
+    console.log('hey')
+  }
+
+  getNewSortInfoDescription(column, dir){
+    let newSortInfo = {}
+    let newDir
+
+    if (!dir || dir === 0) {
+      newDir = 1
+    } else if (dir === 1) {
+      newDir = -1
+    } else if (dir === -1) {
+      newDir = 0
     }
 
-    newSortInfo.dir = dir
+    newSortInfo.dir = newDir
 
     // column cannot be sorted if it has no name and no sort function
     if (!column.name && !column.sort) {
@@ -190,15 +199,7 @@ class DataGrid extends Component {
 
     newSortInfo.index = column.index
 
-    this.setState({
-      sortInfo: newSortInfo
-    })
-
-
-  }
-
-  handleMultipleSort(columns){
-
+    return newSortInfo
   }
 
   getColumn(index){
