@@ -28,7 +28,7 @@ class DataGrid extends Component {
       data: false,
       selected: props.defaultSelected,
       activeIndex: props.defaultActiveIndex,
-      sortinfo: props.defaultSortInfo
+      sortInfo: props.defaultSortInfo
     }
   }
 
@@ -156,14 +156,37 @@ class DataGrid extends Component {
    * - if 1, then -1 (desc)
    * - if -1, then 0 (none)
    */
+
+
+  /**
+   * On single sort when you click on a sortable column it will begin 
+   * to change between it's three states
+   * if you click on a new column the sortInfo overwritten with the
+   * new sortInfo detemined by the new column
+   */
   handleSingleSort(column){
     this.setState({
       sortInfo: this.getNewSortInfoDescription(column, this.state.sortInfo && this.state.sortInfo.dir)
     })
   }
 
-  handleMultipleSort(columns){
-    console.log('hey')
+  /**
+   * On multiselect, when you click on one toggle between it's state
+   * if direction is 0, we remove i
+   */
+  handleMultipleSort(column){
+    const sortInfo = this.p.sortInfo
+
+    if (!sortInfo.length) {
+      // is empty
+      this.setState({
+        sortInfo: this.getNewSortInfoDescription(column)
+      })
+    } else {
+      // determine if it is new
+      const sortInfoIndex = getIndexBy(sortInfo, 'index', column.index)
+      console.log(sortInfoIndex)
+    }
   }
 
   getNewSortInfoDescription(column, dir){
@@ -175,7 +198,10 @@ class DataGrid extends Component {
     } else if (dir === 1) {
       newDir = -1
     } else if (dir === -1) {
-      newDir = 0
+      // newSortInfo shoud be null in this case
+      // this means there is no sort
+      // so there is no need to sort with nothing
+      return null
     }
 
     newSortInfo.dir = newDir
@@ -203,7 +229,7 @@ class DataGrid extends Component {
   }
 
   getColumn(index){
-    const columns = this.refs.body.component.getFlattColumns()
+    const columns = this.refs.body.component.getFlattenColumns()
 
     return columns[index]
   }
@@ -263,9 +289,9 @@ class DataGrid extends Component {
     }
   }
 
-  sortData(sortInfo){
+  sortData(sortInfo, data){
     if (sortInfo) {
-      return sorty(sortInfo, this.p.data)
+      return sorty(sortInfo, data)
     }
   }
 
@@ -372,7 +398,7 @@ class DataGrid extends Component {
     const sortInfo = props.sortInfo? props.sortInfo : this.state.sortInfo
     const isMultiSort = Array.isArray(sortInfo)
 
-    const data = sortInfo? this.sortData(sortInfo) : state.data
+    const data = sortInfo && state.data? this.sortData(sortInfo, state.data) : state.data
 
     return assign({}, props, {
       loading,

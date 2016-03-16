@@ -488,7 +488,7 @@ class Body extends Component {
     return this.state.columns
   }
 
-  getFlattColumns(){
+  getFlattenColumns(){
     return this.state.flatColumns
   }
 }

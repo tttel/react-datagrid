@@ -130,7 +130,8 @@ class App extends Component {
         rowPlaceholderDelay={300}
         rowRef='renderIndex'
         onScrollBottom={() => {console.log('scrolled to bottom')}}
-        sortable={true}
+        sortable
+        defaultSortInfo={[]}
       >
         <ColumnGroup width={900} fixed columns={columns} />
         <ColumnGroup renderRowPlaceholder={() => <div> aaa</div>} className="myColumnGroup" columns={columns2} />
