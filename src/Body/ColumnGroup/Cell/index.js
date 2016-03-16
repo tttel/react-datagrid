@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
 import assign from 'object-assign'
 import { Item } from 'react-flex'
-import join from '../utils/join'
+import join from '../../../utils/join'
 import shallowequal from 'shallowequal'
 
 export default class Cell extends Component {
