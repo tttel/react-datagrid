@@ -6,73 +6,46 @@ import { Flex } from 'react-flex'
 import DataGrid, { ColumnGroup } from './src'
 import './index.scss'
 
-import gen from './generate'
+import gen, { gen2 } from './generate'
 import Perf from 'react-addons-perf'
 
-window.Promise = require('es6-promise').Promise;
-// window.Perf = Perf
 
-window.start = () => Perf.start()
-window.stop = () => {
-  Perf.stop()
-  Perf.printWasted()
-  // Perf.printInclusive()
-}
-
-
-const data = new Promise((rez, rej) => {
-  setTimeout(() => {
-    rez(gen(10000))
-    // rez('hello world')
-  }, 100)
-})
-
-
+const data = gen2(1000)
 const columns = [
   {
-    name: 'id',
-    textAlign: 'center'
+    name: 'name'
   }, {
-    name: 'lastName', 
-    width: 150,
-    textAlign: 'center'
+    name: 'age'
+  }, {
+    name: 'gender'
+  }, {
+    name: 'location'
+  }, {
+    name: 'status'
+  } , {
+    title: 'Actions',
+    render(value, data, props) {
+      if (props.headerCell){
+        value = 'test'
+        return
+      }
+
+      props.children = <div>
+        <button>add</button>
+        <button>remove</button>
+      </div>
+    }
   }
 ]
 
-const columns2 = [
-  {
-    name: 'firstName',
-    textAlign: 'center',
-    width: 200
-  }, {
-    title: 'bau',
-    width: 300,
-    render(value, something, cellProps) {
-      if (!cellProps.headerCell) {
-        return <input type="text" />
-      }
-    }
-  }, {
-    name: 'email',
-    width: 400
-  }, {
-    name: 'email',
-    width: 400
-  }, {
-    name: 'email',
-    width: 400
-  }, {
-    name: 'email',
-    width: 400
-  }, 
-]
 
 class App extends Component {
   constructor(props){
     super(props)
 
     this.state = {
-      height: 500
+      height: 500,
+      sortInfo: {dir: 1, name: "firstName", index: 2}
     }
   }
 
@@ -114,28 +87,13 @@ class App extends Component {
       </div>
 
       <DataGrid
-        className="grid"
-        columns={columns}
+        idProperty={'id'}
         dataSource={data}
-        idProperty="id"
-        rowHeight={70}
-        defaultSelected={{1:1, 2:2, 3:3}}
-        aonSelectionChange={selected => console.log(selected)}
-        defaultActiveIndex={4}
-        xscrollTop={400}
-        ref={(c) => window.c = c}
-        azebraRows={false}
-        //rowPlaceholder={true}
-        // renderRowPlaceholder={() => <div> asdasd</div>}
-        rowPlaceholderDelay={300}
-        rowRef='renderIndex'
-        onScrollBottom={() => {console.log('scrolled to bottom')}}
-        onSortInfoChange={(sortInfo) => console.log(sortInfo)}
+        columns={columns}
         sortable
-      >
-        <ColumnGroup width={900} fixed columns={columns} />
-        <ColumnGroup renderRowPlaceholder={() => <div> aaa</div>} className="myColumnGroup" columns={columns2} />
-      </DataGrid>
+        onSortInfoChange={(sortInfo) => this.setState({sortInfo})}
+        sortInfo={this.state.sortInfo}
+      />
     </Flex>
   }
 }
