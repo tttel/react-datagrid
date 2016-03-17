@@ -165,14 +165,20 @@ class DataGrid extends Component {
    * new sortInfo detemined by the new column
    */
   handleSingleSort(column){
-    this.setState({
-      sortInfo: this.getNewSortInfoDescription(column, this.state.sortInfo && this.state.sortInfo.dir)
-    })
+    const newSortInfo = this.getNewSortInfoDescription(column, this.state.sortInfo && this.state.sortInfo.dir)
+    
+    // this.setState({
+    //   sortInfo: newSortInfo
+    // })
+    this.props.onSortInfoChange(newSortInfo)
+
+    this.setData(null, {sortInfo: newSortInfo})
   }
 
   /**
    * On multiselect, when you click on one toggle between it's state
    * if direction is 0, we remove i
+   * TODO: do multisort
    */
   handleMultipleSort(column){
     const sortInfo = this.p.sortInfo
@@ -185,7 +191,6 @@ class DataGrid extends Component {
     } else {
       // determine if it is new
       const sortInfoIndex = getIndexBy(sortInfo, 'index', column.index)
-      console.log(sortInfoIndex)
     }
   }
 
@@ -300,17 +305,37 @@ class DataGrid extends Component {
    * and if selection is enabled creates a hasmap from the data
    * { idProperty: {..}, .. }
    */
-  setData(data){
-    const props = this.props
+  setData(data, config){
+    const preparedProps = this.p
     const {
       selected,
       defaultSelected,
-      onSelectionChange
-    } = props
+      onSelectionChange,
+      sortable,
+    } = preparedProps
 
     let newDataState = {
-      data,
       loading: false
+    }
+    if (data) {
+      newDataState.data = data
+      newDataState.originalData = data
+    }
+
+    let sortInfo
+    // if we pass a config with sortinfo
+    if (config) {
+      sortInfo = config.sortInfo
+
+      if (sortInfo) {
+        newDataState.data = this.sortData(sortInfo, [...this.state.originalData])
+      } else {
+        newDataState.data = this.state.originalData
+      }
+
+      if (sortInfo !== undefined) {
+        newDataState.sortInfo = sortInfo
+      }
     }
 
     // make dataMap only if selected is used
@@ -443,6 +468,7 @@ DataGrid.defaultProps = {
   onRowMouseLeave: () => {},
   onScrollBottom: () => {},
   onActiveIndexChange: () => {},
+  onSortInfoChange: () => {},
   rowProps: {},
   defaultSelected: undefined,
   defaultActiveIndex: -1,
