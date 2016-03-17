@@ -43,14 +43,18 @@ class DataGrid extends Component {
     
     // data is cached in state
     // needs to be updated if dataSource changes
-    if (this.p.dataSource !== nextProps.dataSource) {
+    if (this.props.dataSource !== nextProps.dataSource) {
       this.loadSourceData(nextProps.dataSource, nextProps)
+    }
+
+    if (this.props.sortInfo !== nextProps.sortInfo) { 
+      this.setData(null, {sortInfo: nextProps.sortInfo})
     }
   }
 
   render(){
     const preparedProps = this.p = this.prepareProps(this.props, this.state)
-     
+
     const {
       columns,
       hideHeader,
@@ -165,14 +169,17 @@ class DataGrid extends Component {
    * new sortInfo detemined by the new column
    */
   handleSingleSort(column){
-    const newSortInfo = this.getNewSortInfoDescription(column, this.state.sortInfo && this.state.sortInfo.dir)
+    const newSortInfo = this.getNewSortInfoDescription(column, (this.p.sortInfo && this.p.sortInfo.dir))
     
     // this.setState({
     //   sortInfo: newSortInfo
     // })
     this.props.onSortInfoChange(newSortInfo)
 
-    this.setData(null, {sortInfo: newSortInfo})
+
+    if (!this.p.isSortControlled) {
+      this.setData(null, {sortInfo: newSortInfo})
+    }
   }
 
   /**
@@ -312,30 +319,31 @@ class DataGrid extends Component {
       defaultSelected,
       onSelectionChange,
       sortable,
+      isSortControlled,
     } = preparedProps
 
     let newDataState = {
       loading: false
     }
+
     if (data) {
-      newDataState.data = data
       newDataState.originalData = data
     }
 
+    data = data || this.state.originalData
+
     let sortInfo
-    // if we pass a config with sortinfo
-    if (config) {
+    if (config && config.sortInfo !== undefined) {
       sortInfo = config.sortInfo
+      newDataState.sortInfo = sortInfo
+    } else if (preparedProps.sortInfo !== undefined) {
+      sortInfo = preparedProps.sortInfo
+    }
 
-      if (sortInfo) {
-        newDataState.data = this.sortData(sortInfo, [...this.state.originalData])
-      } else {
-        newDataState.data = this.state.originalData
-      }
-
-      if (sortInfo !== undefined) {
-        newDataState.sortInfo = sortInfo
-      }
+    if (sortInfo) {
+      newDataState.data = this.sortData(sortInfo, [...data])
+    } else {
+      newDataState.data = data
     }
 
     // make dataMap only if selected is used
@@ -420,10 +428,11 @@ class DataGrid extends Component {
 
     // sortInfo
     // if is controleld use props, if not sortinfo
-    const sortInfo = props.sortInfo? props.sortInfo : this.state.sortInfo
+    const sortInfo = props.sortInfo !== undefined? props.sortInfo : this.state.sortInfo
     const isMultiSort = Array.isArray(sortInfo)
+    const isSortControlled = this.props.sortInfo !== undefined
 
-    const data = sortInfo && state.data? this.sortData(sortInfo, state.data) : state.data
+    const data = state.data
 
     return assign({}, props, {
       loading,
@@ -436,6 +445,7 @@ class DataGrid extends Component {
       activeIndex,
       sortInfo,
       isMultiSort,
+      isSortControlled,
     })
   }
 
@@ -476,6 +486,7 @@ DataGrid.defaultProps = {
   rowPlaceholder: false,
   defaultSortInfo: null,
   sortable: false,
+  rowHeight: 40,
 }
 
 DataGrid.propTypes = {

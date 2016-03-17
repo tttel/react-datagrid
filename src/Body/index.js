@@ -323,7 +323,7 @@ class Body extends Component {
   setBodyHeight(){
     const bodyNode = findDOMNode(this.refs.body)
     let bodyHeight
-
+    
     if (bodyNode) {
       bodyHeight = bodyNode.offsetHeight
     } else {
