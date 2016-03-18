@@ -33,8 +33,8 @@ class Scroller extends Component {
     }
 
     const contentStyle = {
-      maxHeight: height,
-      minHeight: height, // needed for ie
+      // maxHeight: height,
+      // minHeight: height, // needed for ie
       maxWidth: `calc(100% - ${scrollbarWidth}px)`
     }
 
@@ -42,7 +42,9 @@ class Scroller extends Component {
       height, 
       maxHeight: height, 
       maxWidth: scrollbarWidth, 
-      minWidth: scrollbarWidth 
+      minWidth: scrollbarWidth,
+      position: 'relative',
+      top: this.props.headerHeight
     }
 
     return <Flex
@@ -50,7 +52,6 @@ class Scroller extends Component {
       wrap={false}
       alignItems="stretch"
       className="react-datagrid__scroller"
-     
     >
       <Flex
         flex={1}

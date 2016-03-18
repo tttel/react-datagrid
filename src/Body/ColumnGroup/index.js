@@ -32,7 +32,7 @@ export default class ColumnGroup extends Component {
     } = props
     
     const style = assign({}, props.style, {
-       height: viewportHeight,
+       // height: viewportHeight,
       }
     )
 
@@ -73,6 +73,7 @@ export default class ColumnGroup extends Component {
           isMultiSort={isMultiSort}
           sortable={sortable}
           sortInfo={sortInfo}
+          onHeaderHeightChange={this.props.onHeaderHeightChange}
         />
       }
       <div className="react-datagrid__colum-group__body">

@@ -55,6 +55,9 @@ class Body extends Component {
   
   componentDidMount(){
     this.setBodyHeight()
+    setTimeout(() => {
+      this.setMaxScrollTop()
+    }, 0)
   }
 
   componentWillReceiveProps(nextProps){
@@ -111,8 +114,7 @@ class Body extends Component {
       scrollTop,
       resizeTool
     } = preparedProps
-
-
+    
     const className = join(
         'react-datagrid__body',
         this.state.isScrolling && 'react-datagrid__body--scrolling'
@@ -141,7 +143,8 @@ class Body extends Component {
 
     return <Scroller 
       ref="scroller"
-      contentHeight={this.props.contentHeight}
+      contentHeight={this.p.contentHeight}
+      headerHeight={this.p.headerHeight}
       onScroll={this.onScroll}
       scrollTop={this.p.scrollTop}
       height={this.state.bodyHeight}
@@ -228,6 +231,7 @@ class Body extends Component {
       sortable,
       sortInfo,
       isMultiSort,
+      onHeaderHeightChange: this.onHeaderHeightChange,
       isPlaceholderActive: this.state.isPlaceholderActive,
       isScrolling: this.state.isScrolling,
       viewportHeight: bodyHeight,
@@ -264,6 +268,16 @@ class Body extends Component {
           )
       })
     }
+  }
+
+  onHeaderHeightChange(height){
+    this.setBodyHeight(height)
+    this.setState({
+      headerHeight: height
+    })
+    setTimeout(() => {
+      this.setMaxScrollTop()
+    }, 0)
   }
 
   onRowMouseEnter(event, rowProps){
@@ -317,15 +331,16 @@ class Body extends Component {
 
   onResize(){
     this.setBodyHeight()
-    this.setMaxScrollTop()
+    setTimeout(() => {
+      this.setMaxScrollTop()
+    }, 0)
   }
 
-  setBodyHeight(){
+  setBodyHeight(offset){
     const bodyNode = findDOMNode(this.refs.body)
     let bodyHeight
-    
     if (bodyNode) {
-      bodyHeight = bodyNode.offsetHeight
+      bodyHeight = bodyNode.offsetHeight - (offset || 0)
     } else {
       bodyHeight = 0
     }
@@ -464,12 +479,14 @@ class Body extends Component {
     // buffer is half of extrarows height
     const buffer = (props.extraRows / 2) * props.rowHeight
     const columns = this.state.columns
-    
+    const headerHeight = this.state.headerHeight || 0
+
     return assign({}, props, {
       scrollTop,
       buffer,
       isScrollControlled,
       columns,
+      headerHeight,
       bodyHeight: this.state.bodyHeight,
       maxScrollTop: this.state.maxScrollTop,
     })

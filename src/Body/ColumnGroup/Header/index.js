@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import { findDOMNode } from 'react-dom'
 import Component from 'react-class'
 import { Flex } from 'react-flex'
 import getIndexBy from '../../../utils/getIndexBy'
@@ -9,6 +10,13 @@ import humanize from '../../../utils/humanize'
 import Cell from '../Cell'
 
 export default class Header extends Component {
+  componentDidMount(){
+    const headerNode = findDOMNode(this.refs.header)
+    if (headerNode) {
+      this.props.onHeaderHeightChange(headerNode.offsetHeight)
+    }
+  }
+
   render(){
     const props = this.props
     const {
@@ -16,10 +24,9 @@ export default class Header extends Component {
       columns,
       minWidth
     } = props
+
     const className = join('react-datagrid__colum-group__header', props.className)
     const style = assign({}, props.style)
-
-
 
     if (width) {
       style.width = Math.max(width, minWidth)
@@ -30,7 +37,8 @@ export default class Header extends Component {
     }
 
     return <Flex
-        {...props} 
+        {...props}
+        ref="header"
         wrap={false} 
         className={className} 
         data={null}
@@ -86,6 +94,11 @@ export default class Header extends Component {
   }
 }
 
+Header.defaultProps = {
+  onHeaderHeightChange: () => {},
+}
+
 Header.propTypes = {
-  onHeaderCellClick: PropTypes.func
+  onHeaderCellClick: PropTypes.func,
+  onHeaderHeightChange: PropTypes.func,
 }
