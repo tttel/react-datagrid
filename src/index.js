@@ -70,9 +70,9 @@ class DataGrid extends Component {
       column
       flex
       alignItems="stretch"
-       wrap={false}
+      wrap={false}
     >
-      {false && this.renderLoadMask()}
+      {loading && this.renderLoadMask()}
       <Body
         {...preparedProps}
         ref="body"
