@@ -67,12 +67,15 @@ export default class Cell extends Component {
       onClick: this.onClick
     })
 
+    // TODO:
+    // title can be
     if (headerCell) {
       // I want to add onClick event handler so I can
       // use it for sort
       cellProps = this.getHeaderCellProps(cellProps)
     }
 
+    // TODO: don't call renderCell on header cell
     let result
     if (renderCell) {
       result = renderCell(value, data, cellProps)
