@@ -159,7 +159,7 @@ Columns can be defined as:
 --- | --- | --- | ---
 `name`| String | - | specifies what piece of data to be rendered in that column
 `value`| String | `name`| the default value to be rendered (equals to data[column.name]).
-`title`| String\|ReactElement| `name` | a title to show in the header. If not specified, a humanized version of `name` will be used. Can be a string or anything that React can render, so you can customize it as you please.
+`title`| String\|ReactElement\|Function| `name` | a title to show in the header. If not specified, a humanized version of `name` will be used. Can be a string or anything that React can render, so you can customize it as you please.
 `width`| Int\|String| - |specify the width of the column.
 `onScroll(scrollTop, event)`| Function | - | On scroll event handler.
 `style`| Object | - |if you want cells in this column to be have a custom style.
