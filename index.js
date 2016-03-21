@@ -88,7 +88,7 @@ class App extends Component {
 
       <DataGrid
         idProperty={'id'}
-        dataSource={data}
+        dataSource={[]}
         columns={columns}
         sortable
         onSortInfoChange={(sortInfo) => this.setState({sortInfo})}

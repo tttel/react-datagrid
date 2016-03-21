@@ -25,7 +25,7 @@ class DataGrid extends Component {
 
     this.state = {
       loading: isLoading,
-      data: false,
+      data: [],
       selected: props.defaultSelected,
       activeIndex: props.defaultActiveIndex,
       sortInfo: props.defaultSortInfo
