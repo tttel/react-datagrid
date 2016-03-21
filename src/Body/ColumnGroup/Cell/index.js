@@ -32,12 +32,18 @@ export default class Cell extends Component {
     const style = assign({}, props.style)
 
     const baseClassName = headerCell? headerCellDefaultClassName : cellDefaultClassName
-    const className = join(
+    let className = join(
         baseClassName,
         props.textAlign && `${baseClassName}--align-${props.textAlign}`,
         props.first && `${baseClassName}--first`,
         props.last && `${baseClassName}--last`
       )
+
+    if (headerCell) {
+      className = join(className, props.titleClassName)
+    } else {
+      className = join(className, props.className)
+    }
 
     let minWidth = props.minWidth
     let width = props.width

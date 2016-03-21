@@ -166,7 +166,8 @@ Columns can be defined as:
  `textAlign`| String |-| one of 'left', 'right', 'center'. It will add one of the folowing classes: <br> `react-datagrid__cell--align-right`, <br> `react-datagrid__cell--align-left`, <br>`react-datagrid__cell--align-center`
  `render` | Function| - |if you want custom rendering, specify this property. Parameters taken: `render(value, data, cellProps)`. For more information read [Column.render](#columnrender) section.
  `sortable` | Bool | - | controll if a column is sortable or not, see [more](#sort-props)
-
+`className`| String | - | add a custom className on each cell in that column, only applied on cells inside body
+`titleClassName` | String | - | add a custom className on header-column
 
 ### Column.render
 Render takes three parameters: `value`, `data` and `cellProps`.

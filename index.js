@@ -10,10 +10,12 @@ import gen, { gen2 } from './generate'
 import Perf from 'react-addons-perf'
 
 
-const data = gen2(1000)
+const data = gen2(10000)
 const columns = [
   {
-    name: 'name'
+    name: 'name',
+    titleClassName: 'helloHEader',
+    className: 'test'
   }, {
     name: 'age'
   }, {
@@ -21,7 +23,7 @@ const columns = [
   }, {
     name: 'location'
   }, {
-    name: 'status'
+    name: 'status',
   } , {
     title: 'Actions',
     render(value, data, props) {
@@ -87,12 +89,18 @@ class App extends Component {
       </div>
 
       <DataGrid
+        // defaultActiveIndex={3}
         idProperty={'id'}
-        dataSource={[]}
+        dataSource={data}
         columns={columns}
         sortable
         onSortInfoChange={(sortInfo) => this.setState({sortInfo})}
         sortInfo={this.state.sortInfo}
+        renderRow={(rowProps) => {
+          if (rowProps.data.error) {
+            rowProps.className = rowProps.className + ' classErroare'
+          }
+        }}
       />
     </Flex>
   }
