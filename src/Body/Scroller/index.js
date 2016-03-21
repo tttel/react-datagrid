@@ -25,7 +25,8 @@ class Scroller extends Component {
       contentHeight,
       scrollTop,
       height,
-      scrollbarWidth
+      scrollbarWidth,
+      hasScroll
     } = props
     
     const scrollContentStyle = {
@@ -35,7 +36,11 @@ class Scroller extends Component {
     const contentStyle = {
       // maxHeight: height,
       // minHeight: height, // needed for ie
-      maxWidth: `calc(100% - ${scrollbarWidth}px)`
+    }
+
+
+    if (hasScroll) {
+      contentStyle.maxWidth = `calc(100% - ${scrollbarWidth}px)`
     }
 
     const scrollerStyle = { 
@@ -64,19 +69,23 @@ class Scroller extends Component {
         style={contentStyle}
       >
         {props.children}
-      </Flex> 
-      <div 
-        ref="scrollbar"
-        className="react-datagrid__scroller__scrollbar"
-        onScroll={this.onScrollBarScroll}
-        style={scrollerStyle}
-      >
+      </Flex>
+      {
+        hasScroll
+        &&
         <div 
-          className="react-datagrid__scroller__scrollbar__content"
-          ref="scrollBarContent" 
-          style={scrollContentStyle} 
-        />
-      </div>
+          ref="scrollbar"
+          className="react-datagrid__scroller__scrollbar"
+          onScroll={this.onScrollBarScroll}
+          style={scrollerStyle}
+        >
+          <div 
+            className="react-datagrid__scroller__scrollbar__content"
+            ref="scrollBarContent" 
+            style={scrollContentStyle} 
+          />
+        </div>
+      }
     </Flex>
   }
 
@@ -85,6 +94,9 @@ class Scroller extends Component {
   // - onTouch 
   // - onScroll by scrollbar
   onScroll(scrollTop, event){
+    // if (!this.prop.hasScroll) {
+    //   return
+    // }
     const newScrollTop = this.normalizeScrollTop(scrollTop)
 
     if (newScrollTop != this.props.scrollTop) {
@@ -150,7 +162,9 @@ class Scroller extends Component {
   }
   
   scrollAt(scrollTop){  
-    this.refs.scrollbar.scrollTop = this.normalizeScrollTop(scrollTop)
+    if (this.props.hasScroll) {
+      this.refs.scrollbar.scrollTop = this.normalizeScrollTop(scrollTop)
+    }
   }
 
   normalizeScrollTop(scrollTop){

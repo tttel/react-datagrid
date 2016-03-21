@@ -120,9 +120,7 @@ class Body extends Component {
         this.state.isScrolling && 'react-datagrid__body--scrolling'
       )
 
-    if ((Array.isArray(data) && data.length === 0) || data === null && !loading) {
-      return <EmptyText emptyText={this.props.emptyText} />
-    }
+    const isEmpty = (Array.isArray(data) && data.length === 0) || data === null && !loading
 
     return <Item  
       flex 
@@ -132,7 +130,12 @@ class Body extends Component {
       ref="body"
     >
       {resizeTool}
-      {this.renderScroller()}
+      {
+        isEmpty?
+          <EmptyText emptyText={this.props.emptyText} />
+          :
+          this.renderScroller() 
+      }
     </Item>
   }
 
@@ -151,6 +154,7 @@ class Body extends Component {
       scrollbarWidth={this.props.scrollbarWidth}
       toggleIsScrolling={this.toggleIsScrolling}
       maxScrollTop={this.p.maxScrollTop}
+      hasScroll={this.p.hasScroll}
     >
       {this.renderColumnGroups()}
     </Scroller>
@@ -481,12 +485,15 @@ class Body extends Component {
     const columns = this.state.columns
     const headerHeight = this.state.headerHeight || 0
 
+    const hasScroll = this.state.bodyHeight < props.contentHeight
+
     return assign({}, props, {
       scrollTop,
       buffer,
       isScrollControlled,
       columns,
       headerHeight,
+      hasScroll,
       bodyHeight: this.state.bodyHeight,
       maxScrollTop: this.state.maxScrollTop,
     })
