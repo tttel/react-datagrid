@@ -113,7 +113,7 @@ export default class Row extends Component {
     }
 
     if (row === undefined){
-      row = <Flex wrap={false} {...rowProps} id={null} data={null} />
+      row = <Flex alignItems="stretch" wrap={false} {...rowProps} id={null} data={null} />
     }
 
     return row
