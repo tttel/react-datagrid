@@ -68,7 +68,7 @@ You can navigate using arrows.
 |Prop|Type|Default|Description
 --- | --- | --- | ---
 `activeIndex` | Number | - | index of active row, used for rows navigation
-`defaultActiveIndex` | Number | -1 | uncontrolled version of `activeIndex`
+`defaultActiveIndex` | Number | - | uncontrolled version of `activeIndex`
 `onActiveIndexChange(index)` | Function | - | called when activeIndex changes
 `defaultScrollTop` | Number | - | se default vertical scrollTop position
 

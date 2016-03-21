@@ -100,6 +100,10 @@ class DataGrid extends Component {
   }
 
   onRowFocus(event, rowProps){
+    if (!this.p.hasNavigation) {
+      return
+    }
+
     let newActiveIndex
 
     // check if the event comes from the row and not one of it's children
@@ -248,6 +252,10 @@ class DataGrid extends Component {
 
 
   changeActiveIndex(newIndex){
+    if (!this.p.hasNavigation) {
+      return
+    }
+
     const scrollTop = this.getScrollTop()
     const bodyHeight = this.getBodyHeight()
     const rowScrollTop = newIndex * this.props.rowHeight
@@ -424,6 +432,7 @@ class DataGrid extends Component {
 
     // active index is used for rows navigation
     const activeIndex = props.activeIndex !== undefined? props.activeIndex: this.state.activeIndex
+    const hasNavigation = props.activeIndex !== undefined || props.defaultActiveIndex !== undefined
     const isActiveIndexControlled = this.props.activeIndex !== undefined
 
     // sortInfo
@@ -443,6 +452,7 @@ class DataGrid extends Component {
       className,
       data,
       activeIndex,
+      hasNavigation,
       sortInfo,
       isMultiSort,
       isSortControlled,
@@ -481,7 +491,6 @@ DataGrid.defaultProps = {
   onSortInfoChange: () => {},
   rowProps: {},
   defaultSelected: undefined,
-  defaultActiveIndex: -1,
   scrollbarWidth: 20,
   rowPlaceholder: false,
   defaultSortInfo: null,
