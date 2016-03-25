@@ -195,11 +195,13 @@ class Body extends Component {
     const bodyHeight = this.p.bodyHeight
     let bufferValid = true
 
-    // we need to buffer rendering
-    // only rerender rows when buffer (half of extra rows height) is scrolled
-    // and we need to render anoter set of rows
-    // cache scrollTop and fromTo
-    // const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
+    /** 
+     * we need to buffer rendering
+     * only rerender rows when buffer (half of extra rows height) is scrolled
+     * and we need to render anoter set of rows
+     * cache scrollTop and fromTo
+     * const {from, to} = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows) 
+    **/ 
     if ((Math.abs(this.oldScrollTop - scrollTop - rowHeight) >= buffer) || !this.fromTo) {
       this.fromTo = getDataRangeToRender(bodyHeight, rowHeight, scrollTop, extraRows)
       this.oldScrollTop = scrollTop
