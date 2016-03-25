@@ -170,7 +170,7 @@ Columns can be defined as:
 `titleClassName` | String | - | add a custom className on header-column
 
 ### Column.render
-Render takes three parameters: `value`, `data` and `cellProps`.
+Render takes a config object parameter with the keys: `value`, `data` and `cellProps`.
 
 * `data`: Object - The corresponding data object for the current row.
 * `cellProps`: Object - An object with props for the current cell - has the following properties:

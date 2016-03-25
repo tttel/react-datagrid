@@ -84,7 +84,7 @@ export default class Cell extends Component {
     // TODO: don't call renderCell on header cell
     let result
     if (renderCell) {
-      result = renderCell(value, data, cellProps)
+      result = renderCell({value, data, cellProps})
     }
 
     if (result === undefined){
