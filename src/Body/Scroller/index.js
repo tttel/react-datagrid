@@ -94,9 +94,9 @@ class Scroller extends Component {
   // - onTouch 
   // - onScroll by scrollbar
   onScroll(scrollTop, event){
-    // if (!this.prop.hasScroll) {
-    //   return
-    // }
+    if (!this.props.hasScroll) {
+      return
+    }
     const newScrollTop = this.normalizeScrollTop(scrollTop)
 
     if (newScrollTop != this.props.scrollTop) {
