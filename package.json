@@ -95,5 +95,8 @@
   "bugs": {
     "url": "https://github.com/zippyui/react-datagrid/issues"
   },
-  "homepage": "https://github.com/zippyui/react-datagrid"
+  "homepage": "https://github.com/zippyui/react-datagrid",
+  "jspm": {
+    "registry": "npm"
+  }
 }
