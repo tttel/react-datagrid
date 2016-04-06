@@ -83,7 +83,7 @@
     "region": "^2.1.2",
     "region-align": "^2.1.2",
     "ustring": "^1.4.1",
-    "whatwg-fetch": "^0.10.0"
+    "whatwg-fetch": "^0.11.0"
   },
   "peerDependencies": {
     "react": ">=0.14.0",
