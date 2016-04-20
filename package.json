@@ -1,6 +1,6 @@
 {
   "name": "react-datagrid",
-  "version": "2.0.1",
+  "version": "2.0.7",
   "description": "React DataGrid",
   "main": "lib/index.js",
   "scripts": {
